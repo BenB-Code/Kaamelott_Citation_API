@@ -18,9 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "docker:start:dev": "cd docker/compose && docker-compose --env-file ../environment/.env.dev -f docker-compose.yml -f docker-compose.dev.yml up -d --build && docker-compose --env-file ../environment/.env.dev -f docker-compose.yml -f docker-compose.dev.yml ps",
-    "docker:start:staging": "cd docker/compose && docker-compose --env-file ../environment/.env.staging -f docker-compose.yml -f docker-compose.staging.yml up -d --build && docker-compose --env-file ../environment/.env.staging -f docker-compose.yml -f docker-compose.staging.yml ps",
-    "docker:start:prod": "cd docker/compose && docker-compose --env-file ../environment/.env.prod -f docker-compose.yml -f docker-compose.prod.yml up -d --build && docker-compose --env-file ../environment/.env.prod -f docker-compose.yml -f docker-compose.prod.yml ps"
+    "docker:build:dev": "cd docker/compose && docker-compose --env-file ../environment/.env.dev -f docker-compose.yml -f docker-compose.dev.yml up -d --build && docker-compose --env-file ../environment/.env.dev -f docker-compose.yml -f docker-compose.dev.yml ps",
+    "docker:build:staging": "cd docker/compose && docker-compose --env-file ../environment/.env.staging -f docker-compose.yml -f docker-compose.staging.yml up -d --build && docker-compose --env-file ../environment/.env.staging -f docker-compose.yml -f docker-compose.staging.yml ps",
+    "docker:build:prod": "cd docker/compose && docker-compose --env-file ../environment/.env.prod -f docker-compose.yml -f docker-compose.prod.yml up -d --build && docker-compose --env-file ../environment/.env.prod -f docker-compose.yml -f docker-compose.prod.yml ps"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
