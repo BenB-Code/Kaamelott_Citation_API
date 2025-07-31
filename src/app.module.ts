@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { resolve } from 'path';
+import { Actor } from './actors/entities/actor.entity';
+import { Character } from './actors/entities/character.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Author } from './authors/entities/author.entity';
@@ -34,7 +36,7 @@ import { Show } from './shows/entities/show.entity';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...(await configService.get('database')),
-        entities: [Show, Season, Movie, Episode, Author],
+        entities: [Show, Season, Movie, Episode, Author, Actor, Character],
       }),
     }),
     HealthModule,
