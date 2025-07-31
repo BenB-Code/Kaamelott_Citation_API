@@ -4,8 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { resolve } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { appConfigSchema } from './database/config.types';
-import { typeOrmConfig } from './database/typeOrm.config';
+import { Author } from './authors/entities/author.entity';
+import { appConfigSchema } from './config/config.types';
+import { typeOrmConfig } from './config/typeOrm.config';
 import { HealthModule } from './health/health.module';
 import { Episode } from './shows/entities/episode.entity';
 import { Movie } from './shows/entities/movie.entity';
@@ -33,7 +34,7 @@ import { Show } from './shows/entities/show.entity';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...(await configService.get('database')),
-        entities: [Show, Season, Movie, Episode],
+        entities: [Show, Season, Movie, Episode, Author],
       }),
     }),
     HealthModule,
