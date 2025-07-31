@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -13,20 +14,22 @@ import { Show } from './show.entity';
 @Entity()
 export class Season {
   @PrimaryGeneratedColumn('increment')
-  _id: string;
+  _id: number;
 
-  @ManyToOne(() => Show, (show) => show._id)
-  show: string;
-  @Column()
-  show_id: string;
+  @ManyToOne(() => Show, (show) => show.seasons, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+  })
+  show: Show;
 
   @OneToMany(() => Episode, (episode) => episode.season)
-  episode: Episode[];
+  episodes: Episode[];
 
   @Column({
     type: 'varchar',
     length: 75,
   })
+  @Index()
   name: string;
 
   @Column({

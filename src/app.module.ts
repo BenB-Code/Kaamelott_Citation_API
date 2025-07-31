@@ -7,6 +7,7 @@ import { Character } from './actors/entities/character.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Author } from './authors/entities/author.entity';
+import { Citation } from './citations/entities/citation.entity';
 import { appConfigSchema } from './config/config.types';
 import { typeOrmConfig } from './config/typeOrm.config';
 import { HealthModule } from './health/health.module';
@@ -36,7 +37,16 @@ import { Show } from './shows/entities/show.entity';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...(await configService.get('database')),
-        entities: [Show, Season, Movie, Episode, Author, Actor, Character],
+        entities: [
+          Show,
+          Season,
+          Movie,
+          Episode,
+          Author,
+          Actor,
+          Character,
+          Citation,
+        ],
       }),
     }),
     HealthModule,

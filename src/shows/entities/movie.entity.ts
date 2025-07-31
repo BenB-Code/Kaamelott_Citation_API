@@ -2,27 +2,42 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Citation } from './../../citations/entities/citation.entity';
 import { Show } from './show.entity';
 
 @Entity()
+@Index(['name', 'releaseDate'])
 export class Movie {
   @PrimaryGeneratedColumn('increment')
-  _id: string;
+  _id: number;
 
-  @ManyToOne(() => Show, (show) => show._id)
+  @ManyToOne(() => Show, (show) => show.movies, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+  })
   show: Show;
-  @Column()
-  show_id: string;
+
+  @OneToMany(() => Citation, (citation) => citation.movie)
+  citations: Citation[];
 
   @Column({
     type: 'varchar',
     length: 75,
   })
-  releaseDate: string;
+  @Index()
+  name: string;
+
+  @Column({
+    type: 'date',
+  })
+  @Index()
+  releaseDate: Date;
 
   @Column({
     type: 'varchar',

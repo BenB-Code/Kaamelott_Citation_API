@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -9,12 +10,13 @@ import {
 import { Character } from './character.entity';
 
 @Entity()
+@Index(['firstName', 'lastName'])
 export class Actor {
   @PrimaryGeneratedColumn('increment')
-  _id: string;
+  _id: number;
 
   @OneToMany(() => Character, (character) => character.actor)
-  character: Character[];
+  characters: Character[];
 
   @Column({
     type: 'varchar',

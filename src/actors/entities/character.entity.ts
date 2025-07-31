@@ -1,7 +1,10 @@
+import { Citation } from 'src/citations/entities/citation.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -11,17 +14,22 @@ import { Actor } from './actor.entity';
 @Entity()
 export class Character {
   @PrimaryGeneratedColumn('increment')
-  _id: string;
+  _id: number;
 
-  @ManyToOne(() => Actor, (actor) => actor._id)
+  @ManyToOne(() => Actor, (actor) => actor.characters, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+  })
   actor: Actor;
-  @Column()
-  actor_id: string;
+
+  @ManyToMany(() => Citation, (citation) => citation.characters)
+  citations: Citation[];
 
   @Column({
     type: 'varchar',
     length: 75,
   })
+  @Index()
   name: string;
 
   @Column({

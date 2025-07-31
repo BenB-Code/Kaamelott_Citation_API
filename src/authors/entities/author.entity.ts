@@ -1,21 +1,34 @@
+import { Citation } from 'src/citations/entities/citation.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Index(['firstName', 'lastName'])
 export class Author {
   @PrimaryGeneratedColumn('increment')
-  _id: string;
+  _id: number;
+
+  @ManyToMany(() => Citation, (citation) => citation.authors)
+  citations: Citation[];
 
   @Column({
     type: 'varchar',
-    length: 75,
+    length: 50,
   })
-  name: string;
+  firstName: string;
+
+  @Column({
+    type: 'varchar',
+    length: 50,
+  })
+  lastName: string;
 
   @Column({
     type: 'varchar',
