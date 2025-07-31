@@ -2,28 +2,36 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { MediaType } from '../constant/media-type.enum';
+import { Movie } from './movie.entity';
+import { Season } from './season.entity';
 
 @Entity()
-export class ShowEntity {
+export class Show {
   @PrimaryGeneratedColumn('increment')
   _id: string;
+
+  @OneToMany(() => Season, (season) => season.show)
+  show: Season[];
+
+  @OneToMany(() => Movie, (movie) => movie.show)
+  movie: Movie[];
 
   @Column({
     type: 'varchar',
     length: 75,
-    nullable: false,
   })
   name: string;
 
   @Column({
-    type: 'varchar',
-    length: 250,
-    nullable: true,
+    type: 'enum',
+    enum: MediaType,
   })
-  picture: string;
+  mediaType: MediaType;
 
   @CreateDateColumn()
   createdAt: Date;

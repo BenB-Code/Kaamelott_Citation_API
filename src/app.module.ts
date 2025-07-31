@@ -7,6 +7,10 @@ import { AppService } from './app.service';
 import { appConfigSchema } from './database/config.types';
 import { typeOrmConfig } from './database/typeOrm.config';
 import { HealthModule } from './health/health.module';
+import { Episode } from './shows/entities/episode.entity';
+import { Movie } from './shows/entities/movie.entity';
+import { Season } from './shows/entities/season.entity';
+import { Show } from './shows/entities/show.entity';
 
 @Module({
   imports: [
@@ -29,7 +33,7 @@ import { HealthModule } from './health/health.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...(await configService.get('database')),
-        entities: [],
+        entities: [Show, Season, Movie, Episode],
       }),
     }),
     HealthModule,
