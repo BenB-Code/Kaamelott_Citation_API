@@ -4,8 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { resolve } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { appConfigSchema } from './configs/config.types';
-import { typeOrmConfig } from './configs/typeOrm.config';
+import { appConfigSchema } from './database/config.types';
+import { typeOrmConfig } from './database/typeOrm.config';
 import { HealthModule } from './health/health.module';
 
 @Module({
