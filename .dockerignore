@@ -1,13 +1,53 @@
-# .dockerignore
-node_modules
-npm-debug.log
-dist
+# CRITIQUE - Ne jamais inclure
+.env*
 .git
 .gitignore
-README.md
-.env*
-.nyc_output
+*.pem
+*.key
+*.cert
+.aws
+.ssh
+
+# Build artifacts
+node_modules
+dist
+build
+.next
+out
+*.log
+npm-debug.log*
+yarn-error.log*
 coverage
+.nyc_output
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
 .DS_Store
-docker/
-Makefile
+
+# Tests/Docs
+*.test.js
+*.spec.js
+__tests__
+e2e/
+docs/
+*.md
+!README.md
+
+# Development
+.eslintrc*
+.prettierrc*
+.husky
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Temp files
+tmp/
+temp/
+*.tmp
+*.cache
+
+docker
