@@ -2,7 +2,7 @@
 # Multi-stage build pour NestJS
 
 # Base
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 WORKDIR /app
 RUN apk add --no-cache curl
 
@@ -14,7 +14,7 @@ RUN npm ci --only=production && npm cache clean --force && npm audit fix
 # Build
 FROM dependencies AS build
 COPY . .
-RUN npm run build && npm audit fix
+RUN npm run build
 
 # Development
 FROM base AS development
