@@ -1,3 +1,4 @@
+import { Citation } from 'src/citations/entities/citation.entity';
 import {
   Column,
   CreateDateColumn,
@@ -13,10 +14,13 @@ import { Character } from './character.entity';
 @Index(['firstName', 'lastName'])
 export class Actor {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
   @ManyToMany(() => Character, (character) => character.actors)
   characters: Character[];
+
+  @ManyToMany(() => Citation, (citation) => citation.actors)
+  citations: Citation[];
 
   @Column({
     type: 'varchar',

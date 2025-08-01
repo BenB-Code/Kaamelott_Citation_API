@@ -6,6 +6,7 @@ import {
   Index,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,14 +15,14 @@ import { Actor } from './actor.entity';
 @Entity()
 export class Character {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
+
+  @OneToMany(() => Citation, (citation) => citation.character)
+  citations: Citation[];
 
   @ManyToMany(() => Actor, (actor) => actor.characters)
-  @JoinTable()
+  @JoinTable({ name: 'character_actor' })
   actors: Actor[];
-
-  @ManyToMany(() => Citation, (citation) => citation.characters)
-  citations: Citation[];
 
   @Column({
     type: 'varchar',

@@ -15,7 +15,7 @@ import { Season } from './season.entity';
 @Index(['mediaType', 'name'])
 export class Show {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
   @OneToMany(() => Season, (season) => season.show)
   seasons: Season[];

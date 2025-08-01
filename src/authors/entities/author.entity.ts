@@ -13,7 +13,7 @@ import {
 @Index(['firstName', 'lastName'])
 export class Author {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
   @ManyToMany(() => Citation, (citation) => citation.authors)
   citations: Citation[];
