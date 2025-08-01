@@ -4,8 +4,8 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -16,11 +16,9 @@ export class Character {
   @PrimaryGeneratedColumn('increment')
   _id: number;
 
-  @ManyToOne(() => Actor, (actor) => actor.characters, {
-    onDelete: 'RESTRICT',
-    onUpdate: 'CASCADE',
-  })
-  actor: Actor;
+  @ManyToMany(() => Actor, (actor) => actor.characters)
+  @JoinTable()
+  actors: Actor[];
 
   @ManyToMany(() => Citation, (citation) => citation.characters)
   citations: Citation[];

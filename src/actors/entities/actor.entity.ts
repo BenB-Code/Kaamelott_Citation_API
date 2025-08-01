@@ -3,7 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
-  OneToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,7 +15,7 @@ export class Actor {
   @PrimaryGeneratedColumn('increment')
   _id: number;
 
-  @OneToMany(() => Character, (character) => character.actor)
+  @ManyToMany(() => Character, (character) => character.actors)
   characters: Character[];
 
   @Column({
