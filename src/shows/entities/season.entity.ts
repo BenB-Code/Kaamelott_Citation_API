@@ -14,7 +14,7 @@ import { Show } from './show.entity';
 @Entity()
 export class Season {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
   @ManyToOne(() => Show, (show) => show.seasons, {
     onDelete: 'RESTRICT',

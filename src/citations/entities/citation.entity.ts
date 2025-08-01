@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Actor } from './../../actors/entities/actor.entity';
 import { Character } from './../../actors/entities/character.entity';
 import { Author } from './../../authors/entities/author.entity';
 import { Episode } from './../../shows/entities/episode.entity';
@@ -17,26 +18,35 @@ import { Movie } from './../../shows/entities/movie.entity';
 @Entity()
 export class Citation {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
   @ManyToOne(() => Episode, (episode) => episode.citations, {
     onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
+    nullable: true,
   })
   episode: Episode;
 
   @ManyToOne(() => Movie, (movie) => movie.citations, {
     onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
+    nullable: true,
   })
   movie: Movie;
 
-  @ManyToMany(() => Character, (character) => character.citations)
-  @JoinTable()
-  characters: Character[];
+  @ManyToOne(() => Character, (character) => character.citations, {
+    onDelete: 'RESTRICT',
+    onUpdate: 'CASCADE',
+    nullable: false,
+  })
+  character: Character;
+
+  @ManyToMany(() => Actor, (actor) => actor.citations)
+  @JoinTable({ name: 'citation_actor' })
+  actors: Actor[];
 
   @ManyToMany(() => Author, (author) => author.citations)
-  @JoinTable()
+  @JoinTable({ name: 'citation_author' })
   authors: Author[];
 
   @Column({

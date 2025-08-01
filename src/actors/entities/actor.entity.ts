@@ -1,9 +1,10 @@
+import { Citation } from 'src/citations/entities/citation.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
-  OneToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,10 +14,13 @@ import { Character } from './character.entity';
 @Index(['firstName', 'lastName'])
 export class Actor {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
-  @OneToMany(() => Character, (character) => character.actor)
+  @ManyToMany(() => Character, (character) => character.actors)
   characters: Character[];
+
+  @ManyToMany(() => Citation, (citation) => citation.actors)
+  citations: Citation[];
 
   @Column({
     type: 'varchar',

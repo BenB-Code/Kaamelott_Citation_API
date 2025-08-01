@@ -15,7 +15,7 @@ import { Show } from './show.entity';
 @Index(['name', 'releaseDate'])
 export class Movie {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
   @ManyToOne(() => Show, (show) => show.movies, {
     onDelete: 'RESTRICT',

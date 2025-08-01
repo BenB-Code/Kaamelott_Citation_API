@@ -15,7 +15,7 @@ import { Season } from './season.entity';
 @Index(['season', 'number'])
 export class Episode {
   @PrimaryGeneratedColumn('increment')
-  _id: number;
+  id: number;
 
   @ManyToOne(() => Season, (season) => season.episodes, {
     onDelete: 'RESTRICT',
