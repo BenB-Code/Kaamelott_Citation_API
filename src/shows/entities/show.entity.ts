@@ -31,7 +31,7 @@ export class Show {
   name: string;
 
   @Column({
-    type: 'enum',
+    type: 'simple-enum',
     enum: MediaType,
   })
   mediaType: MediaType;
