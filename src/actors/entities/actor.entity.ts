@@ -1,4 +1,4 @@
-import { Citation } from 'src/citations/entities/citation.entity';
+import { Citation } from '../../citations/entities/citation.entity';
 import {
   Column,
   CreateDateColumn,

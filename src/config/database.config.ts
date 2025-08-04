@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-export const typeOrmConfig = registerAs(
+export const DatabaseConfig = registerAs(
   'database',
   (): TypeOrmModuleOptions => {
     const sslConfig =
@@ -31,6 +31,8 @@ export const typeOrmConfig = registerAs(
             password: process.env.DB_PASSWORD,
           }),
       synchronize: process.env.DB_SYNC === '1',
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      migrations: ['dist/src/migrations/**/*{.ts,.js}'],
       ...sslConfig,
     };
 

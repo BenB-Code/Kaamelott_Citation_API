@@ -9,7 +9,7 @@ import { AppService } from './app.service';
 import { Author } from './authors/entities/author.entity';
 import { Citation } from './citations/entities/citation.entity';
 import { appConfigSchema } from './config/config.types';
-import { typeOrmConfig } from './config/typeOrm.config';
+import { DatabaseConfig } from './config/database.config';
 import { HealthModule } from './health/health.module';
 import { Episode } from './shows/entities/episode.entity';
 import { Movie } from './shows/entities/movie.entity';
@@ -26,7 +26,7 @@ import { Show } from './shows/entities/show.entity';
         `.env.${process.env.ENV || 'dev'}`,
       ),
       isGlobal: true,
-      load: [typeOrmConfig],
+      load: [DatabaseConfig],
       validationSchema: appConfigSchema,
       validationOptions: {
         abortEarly: true,
