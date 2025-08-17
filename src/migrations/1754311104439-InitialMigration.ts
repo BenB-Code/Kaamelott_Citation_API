@@ -59,7 +59,7 @@ export class InitialMigration1754311104439 implements MigrationInterface {
       `CREATE INDEX "IDX_4f7be22383ee689e458305612d" ON "movie" ("name", "releaseDate") `,
     );
     await queryRunner.query(
-      `CREATE TYPE "public"."show_mediatype_enum" AS ENUM('série', 'film')`,
+      `CREATE TYPE "public"."show_mediatype_enum" AS ENUM('série', 'film', 'court métrage')`,
     );
     await queryRunner.query(
       `CREATE TABLE "show" ("id" SERIAL NOT NULL, "name" character varying(75) NOT NULL, "mediaType" "public"."show_mediatype_enum" NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_e9993c2777c1d0907e845fce4d1" PRIMARY KEY ("id"))`,
