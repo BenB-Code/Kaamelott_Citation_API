@@ -8,6 +8,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Author } from './authors/entities/author.entity';
 import { Citation } from './citations/entities/citation.entity';
+import { LogLevelEnum } from './common/models/log-level.enum';
+import { Logger } from './common/services/logger.service';
 import { appConfigSchema } from './config/config.types';
 import { DatabaseConfig } from './config/database.config';
 import { HealthModule } from './health/health.module';
@@ -52,6 +54,16 @@ import { Show } from './shows/entities/show.entity';
     HealthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: Logger,
+      useFactory: () =>
+        Logger.getInstance({
+          logLevel: LogLevelEnum.DEBUG,
+          colorize: true,
+        }),
+    },
+  ],
 })
 export class AppModule {}
