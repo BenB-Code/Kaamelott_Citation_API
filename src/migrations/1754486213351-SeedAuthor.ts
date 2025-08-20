@@ -17,13 +17,7 @@ export class SeedAuthor1754486213351 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      DELETE FROM "author" WHERE ("firstName", "lastName") IN (
-        ('Alexandre ', 'Astier'),
-        ('Fabien ', 'Rault'),
-        ('Lionnel ', 'Astier'),
-        ('Nicolas ', 'Gabion'),
-        ('Simon ', 'Astier')
-      )
+      DELETE FROM "author"
     `);
 
     console.log('🗑️ Author supprimés');

@@ -81,7 +81,7 @@ export class SeedCharacterActor1754486200137 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       DELETE FROM "character_actor" ca
-      USING "character" c, "Actor" a
+      USING "character" c, "actor" a
       WHERE ca."characterId" = c.id AND ca."actorId" = a.id
       AND (
         (c.name = 'Élias de Kelliwic''h' AND a."firstName" = 'Bruno' AND a."lastName" = 'Fontaine') OR

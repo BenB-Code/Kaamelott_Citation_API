@@ -15,11 +15,7 @@ export class SeedShow1754486225624 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      DELETE FROM "show" WHERE ("name", "mediaType") IN (
-        ('kaamelott', 'série'),
-        ('kaamelott', 'film'),
-        ('kaamelott', 'court métrage')
-      )
+      DELETE FROM "show"
     `);
 
     console.log('🗑️ Show supprimés');
