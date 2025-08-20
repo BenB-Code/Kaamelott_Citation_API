@@ -19,7 +19,7 @@ export class SeedMovie1754486244940 implements MigrationInterface {
     `);
 
     [kaamelottShow] = await queryRunner.query(`
-      SELECT id FROM "show" WHERE name = 'dies irae' AND "mediaType" = 'court métrage'
+      SELECT id FROM "show" WHERE name = 'kaamelott' AND "mediaType" = 'court métrage'
     `);
 
     if (!kaamelottShow) {

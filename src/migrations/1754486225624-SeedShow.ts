@@ -6,7 +6,7 @@ export class SeedShow1754486225624 implements MigrationInterface {
       INSERT INTO "show" ("name", "mediaType") VALUES 
       ('kaamelott', 'série'),
       ('kaamelott', 'film'),
-      ('dies irae', 'court métrage')
+      ('kaamelott', 'court métrage')
       ON CONFLICT DO NOTHING
     `);
 
@@ -18,7 +18,7 @@ export class SeedShow1754486225624 implements MigrationInterface {
       DELETE FROM "show" WHERE ("name", "mediaType") IN (
         ('kaamelott', 'série'),
         ('kaamelott', 'film'),
-        ('dies irae', 'court métrage')
+        ('kaamelott', 'court métrage')
       )
     `);
 
