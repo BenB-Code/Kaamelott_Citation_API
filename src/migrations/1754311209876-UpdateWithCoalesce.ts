@@ -36,7 +36,7 @@ export class UpdateWithCoalesce1754311209876 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      DROP INDEX UQ_9c81578a57f573c4d649330d4e4;
+      DROP INDEX uq_9c81578a57f573c4d649330d4e4;
     `);
 
     await queryRunner.query(`
@@ -46,13 +46,13 @@ export class UpdateWithCoalesce1754311209876 implements MigrationInterface {
     `);
 
     await queryRunner.query(`
-      DROP INDEX "UQ_e5c60b77152cb72dcb2131aad7a";
+      DROP INDEX "uq_e5c60b77152cb72dcb2131aad7a";
     `);
 
     await queryRunner.query(`
       ALTER TABLE "citation"
-      ADD CONSTRAINT "UQ_e5c60b77152cb72dcb2131aad7a";
-      UNIQUE ("text", "episodeId", "movieId", "characterId")
+      ADD CONSTRAINT "UQ_e5c60b77152cb72dcb2131aad7a"
+      UNIQUE ("text", "episodeId", "movieId", "characterId");
     `);
   }
 }
