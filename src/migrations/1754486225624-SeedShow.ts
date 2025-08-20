@@ -7,7 +7,7 @@ export class SeedShow1754486225624 implements MigrationInterface {
       ('kaamelott', 'série'),
       ('kaamelott', 'film'),
       ('kaamelott', 'court métrage')
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("name", "mediaType") DO NOTHING
     `);
 
     console.log('✅ Show insérés avec succès');

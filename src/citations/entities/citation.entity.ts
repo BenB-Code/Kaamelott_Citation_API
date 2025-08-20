@@ -7,6 +7,7 @@ import {
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Actor } from './../../actors/entities/actor.entity';
@@ -16,6 +17,7 @@ import { Episode } from './../../shows/entities/episode.entity';
 import { Movie } from './../../shows/entities/movie.entity';
 
 @Entity()
+@Unique(['text', 'episode', 'movie', 'character'])
 export class Citation {
   @PrimaryGeneratedColumn('increment')
   id: number;

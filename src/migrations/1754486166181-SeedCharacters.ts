@@ -68,7 +68,7 @@ export class SeedCharacters1754486166181 implements MigrationInterface {
       ('Vérinus'),
       ('Ygerne'),
       ('Yvain')
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("name") DO NOTHING
     `);
 
     console.log('✅ Personnages insérés avec succès');

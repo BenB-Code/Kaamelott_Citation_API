@@ -15,7 +15,7 @@ export class SeedMovie1754486244940 implements MigrationInterface {
     await queryRunner.query(`
       INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
       ('kaamelott premier volet', '2021-07-21', ${kaamelottShow.id})
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("name", "showId", "releaseDate") DO NOTHING
     `);
 
     [kaamelottShow] = await queryRunner.query(`
@@ -31,7 +31,7 @@ export class SeedMovie1754486244940 implements MigrationInterface {
     await queryRunner.query(`
       INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
       ('dies irae', '2021-10-01', ${kaamelottShow.id})
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("name", "showId", "releaseDate") DO NOTHING
     `);
   }
 

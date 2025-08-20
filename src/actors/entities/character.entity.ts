@@ -8,11 +8,13 @@ import {
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Actor } from './actor.entity';
 
 @Entity()
+@Unique(['name'])
 export class Character {
   @PrimaryGeneratedColumn('increment')
   id: number;

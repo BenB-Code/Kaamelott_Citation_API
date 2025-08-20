@@ -355,7 +355,7 @@ export class SeedEpisode1754486236413 implements MigrationInterface {
       ('Vox populi II', NULL, ${seasonMap['Livre II']}),
       ('Vox populi III', 58, ${seasonMap['Livre IV']}),
       ('Witness', 82, ${seasonMap['Livre III']})
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("name", "number", "seasonId") DO NOTHING
     `);
   }
 

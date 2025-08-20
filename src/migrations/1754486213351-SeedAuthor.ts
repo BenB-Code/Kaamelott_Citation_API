@@ -9,7 +9,7 @@ export class SeedAuthor1754486213351 implements MigrationInterface {
       ('Lionnel ', 'Astier'),
       ('Nicolas ', 'Gabion'),
       ('Simon ', 'Astier')
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("firstName", "lastName") DO NOTHING
     `);
 
     console.log('✅ Author insérés avec succès');

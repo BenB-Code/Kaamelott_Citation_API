@@ -72,7 +72,7 @@ export class SeedCharacterActor1754486200137 implements MigrationInterface {
         (c.name = 'Le tricheur' AND a."firstName" = 'Laurent' AND a."lastName" = 'Gamelon') OR
         (c.name = 'Vérinus' AND a."firstName" = 'Manu' AND a."lastName" = 'Payet') OR
         (c.name = 'Ygerne' AND a."firstName" = 'Josée' AND a."lastName" = 'Drevon')
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("characterId", "actorId") DO NOTHING
     `);
 
     console.log('✅ Associations Character-Actor insérées avec succès');

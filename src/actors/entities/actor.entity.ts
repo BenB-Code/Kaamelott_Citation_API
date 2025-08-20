@@ -6,12 +6,14 @@ import {
   Index,
   ManyToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Character } from './character.entity';
 
 @Entity()
 @Index(['firstName', 'lastName'])
+@Unique(['firstName', 'lastName'])
 export class Actor {
   @PrimaryGeneratedColumn('increment')
   id: number;

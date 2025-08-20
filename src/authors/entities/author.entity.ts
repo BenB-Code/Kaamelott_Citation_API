@@ -6,11 +6,13 @@ import {
   Index,
   ManyToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 @Index(['firstName', 'lastName'])
+@Unique(['firstName', 'lastName'])
 export class Author {
   @PrimaryGeneratedColumn('increment')
   id: number;

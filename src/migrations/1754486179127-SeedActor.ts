@@ -70,7 +70,7 @@ export class SeedActor1754486179127 implements MigrationInterface {
       ('Valérie', 'Keruzoré'),
       ('Vanessa', 'Guedj'),
       ('Yvan', 'Le Bolloc''h')
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("firstName", "lastName") DO NOTHING
     `);
 
     console.log('✅ Actor insérés avec succès');

@@ -23,7 +23,7 @@ export class SeedSeason1754486231181 implements MigrationInterface {
       ('Livre IV', ${kaamelottShow.id}),
       ('Livre V', ${kaamelottShow.id}),
       ('Livre VI', ${kaamelottShow.id})
-      ON CONFLICT DO NOTHING
+      ON CONFLICT ("name", "showId") DO NOTHING
     `);
 
     console.log('✅ Season insérées avec succès');
