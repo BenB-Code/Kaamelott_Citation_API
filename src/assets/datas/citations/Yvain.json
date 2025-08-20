@@ -325,31 +325,12 @@
   {
     "_character_name": "Yvain",
     "_author": [
-      ""
-    ],
-    "_actor": [
-      ""
-    ],
-    "_description": "(Gauvain: Excusez nous mon oncle, notre vocabulaire n'est pas tres fourni)",
-    "_media": "",
-    "_title": "",
-    "_date": "",
-    "_show": "",
-    "_season": "",
-    "_episode": {
-      "name": "",
-      "number": ""
-    }
-  },
-  {
-    "_character_name": "Yvain",
-    "_author": [
       "Alexandre Astier"
     ],
     "_actor": [
       "Simon Astier"
     ],
-    "_description": "Ouais bah vous encore ça va, moi, même le mot vocabulaire je suis pas sûr à 100% !",
+    "_description": "(Gauvain: Excusez nous mon oncle, notre vocabulaire n'est pas tres fourni) Ouais bah vous encore ça va, moi, même le mot vocabulaire je suis pas sûr à 100% !",
     "_media": "série",
     "_title": "",
     "_date": "",

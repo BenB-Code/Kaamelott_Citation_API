@@ -105,7 +105,6 @@ export enum _ACTOR {
   FRANCOIS_LEVANTAL = 'François Levantal',
   FRANCOIS_MOREL = 'François Morel',
   FRANCOIS_ROLLIN = 'François Rollin',
-  FRANK_PITIOT = 'Frank Pitiot',
   GEORGES_BELLER = 'Georges Beller',
   GERALDINE_NAKACHE = 'Géraldine Nakache',
   GILLES_GRAVELEAU = 'Gilles Graveleau',
@@ -120,7 +119,6 @@ export enum _ACTOR {
   LAN_TRUONG = 'Lan Truong',
   LAURENT_GAMELON = 'Laurent Gamelon',
   LIONNEL_ASTIER = 'Lionnel Astier',
-  LOIC_VARRAULT = 'Loïc Varrault',
   LOIC_VARRAUT = 'Loïc Varraut',
   LORANT_DEUTSCH = 'Loránt Deutsch',
   MAGALI_SAADOUN = 'Magali Saadoun',
@@ -284,6 +282,7 @@ export enum _DESCRIPTION {
   A_YGERNE_ET_CRYDA_C_EST_DES_TARTES_DANS_LE_MUSEAU_QU_ELLES_CHERCHENT_LES_SOEURS_TAPE_DUR = '(À Ygerne et Cryda) C\'est des tartes dans le museau qu\'elles cherchent, les soeurs Tape-Dur ?',
   A_YGERNE_ET_CRYDA_C_EST_QU_ELLES_NOUS_ACCUSERAIENT_DE_CONSPIRATION_LES_SIAMOISES = '(À Ygerne et Cryda) C\'est qu\'elles nous accuseraient de conspiration, les siamoises !',
   A_YVAIN_ET_A_GUENIEVRE_SI_LES_DIEUX_AVAIENT_DU_ETRE_DE_NOTRE_COTE_ILS_NOUS_AURAIENT_PAS_REFILE_DES_ENFANTS_COMME_VOUS = '(À Yvain et à Guenièvre) Si les dieux avaient dû être de notre côté, ils nous auraient pas refilé des enfants comme vous.',
+  A_YVAIN_AVEC_VOTRE_PERE_ON_N_ARRIVE_PAS_A_SE_METTRE_D_ACCORD_MOI_JE_PRETENDS_QUE_LE_ZINZIN_LA_VOUS_AURIEZ_PAS_PU_TROUVER_MIEUX_POUR_NOUS_EMMERDER_ET_LUI_IL_PENSE_QUE_JUSTEMENT_QUAND_IL_S_AGIT_DE_NOUS_EMMERDER_VOUS_FAITES_PREUVE_D_UNE_IMAGINATION_DEBORDANTE_QU_EST_CE_QUE_VOUS_EN_PENSEZ_VOUS = '(À Yvain) : Avec votre père, on n\'arrive pas à se mettre d\'accord. Moi, je prétends que le zinzin là, vous auriez pas pu trouver mieux pour nous emmerder; et lui, il pense que, justement, quand il s\'agit de nous emmerder, vous faites preuve d\'une imagination débordante. Qu\'est-ce que vous en pensez, vous ?',
   A_YVAIN_TU_VAS_ALLER_TE_BATTRE_OU_JE_T_EN_METS_UNE_A_SELI_AH_ET_SI_VOUS_VOUS_VOULEZ_PAS_EN_PRENDRE_UNE_PAR_RICOCHET_JE_VOUS_CONSEILLE_DE_PAS_LA_RAMENER = '(a Yvain) Tu vas aller te battre ou je t\'en mets une ! [...] (à Séli) Ah, et si vous vous voulez pas en prendre une par ricochet, je vous conseille de pas la ramener !',
   APRES_AVOIR_PLANTE_LA_SERINGUE_DANS_LE_BRAS_DE_MERLIN_AH_BEN_CA_I_FAUT_SE_MEFIER_AVEC_LES_MECS_A_CRAN = '(Après avoir planté la seringue dans le bras de Merlin) Ah ! ben ça… i\'faut se méfier, avec les mecs à cran !…',
   ARTHUR_J_AVAIS_PEUR_QUE_VOUS_RASIEZ_TOUTES_LES_CABANES_DU_PAYS_AH_BAH_OUAIS_PEUR_JUSTIFIEE = '(Arthur : J\'avais peur que vous rasiez toutes les cabanes du pays.) Ah bah ouais… Peur justifiée !',
@@ -325,7 +324,7 @@ export enum _DESCRIPTION {
   EN_PARLANT_DES_CLIENTS_DE_LA_TAVERNE_QUAND_MEME_ILS_SONT_ONZE_J_AI_CALCULE_SUR_LES_TREIZE_DERNIERES_ANNEES_DANS_LES_DEUX_HEURES_QUI_PRECEDENT_LE_COUCHER_DU_SOLEIL_VOUS_EN_ETES_A_UNE_MOYENNE_DE_8_422 = '(En parlant des clients de la taverne) Quand même, ils sont onze. J\'ai calculé sur les treize dernières années, dans les deux heures qui précèdent le coucher du soleil, vous en êtes à une moyenne de 8,422.',
   ENCORE_A_GUENIEVRE_NOUS_AUSSI_ON_VOUS_AIME_A_PARTIR_DU_MOMENT_OU_VOUS_GARDEZ_VOS_MICHES_SUR_LE_TRONE_ET_OU_VOUS_FOUTEZ_PAS_L_CAMP_DES_QU_UN_BLONDINET_VOUS_FAIT_D_L_OEIL = '(Encore à Guenièvre) Nous aussi, on vous aime. A partir du moment où vous gardez vos miches sur le trône et où vous foutez pas l\'camp dès qu\'un blondinet vous fait d\'l\'oeil.',
   ENTRANT_SUBITEMENT_DANS_LA_SALLE_DE_LA_TABLE_RONDE_EXCUSEZ_C_EST_JUSTE_POUR_VOUS_DIRE_QUE_JE_VAIS_PAS_POUVOIR_RESTER_AUJOURD_HUI_FAUT_QUE_JE_RETOURNE_A_LA_FERME_DE_MES_VIEUX_Y_A_MA_GRAND_MERE_QUI_A_GLISSE_SUR_UNE_BOUSE_C_EST_LE_VRAI_MERDIER = '(Entrant subitement dans la Salle de la Table Ronde) Excusez, c\'est juste pour vous dire que je vais pas pouvoir rester aujourd\'hui ! Faut que je retourne à la ferme de mes vieux ! Y a ma grand-mère qui a glissé sur une bouse ! C\'est le vrai merdier !',
-  GAUVAIN_EXCUSEZ_NOUS_MON_ONCLE_NOTRE_VOCABULAIRE_N_EST_PAS_TRES_FOURNI = '(Gauvain: Excusez nous mon oncle, notre vocabulaire n\'est pas tres fourni)',
+  GAUVAIN_EXCUSEZ_NOUS_MON_ONCLE_NOTRE_VOCABULAIRE_N_EST_PAS_TRES_FOURNI_OUAIS_BAH_VOUS_ENCORE_CA_VA_MOI_MEME_LE_MOT_VOCABULAIRE_JE_SUIS_PAS_SUR_A_100 = '(Gauvain: Excusez nous mon oncle, notre vocabulaire n\'est pas tres fourni) Ouais bah vous encore ça va, moi, même le mot vocabulaire je suis pas sûr à 100% !',
   GLAUCIA_AVE_PUBLIUS_SERVIUS_CAPITO_T_AVAIS_DEMANDE_UN_RENDEZ_VOUS_NON_J_AI_PAS_ENVOYE_DE_FLEURS_NON_PLUS = '(Glaucia : - Ave Publius Servius Capito, t\'avais demandé un rendez-vous ?) Non. J\'ai pas envoyé de fleurs non plus.',
   HURLANT_A_PLEIN_POUMONS_MEECREEAAAAAAAAANTS = '(Hurlant à plein poumons) MÉÉCRÉÉAAAAAAAAANTS !',
   HURLANT_QUAND_J_PENSE_QUE_J_AI_R_FILE_MA_FILLE_A_UN_ROMAIN_J_SUIS_A_DEUX_DOIGTS_D_CRAMER_L_CHATEAU = '(Hurlant) QUAND J\'PENSE QUE J\'AI R\'FILÉ MA FILLE À UN ROMAIN ! J\'SUIS À DEUX DOIGTS D\'CRÂMER L\'CHÂTEAU !!',
@@ -938,7 +937,6 @@ export enum _DESCRIPTION {
   OOOOOOOOH_NON_MAIS_FAIRE_DU_LABYRINTHE_AVEC_UN_TROU_DE_BALLE_PAREIL_FAUT_DROLEMENT_DE_LA_VAILLANCE_HEIN = 'Ooooooooh, non mais faire du labyrinthe avec un trou-de-balle pareil, faut drôlement de la vaillance, hein !',
   OU_VOUS_M_EXPLIQUEZ_POURQUOI_VOUS_RASEZ_LES_MURS_COMME_UN_EVADE_DE_CACHOT_OU_VOUS_PRENEZ_MA_MAIN_DANS_LE_PIF = 'Ou vous m\'expliquez pourquoi vous rasez les murs comme un évadé de cachot, ou vous prenez ma main dans le pif !',
   OUAIS_QU_IL_Y_VIENNE_PATAUGER_DANS_LA_MERDE = 'Ouais ! Qu\'il y vienne patauger dans la merde !',
-  OUAIS_BAH_VOUS_ENCORE_CA_VA_MOI_MEME_LE_MOT_VOCABULAIRE_JE_SUIS_PAS_SUR_A_100 = 'Ouais bah vous encore ça va, moi, même le mot vocabulaire je suis pas sûr à 100% !',
   OUAIS_NON_J_SUIS_UN_PEU_SUR_LES_NERFS_EN_C_MOMENT_SCUSEZ_MOI_J_DORS_MAL_A_CAUSE_DE_MA_GANGRENE_QUI_M_BOUFFE_LE_PIED = 'Ouais non, j\'suis un peu sur les nerfs en c\'moment... \'Scusez moi... J\'dors mal à cause de ma gangrène qui m\'bouffe le pied !',
   OUAIS_ALORS_LA_OU_JE_VOIS_QUE_JE_SUIS_VRAIMENT_A_CRAN_C_EST_QUE_QUAND_VOUS_AVEZ_DIT_MALEDICTION_J_AI_FAIT_UNE_SERIE_DE_TOUT_PETITS_PETS_COMME_CA_PFT_PFT_PFT_PFT_PFT_PFT = 'Ouais, alors là où je vois que je suis vraiment à cran, c\'est que quand vous avez dit malédiction, j\'ai fait une série de tout petits pets comme ça : pft pft pft pft pft pft.',
   OUAIS_BEN_SI_VOUS_VOULIEZ_DU_CAPTIVANT_FALLAIT_PEUT_ETRE_ME_FAIRE_LIRE_AUTRE_CHOSE_QUE_DES_TEXTES_DE_LOIS = 'Ouais, ben si vous vouliez du captivant, fallait peut-être me faire lire autre chose que des textes de lois !',
@@ -1160,25 +1158,26 @@ export enum _DESCRIPTION {
 }
 
 export enum _MEDIA {
+  COURT_METRAGE = 'court métrage',
   FILM = 'film',
   SERIE = 'série',
 }
 
 export enum _TITLE {
+  DIES_IRAE = 'dies irae',
   KAAMELOTT_PREMIER_VOLET = 'kaamelott premier volet',
 }
 
 export enum _DATE {
+  _2003 = '2003',
   _2021 = '2021',
 }
 
 export enum _SHOW {
-  DIES_IRAE_COURT_METRAGE = 'dies irae (court métrage)',
   KAAMELOTT = 'kaamelott',
 }
 
 export enum _SEASON {
-  _2003 = '2003',
   DECEMBRE_2004 = 'décembre 2004',
   EPISODES_PILOTES = 'épisodes pilotes',
   JANVIER_2005 = 'janvier 2005',
@@ -1186,9 +1185,9 @@ export enum _SEASON {
   LIVRE_II = 'Livre II',
   LIVRE_III = 'Livre III',
   LIVRE_IV = 'Livre IV',
+  LIVRE_IV_TOME_II = 'Livre IV - Tome II',
   LIVRE_V = 'Livre V',
   LIVRE_VI = 'Livre VI',
-  PREMIER_VOLET = 'Premier Volet',
 }
 
 export enum _EPISODE_NAME {
@@ -1217,7 +1216,6 @@ export enum _EPISODE_NAME {
   CORPORE_SANO = 'Corpore sano',
   CORPORE_SANO_II = 'Corpore sano II',
   CORVUS_CORONE = 'Corvus corone',
-  COURT_METRAGE = 'Court-métrage',
   CRYDA_DE_TINTAGEL = 'Cryda de Tintagel',
   CUISINE_ET_DEPENDANCES = 'Cuisine et dépendances',
   DAGONET_ET_LE_CADASTRE = 'Dagonet et le cadastre',
@@ -1504,13 +1502,11 @@ export enum _EPISODE_NAME {
   SEIGNEUR_CAIUS = 'Seigneur Caïus',
   SELI_ET_LES_RONGEURS = 'Séli et les rongeurs',
   SEPT_CENT_QUARANTE_QUATRE = 'Sept cent quarante-quatre',
-  SEQUENCE_SOUTERRAINE = 'Sequence souterraine',
   SILBURY_HILL = 'Silbury hill',
   SOUS_LES_VERROUS = 'Sous les verrous',
   SPANGENHELM = 'Spangenhelm',
   SPIRITUEUX = 'Spiritueux',
   STARGATE = 'Stargate',
-  TEASER = 'Teaser',
   TEL_UN_CHEVALIER = 'Tel un chevalier',
   THE_GAME = 'The game',
   TOUS_LES_MATINS_DU_MONDE = 'Tous les matins du monde',

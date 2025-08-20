@@ -1721,13 +1721,13 @@
       "Franck Pitiot"
     ],
     "_description": "La patience est un plat qui se mange sans sauce.",
-    "_media": "série",
-    "_title": "",
-    "_date": "",
-    "_show": "kaamelott",
-    "_season": "Premier Volet",
+    "_media": "film",
+    "_title": "kaamelott premier volet",
+    "_date": "2021",
+    "_show": "",
+    "_season": "",
     "_episode": {
-      "name": "Teaser",
+      "name": "",
       "number": ""
     }
   },
@@ -1737,7 +1737,7 @@
       "Alexandre Astier"
     ],
     "_actor": [
-      "Frank Pitiot"
+      "Franck Pitiot"
     ],
     "_description": "Evidemment qu'il est pas mort, ça fait dix ans que je vous le dit, gros salsifis !",
     "_media": "film",
@@ -1756,7 +1756,7 @@
       "Alexandre Astier"
     ],
     "_actor": [
-      "Frank Pitiot"
+      "Franck Pitiot"
     ],
     "_description": "Glandussss ! [...] La patrouille de Kaamelott c'est des glanduuuus !",
     "_media": "film",
@@ -1775,7 +1775,7 @@
       "Alexandre Astier"
     ],
     "_actor": [
-      "Frank Pitiot"
+      "Franck Pitiot"
     ],
     "_description": "On est en souterrain, (en choeur avec karadoc) parce que c'est classe !",
     "_media": "film",
@@ -1794,7 +1794,7 @@
       "Alexandre Astier"
     ],
     "_actor": [
-      "Frank Pitiot"
+      "Franck Pitiot"
     ],
     "_description": "(Ils sont ou les semi croustillant ? Sur la Bretagne ?) Non mes petits coqs en pâte, ils sont (en choeur avec karadoc) sous la Bretagne !",
     "_media": "film",
