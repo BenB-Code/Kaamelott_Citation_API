@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class SeedMovie1754486244940 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    [kaamelottShow] = await queryRunner.query(`
+    let [kaamelottShow] = await queryRunner.query(`
       SELECT id FROM "show" WHERE name = 'kaamelott' AND "mediaType" = 'film'
     `);
 
@@ -14,7 +14,7 @@ export class SeedMovie1754486244940 implements MigrationInterface {
 
     await queryRunner.query(`
       INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
-      ('kaamelott premier volet', '21 juillet 2021', ${kaamelottShow.id}),
+      ('kaamelott premier volet', '2021-07-21', ${kaamelottShow.id})
       ON CONFLICT DO NOTHING
     `);
 
@@ -30,7 +30,7 @@ export class SeedMovie1754486244940 implements MigrationInterface {
 
     await queryRunner.query(`
       INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
-      ('dies irae', 'octobre 2003', ${kaamelottShow.id}),
+      ('dies irae', '2021-10-01', ${kaamelottShow.id})
       ON CONFLICT DO NOTHING
     `);
   }

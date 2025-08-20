@@ -8,7 +8,7 @@ export class SeedAuthor1754486213351 implements MigrationInterface {
       ('Fabien ', 'Rault'),
       ('Lionnel ', 'Astier'),
       ('Nicolas ', 'Gabion'),
-      ('Simon ', 'Astier'),
+      ('Simon ', 'Astier')
       ON CONFLICT DO NOTHING
     `);
 

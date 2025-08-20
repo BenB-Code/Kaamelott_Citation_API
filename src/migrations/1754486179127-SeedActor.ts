@@ -3,7 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export class SeedActor1754486179127 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
-      INSERT INTO "Actor" ("firstName", "lastName") VALUES 
+      INSERT INTO "actor" ("firstName", "lastName") VALUES 
       ('Alain', 'Chabat'),
       ('Alain', 'Chapuis'),
       ('Alexandra', 'Saadoun'),
@@ -67,9 +67,9 @@ export class SeedActor1754486179127 implements MigrationInterface {
       ('Thibault', 'Roux'),
       ('Thomas', 'Cousseau'),
       ('Tony', 'Saba'),
-      ('Valérie', 'Keruzoré'
-      ('Vanessa', 'Guedj'
-      ('Yvan', 'Le Bolloc''h'),
+      ('Valérie', 'Keruzoré'),
+      ('Vanessa', 'Guedj'),
+      ('Yvan', 'Le Bolloc''h')
       ON CONFLICT DO NOTHING
     `);
 
