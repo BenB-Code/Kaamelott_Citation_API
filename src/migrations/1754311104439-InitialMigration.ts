@@ -23,13 +23,13 @@ export class InitialMigration1754311104439 implements MigrationInterface {
       `CREATE INDEX "IDX_cae5e33adeffb5e009874e8b7e" ON "author" ("firstName", "lastName") `,
     );
     await queryRunner.query(
-      `CREATE TABLE "season" ("id" SERIAL NOT NULL, "name" character varying(75) NOT NULL, "picture" character varying(250), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "showId" integer, CONSTRAINT "PK_8ac0d081dbdb7ab02d166bcda9f" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "season" ("id" SERIAL NOT NULL, "name" character varying(75), "picture" character varying(250), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "showId" integer, CONSTRAINT "PK_8ac0d081dbdb7ab02d166bcda9f" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_b3e4a42a8be8b449354a8b31cc" ON "season" ("name") `,
     );
     await queryRunner.query(
-      `CREATE TABLE "episode" ("id" SERIAL NOT NULL, "name" character varying(150) NOT NULL, "number" smallint NOT NULL, "picture" character varying(250), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "seasonId" integer, CONSTRAINT "PK_7258b95d6d2bf7f621845a0e143" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "episode" ("id" SERIAL NOT NULL, "name" character varying(150), "number" smallint, "picture" character varying(250), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "seasonId" integer, CONSTRAINT "PK_7258b95d6d2bf7f621845a0e143" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_5b8186cd5641b3bf6ee49479ce" ON "episode" ("name") `,
@@ -58,9 +58,13 @@ export class InitialMigration1754311104439 implements MigrationInterface {
     await queryRunner.query(
       `CREATE INDEX "IDX_4f7be22383ee689e458305612d" ON "movie" ("name", "releaseDate") `,
     );
-    await queryRunner.query(
-      `CREATE TYPE "public"."show_mediatype_enum" AS ENUM('série', 'film', 'court métrage')`,
-    );
+    await queryRunner.query(`
+      DO $$ BEGIN
+        CREATE TYPE "public"."show_mediatype_enum" AS ENUM('série', 'film', 'court métrage');
+      EXCEPTION
+        WHEN duplicate_object THEN null;
+      END $$;
+    `);
     await queryRunner.query(
       `CREATE TABLE "show" ("id" SERIAL NOT NULL, "name" character varying(75) NOT NULL, "mediaType" "public"."show_mediatype_enum" NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_e9993c2777c1d0907e845fce4d1" PRIMARY KEY ("id"))`,
     );

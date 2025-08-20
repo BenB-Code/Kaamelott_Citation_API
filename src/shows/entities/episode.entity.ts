@@ -29,6 +29,7 @@ export class Episode {
   @Column({
     type: 'varchar',
     length: 150,
+    nullable: true,
   })
   @Index()
   name: string;
@@ -36,6 +37,7 @@ export class Episode {
   @Column({
     type: 'int2',
     unsigned: true,
+    nullable: true,
   })
   @Index()
   number: number;
