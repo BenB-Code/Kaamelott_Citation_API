@@ -5,15 +5,14 @@ export class SeedEpisode1754486236413 implements MigrationInterface {
     const seasons = await queryRunner.query(`
         SELECT id, name FROM "season"
         `);
-    if (!seasons) {
+    if (!seasons?.length) {
       throw new Error(
         "Seasons non trouvé. Exécutez d'abord la migration SeedSeason",
       );
     }
-    const seasonMap = seasons.reduce((map, season) => {
-      map[season.name] = season.id;
-      return map;
-    });
+    const seasonMap = Object.fromEntries(
+      seasons.map((season) => [season.name, season.id]),
+    );
 
     const episodes = [
       { name: null, number: 6, seasonId: seasonMap['épisodes pilotes'] },
@@ -919,12 +918,6 @@ export class SeedEpisode1754486236413 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
       DELETE FROM "episode" 
-      WHERE "seasonId" IN (
-        SELECT s.id 
-        FROM "season" s 
-        INNER JOIN "show" sh ON s."showId" = sh.id 
-        WHERE sh.name = 'kaamelott'
-      )
     `);
 
     console.log('🗑️ episode supprimés');

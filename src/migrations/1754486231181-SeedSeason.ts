@@ -6,7 +6,7 @@ export class SeedSeason1754486231181 implements MigrationInterface {
       SELECT id FROM "show" WHERE name = 'kaamelott' AND "mediaType" = 'série'
     `);
 
-    if (!kaamelottShow) {
+    if (!kaamelottShow?.length) {
       throw new Error(
         "Show kaamelott série non trouvé. Exécutez d'abord la migration SeedShow",
       );
