@@ -32,6 +32,8 @@ export class UpdateWithCoalesce1754311209876 implements MigrationInterface {
         "characterId"
       );
     `);
+
+    console.log('✅ index créés');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -54,5 +56,7 @@ export class UpdateWithCoalesce1754311209876 implements MigrationInterface {
       ADD CONSTRAINT "UQ_e5c60b77152cb72dcb2131aad7a"
       UNIQUE ("text", "episodeId", "movieId", "characterId");
     `);
+
+    console.log('🗑️ index supprimés');
   }
 }

@@ -2,15 +2,24 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class SeedShow1754486225624 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(`
-      INSERT INTO "show" ("name", "mediaType") VALUES 
-      ('kaamelott', 'série'),
-      ('kaamelott', 'film'),
-      ('kaamelott', 'court métrage')
-      ON CONFLICT ("mediaType", "name") DO NOTHING
-    `);
+    const shows = [
+      { name: 'kaamelott', mediaType: 'série' },
+      { name: 'kaamelott', mediaType: 'film' },
+      { name: 'kaamelott', mediaType: 'court métrage' },
+    ];
 
-    console.log('✅ Show insérés avec succès');
+    for (const show of shows) {
+      await queryRunner.query(
+        `
+        INSERT INTO "show" ("name", "mediaType") VALUES 
+        ($1, $2)
+        ON CONFLICT ("mediaType", "name") DO NOTHING
+      `,
+        [show.name, show.mediaType],
+      );
+    }
+
+    console.log('✅ show insérés');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -18,6 +27,6 @@ export class SeedShow1754486225624 implements MigrationInterface {
       DELETE FROM "show"
     `);
 
-    console.log('🗑️ Show supprimés');
+    console.log('🗑️ show supprimés');
   }
 }

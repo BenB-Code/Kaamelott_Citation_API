@@ -2,37 +2,59 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class SeedMovie1754486244940 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    let [kaamelottShow] = await queryRunner.query(`
+    let kaamelottShow = await queryRunner.query(`
       SELECT id FROM "show" WHERE name = 'kaamelott' AND "mediaType" = 'film'
     `);
-
     if (!kaamelottShow) {
       throw new Error(
         "Show kaamelott film non trouvé. Exécutez d'abord la migration SeedShow",
       );
     }
+    const movies = [
+      {
+        name: 'kaamelott premier volet',
+        releaseDate: '2021-07-21',
+        showId: kaamelottShow.id,
+      },
+    ];
+    for (const movie of movies) {
+      await queryRunner.query(
+        `
+        INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
+        ($1, $2, $3)
+        ON CONFLICT ("name", "releaseDate", "showId") DO NOTHING
+      `,
+        [movie.name, movie.releaseDate, movie.showId],
+      );
+    }
 
-    await queryRunner.query(`
-      INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
-      ('kaamelott premier volet', '2021-07-21', ${kaamelottShow.id})
-      ON CONFLICT ("name", "releaseDate", "showId") DO NOTHING
-    `);
-
-    [kaamelottShow] = await queryRunner.query(`
+    kaamelottShow = await queryRunner.query(`
       SELECT id FROM "show" WHERE name = 'kaamelott' AND "mediaType" = 'court métrage'
     `);
-
     if (!kaamelottShow) {
       throw new Error(
         "Show dies irae court métrage non trouvé. Exécutez d'abord la migration SeedShow",
       );
     }
+    const courtMetrages = [
+      {
+        name: 'dies irae',
+        releaseDate: '2021-10-01',
+        showId: kaamelottShow.id,
+      },
+    ];
+    for (const courtMetrage of courtMetrages) {
+      await queryRunner.query(
+        `
+        INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
+        ($1, $2, $3)
+        ON CONFLICT ("name", "releaseDate", "showId") DO NOTHING
+      `,
+        [courtMetrage.name, courtMetrage.releaseDate, courtMetrage.showId],
+      );
+    }
 
-    await queryRunner.query(`
-      INSERT INTO "movie" ("name", "releaseDate", "showId") VALUES 
-      ('dies irae', '2021-10-01', ${kaamelottShow.id})
-      ON CONFLICT ("name", "releaseDate", "showId") DO NOTHING
-    `);
+    console.log('✅ movie insérés');
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -60,6 +82,6 @@ export class SeedMovie1754486244940 implements MigrationInterface {
     `);
     }
 
-    console.log('✅ Movies supprimés avec succès');
+    console.log('🗑️ movie supprimés');
   }
 }
