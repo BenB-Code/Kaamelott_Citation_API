@@ -747,6 +747,7 @@ export class SeedEpisode1754486236413 implements MigrationInterface {
       { name: 'Les tourelles', number: null, seasonId: seasonMap['Livre III'] },
       { name: 'Les transhumants', number: 37, seasonId: seasonMap['Livre V'] },
       { name: 'Les tuteurs', number: 16, seasonId: seasonMap['Livre II'] },
+      { name: 'Les tuteurs II', number: 36, seasonId: seasonMap['Livre IV'] },
       { name: 'Les voeux', number: 45, seasonId: seasonMap['Livre II'] },
       {
         name: 'Les volontaires II',
@@ -895,6 +896,7 @@ export class SeedEpisode1754486236413 implements MigrationInterface {
       { name: 'Vox populi II', number: null, seasonId: seasonMap['Livre II'] },
       { name: 'Vox populi III', number: 58, seasonId: seasonMap['Livre IV'] },
       { name: 'Witness', number: 82, seasonId: seasonMap['Livre III'] },
+      { name: 'La nourrice', number: 36, seasonId: seasonMap['Livre V'] },
     ];
 
     for (const episode of episodes) {

@@ -13,15 +13,15 @@ export class SeedSeason1754486231181 implements MigrationInterface {
     }
 
     const seasons = [
-      { name: 'décembre 2004', showId: kaamelottShow.id },
-      { name: 'épisodes pilotes', showId: kaamelottShow.id },
-      { name: 'janvier 2005', showId: kaamelottShow.id },
-      { name: 'Livre I', showId: kaamelottShow.id },
-      { name: 'Livre II', showId: kaamelottShow.id },
-      { name: 'Livre III', showId: kaamelottShow.id },
-      { name: 'Livre IV', showId: kaamelottShow.id },
-      { name: 'Livre V', showId: kaamelottShow.id },
-      { name: 'Livre VI', showId: kaamelottShow.id },
+      { name: 'décembre 2004', showId: kaamelottShow[0].id },
+      { name: 'épisodes pilotes', showId: kaamelottShow[0].id },
+      { name: 'janvier 2005', showId: kaamelottShow[0].id },
+      { name: 'Livre I', showId: kaamelottShow[0].id },
+      { name: 'Livre II', showId: kaamelottShow[0].id },
+      { name: 'Livre III', showId: kaamelottShow[0].id },
+      { name: 'Livre IV', showId: kaamelottShow[0].id },
+      { name: 'Livre V', showId: kaamelottShow[0].id },
+      { name: 'Livre VI', showId: kaamelottShow[0].id },
     ];
 
     for (const season of seasons) {

@@ -20,18 +20,20 @@ export class SeedMovie1754486244940 implements MigrationInterface {
         "Movie kaamelott mediaType court métrage non trouvé. Exécutez d'abord la migration SeedShow",
       );
     }
+
     const movies = [
       {
         name: 'kaamelott premier volet',
         releaseDate: '2021-07-21',
-        showId: kaamelottMovie.id,
+        showId: kaamelottMovie[0].id,
       },
       {
         name: 'dies irae',
         releaseDate: '2021-10-01',
-        showId: kaamelottCourtMetrage.id,
+        showId: kaamelottCourtMetrage[0].id,
       },
     ];
+
     for (const movie of movies) {
       await queryRunner.query(
         `

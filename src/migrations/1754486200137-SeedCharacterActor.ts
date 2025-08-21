@@ -129,8 +129,8 @@ export class SeedCharacterActor1754486200137 implements MigrationInterface {
         INSERT INTO "character_actor" ("characterId", "actorId") 
         SELECT c.id, a.id FROM "character" c, "actor" a
         WHERE c.name = $1
-          AND a.firstName = $2
-          AND a.lastName = $3
+          AND a."firstName" = $2
+          AND a."lastName" = $3
         ON CONFLICT ("characterId", "actorId") DO NOTHING
       `,
         [pair.name, pair.firstName, pair.lastName],
