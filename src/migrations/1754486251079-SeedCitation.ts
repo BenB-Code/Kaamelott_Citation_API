@@ -4007,7 +4007,7 @@ export class SeedCitation1754486251079 implements MigrationInterface {
         episodeId: episodesMap[`La cassette II-2-Livre III`],
         movieId: null,
         characterId: charactersMap[`Séli`],
-        text: "Quand vous vous l'vez pour bouffer, vous me réveillez, vous bougez, vous allumez les bougies, vous toussez, bref ! Vous ignorez mon existence ! [...] Eh ben là, pas un bruit, pas un mouvement, tout dans le furtif. Vous avez glissé du pageot comme un pet sur une plaque de verglas !",
+        text: "Quand vous vous l'vez pour bouffer, vous me réveillez, vous bougez, vous allumez les bougies, vous toussez, bref ! Vous ignorez mon existence ! [...] Eh ben là, pas un bruit, pas un mouvement, tout dans le furtif. Vous avez glissé du pageot comme un pet sur une plaque de verglas !",
       },
       {
         episodeId: episodesMap[`La cassette II-2-Livre III`],

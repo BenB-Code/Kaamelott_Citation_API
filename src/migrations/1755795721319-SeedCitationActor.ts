@@ -54,6 +54,6 @@ export class SeedCitationActor1755795721319 implements MigrationInterface {
       DELETE FROM "citation_actor"
     `);
 
-    console.log('🗑️ movie supprimés');
+    console.log('🗑️ Association citation actor supprimés');
   }
 }
