@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Citation } from './../../citations/entities/citation.entity';
@@ -13,6 +14,7 @@ import { Season } from './season.entity';
 
 @Entity()
 @Index(['season', 'number'])
+@Unique(['season', 'number', 'name'])
 export class Episode {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -29,6 +31,7 @@ export class Episode {
   @Column({
     type: 'varchar',
     length: 150,
+    nullable: true,
   })
   @Index()
   name: string;
@@ -36,6 +39,7 @@ export class Episode {
   @Column({
     type: 'int2',
     unsigned: true,
+    nullable: true,
   })
   @Index()
   number: number;

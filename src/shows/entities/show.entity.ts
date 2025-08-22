@@ -5,6 +5,7 @@ import {
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { MediaType } from '../constant/media-type.enum';
@@ -13,6 +14,7 @@ import { Season } from './season.entity';
 
 @Entity()
 @Index(['mediaType', 'name'])
+@Unique(['mediaType', 'name'])
 export class Show {
   @PrimaryGeneratedColumn('increment')
   id: number;
