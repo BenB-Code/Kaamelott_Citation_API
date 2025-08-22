@@ -1,0 +1,53 @@
+# CRITIQUE - Ne jamais inclure
+.env*
+.git
+.gitignore
+*.pem
+*.key
+*.cert
+.aws
+.ssh
+
+# Build artifacts
+node_modules
+dist
+build
+.next
+out
+*.log
+npm-debug.log*
+yarn-error.log*
+coverage
+.nyc_output
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+
+# Tests/Docs
+*.test.js
+*.spec.js
+__tests__
+e2e/
+docs/
+*.md
+!README.md
+
+# Development
+.eslintrc*
+.prettierrc*
+.husky
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Temp files
+tmp/
+temp/
+*.tmp
+*.cache
+
+docker
