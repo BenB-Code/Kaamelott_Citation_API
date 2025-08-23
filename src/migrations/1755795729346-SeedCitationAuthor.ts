@@ -4081,7 +4081,7 @@ export class SeedCitationAuthor1755795729346 implements MigrationInterface {
       },
     ];
 
-    const citationsAuthors = authorTextList.flatMap((item, i) => {
+    const citationsAuthors = authorTextList.flatMap((item) => {
       const citationId = citationsMap[item.text];
       const authorIds = item.author.map((item) => authorsMap[item]);
       return authorIds.map((authorId) => ({

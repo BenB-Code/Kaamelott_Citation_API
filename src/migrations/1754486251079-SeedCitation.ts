@@ -58,7 +58,6 @@ export class SeedCitation1754486251079 implements MigrationInterface {
       characters.map((character) => [character.name, character.id]),
     );
 
-    console.log(episodesMap);
 
     const citations = [
       {
