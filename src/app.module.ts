@@ -17,6 +17,7 @@ import { Episode } from './shows/entities/episode.entity';
 import { Movie } from './shows/entities/movie.entity';
 import { Season } from './shows/entities/season.entity';
 import { Show } from './shows/entities/show.entity';
+import { AuthorModule } from './authors/author.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { Show } from './shows/entities/show.entity';
       }),
     }),
     HealthModule,
+    AuthorModule,
   ],
   controllers: [AppController],
   providers: [
