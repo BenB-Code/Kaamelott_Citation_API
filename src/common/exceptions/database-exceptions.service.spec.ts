@@ -24,6 +24,10 @@ describe('DatabaseExceptions', () => {
     jest.clearAllMocks();
   });
 
+  it('should be defined', () => {
+    expect(databaseExceptions).toBeDefined();
+  });
+
   describe('formatMessage', () => {
     it('should format simple empty string without context', () => {
       const result = databaseExceptions.formatMessage('');
@@ -184,7 +188,6 @@ describe('DatabaseExceptions', () => {
         try {
           databaseExceptions.handleDatabaseError('Test');
         } catch (error) {
-          console.log(error);
           expect(error).toBeInstanceOf(InternalServerErrorException);
           expect(error.status).toBe(500);
           expect(error.message).toContain(
