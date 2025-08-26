@@ -1,5 +1,5 @@
 export const ERROR_MESSAGES = {
-  NO_DATA_FOUND: `[NO_DATA_FOUND] Cannot perform operation: Data not found.`,
+  NO_DATA_FOUND: '[NO_DATA_FOUND] Cannot perform operation: Data not found.',
   UNIQUE_VIOLATION:
     '[UNIQUE_VIOLATION] Cannot perform operation: Resource already exists',
   FK_VIOLATION: '[FK_VIOLATION] Cannot perform operation: related data exists',

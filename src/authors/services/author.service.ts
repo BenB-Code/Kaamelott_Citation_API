@@ -1,23 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult } from 'typeorm';
+import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
 import { AuthorDto } from '../dto/author.dto';
 import { Author } from '../entities/author.entity';
 import { AuthorRepository } from '../repositories/author.repository';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
 import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
 @Injectable()
 export class AuthorService {
   context = 'Author';
   constructor(
-    @InjectRepository(Author)
     private readonly authorRepository: AuthorRepository,
     private readonly databaseExceptions: DatabaseExceptions,
   ) {}
 
   async createAuthor(author: AuthorDto): Promise<Author> {
     try {
-      return await this.authorRepository.insert(author);
+      return await this.authorRepository.create(author);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

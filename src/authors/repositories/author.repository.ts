@@ -11,7 +11,7 @@ export class AuthorRepository {
     private readonly authorRepository: Repository<Author>,
   ) {}
 
-  async insert(author: AuthorDto): Promise<Author> {
+  async create(author: AuthorDto): Promise<Author> {
     return await this.authorRepository.save(author);
   }
 
