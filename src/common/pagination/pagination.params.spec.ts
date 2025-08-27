@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { PaginationParams } from './pagination.params';
 
@@ -21,7 +21,7 @@ describe('PaginationParams', () => {
       offset: '10',
     };
 
-    const paginationParams = plainToClass(PaginationParams, plainObject);
+    const paginationParams = plainToInstance(PaginationParams, plainObject);
 
     expect(paginationParams.limit).toBe(50);
     expect(paginationParams.offset).toBe(10);
@@ -30,7 +30,7 @@ describe('PaginationParams', () => {
   });
 
   it('should reject limit less than 1', async () => {
-    const paginationParams = plainToClass(PaginationParams, {
+    const paginationParams = plainToInstance(PaginationParams, {
       limit: 0,
     });
 
@@ -40,7 +40,7 @@ describe('PaginationParams', () => {
   });
 
   it('should accept limit of 1 or greater', async () => {
-    const paginationParams = plainToClass(PaginationParams, {
+    const paginationParams = plainToInstance(PaginationParams, {
       limit: 1,
     });
 
@@ -49,7 +49,7 @@ describe('PaginationParams', () => {
   });
 
   it('should reject negative offset', async () => {
-    const paginationParams = plainToClass(PaginationParams, {
+    const paginationParams = plainToInstance(PaginationParams, {
       offset: -1,
     });
 
@@ -59,7 +59,7 @@ describe('PaginationParams', () => {
   });
 
   it('should accept offset of 0 or greater', async () => {
-    const paginationParams = plainToClass(PaginationParams, {
+    const paginationParams = plainToInstance(PaginationParams, {
       offset: 0,
     });
 
@@ -73,7 +73,7 @@ describe('PaginationParams', () => {
       offset: '10',
     };
 
-    const paginationParams = plainToClass(PaginationParams, plainObject);
+    const paginationParams = plainToInstance(PaginationParams, plainObject);
     const errors = await validate(paginationParams);
 
     expect(errors).toHaveLength(0);
@@ -84,7 +84,7 @@ describe('PaginationParams', () => {
   });
 
   it('should reject invalid limit type', async () => {
-    const paginationParams = plainToClass(PaginationParams, {
+    const paginationParams = plainToInstance(PaginationParams, {
       limit: 'invalid',
     });
 
@@ -93,7 +93,7 @@ describe('PaginationParams', () => {
   });
 
   it('should reject invalid offset type', async () => {
-    const paginationParams = plainToClass(PaginationParams, {
+    const paginationParams = plainToInstance(PaginationParams, {
       offset: 'invalid',
     });
 

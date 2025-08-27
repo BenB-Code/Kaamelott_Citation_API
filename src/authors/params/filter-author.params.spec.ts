@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { CREATED_AT } from '../../common/constants/filters.constant';
 import { FilterAuthorParams } from './filter-author.params';
@@ -15,7 +15,7 @@ describe('FilterAuthorParams', () => {
   });
 
   it('should accept valid firstName', async () => {
-    const filterParams = plainToClass(FilterAuthorParams, {
+    const filterParams = plainToInstance(FilterAuthorParams, {
       firstName: 'John',
     });
 
@@ -24,7 +24,7 @@ describe('FilterAuthorParams', () => {
   });
 
   it('should accept valid lastName', async () => {
-    const filterParams = plainToClass(FilterAuthorParams, {
+    const filterParams = plainToInstance(FilterAuthorParams, {
       lastName: 'Doe',
     });
 
@@ -41,14 +41,14 @@ describe('FilterAuthorParams', () => {
     ];
 
     for (const sortBy of validSortByValues) {
-      const filterParams = plainToClass(FilterAuthorParams, { sortBy });
+      const filterParams = plainToInstance(FilterAuthorParams, { sortBy });
       const errors = await validate(filterParams);
       expect(errors).toHaveLength(0);
     }
   });
 
   it('should reject invalid sortBy values', async () => {
-    const filterParams = plainToClass(FilterAuthorParams, {
+    const filterParams = plainToInstance(FilterAuthorParams, {
       sortBy: 'invalidSort',
     });
 
@@ -64,7 +64,7 @@ describe('FilterAuthorParams', () => {
       sortBy: 'firstName',
     };
 
-    const filterParams = plainToClass(FilterAuthorParams, plainObject);
+    const filterParams = plainToInstance(FilterAuthorParams, plainObject);
     const errors = await validate(filterParams);
 
     expect(errors).toHaveLength(0);

@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { DESC } from '../constants/sorting.constant';
 import { SearchFilterParams } from './search-filter.params';
@@ -15,7 +15,7 @@ describe('SearchFilterParams', () => {
   });
 
   it('should accept valid search with minimum length', async () => {
-    const searchParams = plainToClass(SearchFilterParams, {
+    const searchParams = plainToInstance(SearchFilterParams, {
       search: 'abc',
     });
 
@@ -24,7 +24,7 @@ describe('SearchFilterParams', () => {
   });
 
   it('should reject search with less than 3 characters', async () => {
-    const searchParams = plainToClass(SearchFilterParams, {
+    const searchParams = plainToInstance(SearchFilterParams, {
       search: 'ab',
     });
 
@@ -37,14 +37,14 @@ describe('SearchFilterParams', () => {
     const validSortOrderValues = ['ASC', 'DESC'];
 
     for (const sortOrder of validSortOrderValues) {
-      const searchParams = plainToClass(SearchFilterParams, { sortOrder });
+      const searchParams = plainToInstance(SearchFilterParams, { sortOrder });
       const errors = await validate(searchParams);
       expect(errors).toHaveLength(0);
     }
   });
 
   it('should reject invalid sortOrder values', async () => {
-    const searchParams = plainToClass(SearchFilterParams, {
+    const searchParams = plainToInstance(SearchFilterParams, {
       sortOrder: 'INVALID',
     });
 
@@ -59,7 +59,7 @@ describe('SearchFilterParams', () => {
       sortOrder: 'ASC',
     };
 
-    const searchParams = plainToClass(SearchFilterParams, plainObject);
+    const searchParams = plainToInstance(SearchFilterParams, plainObject);
     const errors = await validate(searchParams);
 
     expect(errors).toHaveLength(0);
