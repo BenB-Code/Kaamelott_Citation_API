@@ -4,8 +4,11 @@ import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
 import { AuthorDto } from '../dto/author.dto';
 import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { Author } from '../entities/author.entity';
+import { FilterAuthorParams } from '../params/filter-author.params';
 import { AuthorRepository } from '../repositories/author.repository';
 import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
+import { PaginationResponse } from './../../common/pagination/pagination.response';
+
 @Injectable()
 export class AuthorService {
   context = 'Author';
@@ -54,6 +57,25 @@ export class AuthorService {
   async getSpecificAuthor(id: string): Promise<Author> {
     try {
       return await this.authorRepository.selectOneBy({ id: +id });
+    } catch (error) {
+      this.databaseExceptions.handleDatabaseError(error, this.context);
+    }
+  }
+
+  async getAllAuthors(
+    filters: FilterAuthorParams,
+  ): Promise<PaginationResponse<Author>> {
+    try {
+      const [authors, total] = await this.authorRepository.selectBy(filters);
+
+      return {
+        data: authors,
+        metadata: {
+          limit: filters.limit,
+          offset: filters.offset,
+          total,
+        },
+      };
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

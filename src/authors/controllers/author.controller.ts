@@ -5,14 +5,12 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  NotImplementedException,
   Param,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { PaginationParams } from '../../common/pagination/pagination.params';
 import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { FindByIdParams } from '../../common/params/find-by-id.params';
 import { AuthorDto } from '../dto/author.dto';
@@ -26,10 +24,9 @@ export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
   @Get()
   getAllAuthors(
-    @Query() params: FilterAuthorParams,
-    @Query() paginationParams: PaginationParams,
+    @Query() filters: FilterAuthorParams,
   ): Promise<PaginationResponse<Author>> {
-    throw new NotImplementedException();
+    return this.authorService.getAllAuthors(filters);
   }
 
   @Get('/:id')

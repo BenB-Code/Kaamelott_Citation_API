@@ -1,7 +1,8 @@
 import { IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
 import { ASC, DESC } from '../constants/sorting.constant';
+import { PaginationParams } from '../pagination/pagination.params';
 
-export class SearchFilterParams {
+export class SearchFilterParams extends PaginationParams {
   @IsOptional()
   @IsString()
   @MinLength(3)
@@ -9,5 +10,5 @@ export class SearchFilterParams {
 
   @IsOptional()
   @IsEnum([ASC, DESC])
-  sortOrder?: string;
+  sortOrder?: typeof ASC | typeof DESC = DESC;
 }
