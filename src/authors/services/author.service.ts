@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
 import { AuthorDto } from '../dto/author.dto';
+import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { Author } from '../entities/author.entity';
 import { AuthorRepository } from '../repositories/author.repository';
 import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
@@ -40,7 +41,7 @@ export class AuthorService {
     }
   }
 
-  async editAuthor(id: string, authorDto: Partial<AuthorDto>): Promise<Author> {
+  async editAuthor(id: string, authorDto: UpdateAuthorDto): Promise<Author> {
     try {
       const author = await this.authorRepository.selectOneBy({ id: +id });
       Object.assign(author, authorDto);

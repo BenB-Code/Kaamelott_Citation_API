@@ -15,6 +15,7 @@ import { PaginationParams } from '../../common/pagination/pagination.params';
 import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { FindByIdParams } from '../../common/params/find-by-id.params';
 import { AuthorDto } from '../dto/author.dto';
+import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { Author } from '../entities/author.entity';
 import { FilterAuthorParams } from '../params/filter-author.params';
 import { AuthorService } from '../services/author.service';
@@ -39,7 +40,7 @@ export class AuthorController {
   @Post('/:id')
   editSpecificAuthor(
     @Param() params: FindByIdParams,
-    @Body() authorDto: Partial<AuthorDto>,
+    @Body() authorDto: UpdateAuthorDto,
   ) {
     return this.authorService.editAuthor(params.id, authorDto);
   }
