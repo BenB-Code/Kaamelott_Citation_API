@@ -7,6 +7,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { AuthorDto } from '../dto/author.dto';
 import { Author } from '../entities/author.entity';
+import { FilterAuthorParams } from '../params/filter-author.params';
 import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
 import { AuthorRepository } from './../repositories/author.repository';
 import { AuthorService } from './author.service';
@@ -38,6 +39,7 @@ describe('AuthorService', () => {
             delete: jest.fn(),
             update: jest.fn(),
             selectOneBy: jest.fn(),
+            selectBy: jest.fn(),
           },
         },
         DatabaseExceptions,
@@ -184,6 +186,172 @@ describe('AuthorService', () => {
         expect(error.response.message).toBe(
           '(Author)[NO_DATA_FOUND] Cannot perform operation: Data not found.',
         );
+      }
+    });
+  });
+
+  describe('getAllAuthors', () => {
+    const mockFilterParams: FilterAuthorParams = {
+      limit: 100,
+      offset: 0,
+      search: 'ast',
+      sortBy: 'lastName',
+      sortOrder: 'DESC',
+    } as FilterAuthorParams;
+
+    const mockAuthors = [mockAuthor];
+    const mockCount = 1;
+
+    it('should return paginated authors', async () => {
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
+        mockAuthors,
+        mockCount,
+      ]);
+
+      const result = await authorService.getAllAuthors(mockFilterParams);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(mockFilterParams);
+      expect(result).toEqual({
+        data: mockAuthors,
+        metadata: {
+          limit: mockFilterParams.limit,
+          offset: mockFilterParams.offset,
+          total: mockCount,
+        },
+      });
+    });
+
+    it('should return empty result when no authors found', async () => {
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([[], 0]);
+
+      const result = await authorService.getAllAuthors(mockFilterParams);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(mockFilterParams);
+      expect(result).toEqual({
+        data: [],
+        metadata: {
+          limit: mockFilterParams.limit,
+          offset: mockFilterParams.offset,
+          total: 0,
+        },
+      });
+    });
+
+    it('should handle search filter', async () => {
+      const searchFilter = {
+        search: 'John',
+        limit: 10,
+        offset: 0,
+      } as FilterAuthorParams;
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
+        mockAuthors,
+        mockCount,
+      ]);
+
+      await authorService.getAllAuthors(searchFilter);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(searchFilter);
+    });
+
+    it('should handle firstName filter', async () => {
+      const firstNameFilter = {
+        firstName: 'John',
+        limit: 10,
+        offset: 0,
+      } as FilterAuthorParams;
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
+        mockAuthors,
+        mockCount,
+      ]);
+
+      await authorService.getAllAuthors(firstNameFilter);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(firstNameFilter);
+    });
+
+    it('should handle lastName filter', async () => {
+      const lastNameFilter = {
+        lastName: 'Doe',
+        limit: 10,
+        offset: 0,
+      } as FilterAuthorParams;
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
+        mockAuthors,
+        mockCount,
+      ]);
+
+      await authorService.getAllAuthors(lastNameFilter);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(lastNameFilter);
+    });
+
+    it('should handle pagination parameters', async () => {
+      const paginationFilter = { limit: 50, offset: 25 } as FilterAuthorParams;
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
+        mockAuthors,
+        mockCount,
+      ]);
+
+      const result = await authorService.getAllAuthors(paginationFilter);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(paginationFilter);
+      expect(result.metadata.limit).toBe(50);
+      expect(result.metadata.offset).toBe(25);
+    });
+
+    it('should handle sorting parameters', async () => {
+      const sortingFilter = {
+        sortBy: 'firstName',
+        sortOrder: 'ASC',
+        limit: 10,
+        offset: 0,
+      } as FilterAuthorParams;
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
+        mockAuthors,
+        mockCount,
+      ]);
+
+      await authorService.getAllAuthors(sortingFilter);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(sortingFilter);
+    });
+
+    it('should handle multiple filters combined', async () => {
+      const combinedFilter = {
+        search: 'test',
+        firstName: 'John',
+        lastName: 'Doe',
+        sortBy: 'createdAt',
+        sortOrder: 'DESC',
+        limit: 20,
+        offset: 10,
+      } as FilterAuthorParams;
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
+        mockAuthors,
+        mockCount,
+      ]);
+
+      await authorService.getAllAuthors(combinedFilter);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(combinedFilter);
+    });
+
+    it('should throw database exception when repository throws error', async () => {
+      const mockError = new Error('Database connection failed');
+      (authorRepository.selectBy as jest.Mock).mockRejectedValue(mockError);
+
+      try {
+        await authorService.getAllAuthors(mockFilterParams);
+      } catch (error) {
+        expect(error).toBeInstanceOf(InternalServerErrorException);
       }
     });
   });
