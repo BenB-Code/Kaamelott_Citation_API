@@ -6,7 +6,7 @@ describe('AuthorDto', () => {
 
   beforeEach(() => {
     authorDto = new AuthorDto();
-    authorDto.firstName = 'Jhon';
+    authorDto.firstName = 'John';
     authorDto.lastName = 'Doe';
   });
 
