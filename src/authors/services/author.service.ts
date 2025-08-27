@@ -45,8 +45,15 @@ export class AuthorService {
     try {
       const author = await this.authorRepository.selectOneBy({ id: +id });
       Object.assign(author, authorDto);
-      console.log(author);
       return await this.authorRepository.update(author);
+    } catch (error) {
+      this.databaseExceptions.handleDatabaseError(error, this.context);
+    }
+  }
+
+  async getSpecificAuthor(id: string): Promise<Author> {
+    try {
+      return await this.authorRepository.selectOneBy({ id: +id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

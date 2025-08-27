@@ -16,7 +16,7 @@ describe('AuthorService', () => {
   let authorRepository: AuthorRepository;
 
   const mockAuthorDto: AuthorDto = {
-    firstName: 'Jhon',
+    firstName: 'John',
     lastName: 'Doe',
     picture: './path/to/my/profile-picture.png',
   };
@@ -153,6 +153,31 @@ describe('AuthorService', () => {
 
       try {
         await authorService.editAuthor('12345', mockAuthorDto);
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+        expect(error.status).toBe(404);
+        expect(error.response.message).toBe(
+          '(Author)[NO_DATA_FOUND] Cannot perform operation: Data not found.',
+        );
+      }
+    });
+  });
+
+  describe('getSpecificAuthorAuthor', () => {
+    it('should return the author', async () => {
+      await authorService.getSpecificAuthor('1');
+
+      expect(authorRepository.selectOneBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectOneBy).toHaveBeenCalledWith({ id: +'1' });
+    });
+
+    it('should throw: [NO_DATA_FOUND]', async () => {
+      (authorRepository.selectOneBy as jest.Mock).mockRejectedValue(
+        new EntityNotFoundError(Author, { id: 12345 }),
+      );
+
+      try {
+        await authorService.getSpecificAuthor('12345');
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.status).toBe(404);

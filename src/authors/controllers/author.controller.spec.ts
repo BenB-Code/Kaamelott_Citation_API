@@ -8,7 +8,7 @@ describe('AuthorController', () => {
   let authorController: AuthorController;
 
   const mockAuthorDto: AuthorDto = {
-    firstName: 'Jhon',
+    firstName: 'John',
     lastName: 'Doe',
     picture: 'path/to/picture',
   };
@@ -23,6 +23,7 @@ describe('AuthorController', () => {
             createAuthor: jest.fn(),
             deleteAuthor: jest.fn(),
             editAuthor: jest.fn(),
+            getSpecificAuthor: jest.fn(),
           },
         },
       ],
@@ -33,7 +34,7 @@ describe('AuthorController', () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -59,5 +60,12 @@ describe('AuthorController', () => {
 
     expect(authorService.editAuthor).toHaveBeenCalledTimes(1);
     expect(authorService.editAuthor).toHaveBeenCalledWith('1', mockAuthorDto);
+  });
+
+  it('should call getSpecificAuthor', async () => {
+    await authorController.getSpecificAuthor({ id: '1' });
+
+    expect(authorService.getSpecificAuthor).toHaveBeenCalledTimes(1);
+    expect(authorService.getSpecificAuthor).toHaveBeenLastCalledWith('1');
   });
 });

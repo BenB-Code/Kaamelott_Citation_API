@@ -7,6 +7,7 @@ import {
   HttpStatus,
   NotImplementedException,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -23,7 +24,6 @@ import { AuthorService } from '../services/author.service';
 @Controller('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
-
   @Get()
   getAllAuthors(
     @Query() params: FilterAuthorParams,
@@ -33,11 +33,11 @@ export class AuthorController {
   }
 
   @Get('/:id')
-  getSpecificAuthor(@Param() params: FindByIdParams): Promise<Author | null> {
-    throw new NotImplementedException();
+  getSpecificAuthor(@Param() params: FindByIdParams): Promise<Author> {
+    return this.authorService.getSpecificAuthor(params.id);
   }
 
-  @Post('/:id')
+  @Patch('/:id')
   editSpecificAuthor(
     @Param() params: FindByIdParams,
     @Body() authorDto: UpdateAuthorDto,

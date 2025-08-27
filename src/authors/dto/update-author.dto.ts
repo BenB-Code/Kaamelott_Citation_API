@@ -15,5 +15,6 @@ export class UpdateAuthorDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(250)
   picture?: string;
 }

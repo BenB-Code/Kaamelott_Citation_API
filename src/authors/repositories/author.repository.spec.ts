@@ -10,7 +10,7 @@ describe('AuthorRepository', () => {
   let repository: Partial<Repository<Author>>;
 
   const mockAuthorDto: AuthorDto = {
-    firstName: 'Jhon',
+    firstName: 'John',
     lastName: 'Doe',
     picture: 'path/to/picture',
   };
@@ -73,21 +73,21 @@ describe('AuthorRepository', () => {
   });
 
   it('should call selectOneBy', () => {
-    authorRepository.selectOneBy({ firstName: 'Jhon', id: 12 });
+    authorRepository.selectOneBy({ firstName: 'John', id: 12 });
 
     expect(repository.findOneByOrFail).toHaveBeenCalledTimes(1);
     expect(repository.findOneByOrFail).toHaveBeenCalledWith({
-      firstName: 'Jhon',
+      firstName: 'John',
       id: 12,
     });
   });
 
   it('should call selectBy', () => {
-    authorRepository.selectBy({ firstName: 'Jhon' });
+    authorRepository.selectBy({ firstName: 'John' });
 
     expect(repository.findBy).toHaveBeenCalledTimes(1);
     expect(repository.findBy).toHaveBeenCalledWith({
-      firstName: 'Jhon',
+      firstName: 'John',
     });
   });
 });
