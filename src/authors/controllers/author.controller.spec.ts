@@ -22,6 +22,7 @@ describe('AuthorController', () => {
           useValue: {
             createAuthor: jest.fn(),
             deleteAuthor: jest.fn(),
+            editAuthor: jest.fn(),
           },
         },
       ],
@@ -51,5 +52,12 @@ describe('AuthorController', () => {
 
     expect(authorService.deleteAuthor).toHaveBeenCalledTimes(1);
     expect(authorService.deleteAuthor).toHaveBeenCalledWith('1');
+  });
+
+  it('should call editAuthor', async () => {
+    await authorController.editSpecificAuthor({ id: '1' }, mockAuthorDto);
+
+    expect(authorService.editAuthor).toHaveBeenCalledTimes(1);
+    expect(authorService.editAuthor).toHaveBeenCalledWith('1', mockAuthorDto);
   });
 });

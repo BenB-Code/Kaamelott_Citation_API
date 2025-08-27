@@ -4,9 +4,11 @@ import {
   HttpException,
   HttpStatus,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { QueryFailedError } from 'typeorm';
+import { EntityNotFoundError, QueryFailedError } from 'typeorm';
+import { Author } from './../../authors/entities/author.entity';
 import { DatabaseExceptions } from './database-exceptions.service';
 
 describe('DatabaseExceptions', () => {
@@ -81,12 +83,12 @@ describe('DatabaseExceptions', () => {
           code,
         } as any);
 
-      it('should throw BadRequestException, NO_DATA_FOUND', () => {
+      it('should throw NotFoundException, NO_DATA_FOUND', () => {
         try {
           databaseExceptions.handleDatabaseError(getError('02000'));
         } catch (error) {
-          expect(error).toBeInstanceOf(BadRequestException);
-          expect(error.status).toBe(400);
+          expect(error).toBeInstanceOf(NotFoundException);
+          expect(error.status).toBe(404);
           expect(error.response.message).toBe(
             '[NO_DATA_FOUND] Cannot perform operation: Data not found.',
           );
@@ -178,6 +180,22 @@ describe('DatabaseExceptions', () => {
           expect(error.status).toBe(500);
           expect(error.response.message).toBe(
             '[OPERATION_FAILED] Cannot perform operation: Database operation failed',
+          );
+        }
+      });
+    });
+
+    describe('QueryFailedError', () => {
+      it('should throw NotFoundException, NO_DATA_FOUND', () => {
+        try {
+          databaseExceptions.handleDatabaseError(
+            new EntityNotFoundError(Author, { id: 12345 }),
+          );
+        } catch (error) {
+          expect(error).toBeInstanceOf(NotFoundException);
+          expect(error.status).toBe(404);
+          expect(error.response.message).toBe(
+            '[NO_DATA_FOUND] Cannot perform operation: Data not found.',
           );
         }
       });

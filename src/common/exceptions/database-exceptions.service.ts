@@ -4,8 +4,9 @@ import {
   HttpException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
-import { QueryFailedError } from 'typeorm';
+import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { ERROR_MESSAGES } from './errors-messages.const';
 
 @Injectable()
@@ -22,7 +23,7 @@ export class DatabaseExceptions {
     if (error instanceof QueryFailedError) {
       switch (error.driverError.code) {
         case '02000':
-          throw new BadRequestException(
+          throw new NotFoundException(
             this.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, context),
           );
         case '22001':
@@ -61,6 +62,12 @@ export class DatabaseExceptions {
             this.formatMessage(ERROR_MESSAGES.OPERATION_FAILED, context),
           );
       }
+    }
+
+    if (error instanceof EntityNotFoundError) {
+      throw new NotFoundException(
+        this.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, context),
+      );
     }
 
     throw new InternalServerErrorException(

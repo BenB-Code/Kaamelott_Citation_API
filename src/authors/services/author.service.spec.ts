@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { QueryFailedError } from 'typeorm';
+import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { AuthorDto } from '../dto/author.dto';
 import { Author } from '../entities/author.entity';
 import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
@@ -36,6 +36,8 @@ describe('AuthorService', () => {
           useValue: {
             create: jest.fn(),
             delete: jest.fn(),
+            update: jest.fn(),
+            selectOneBy: jest.fn(),
           },
         },
         DatabaseExceptions,
@@ -56,11 +58,8 @@ describe('AuthorService', () => {
 
   describe('createAuthor', () => {
     it('should create the author', async () => {
-      (authorRepository.create as jest.Mock).mockResolvedValue(mockAuthor);
+      await authorService.createAuthor(mockAuthorDto);
 
-      const result = await authorService.createAuthor(mockAuthorDto);
-
-      expect(result).toEqual(mockAuthor);
       expect(authorRepository.create).toHaveBeenCalledTimes(1);
       expect(authorRepository.create).toHaveBeenCalledWith(mockAuthorDto);
     });
@@ -96,6 +95,22 @@ describe('AuthorService', () => {
         raw: [],
         affected: 1,
       });
+      expect(authorRepository.delete).toHaveBeenCalledTimes(1);
+      expect(authorRepository.delete).toHaveBeenCalledWith('12345');
+    });
+
+    it('should throw exception as is', async () => {
+      (authorRepository.delete as jest.Mock).mockRejectedValue(
+        new InternalServerErrorException(),
+      );
+
+      try {
+        await authorService.deleteAuthor('12345');
+      } catch (error) {
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+        expect(error.status).toBe(500);
+        expect(error.response.message).toBe('Internal Server Error');
+      }
     });
 
     it('should throw: [NO_DATA_FOUND]', async () => {
@@ -114,18 +129,36 @@ describe('AuthorService', () => {
         );
       }
     });
+  });
 
-    it('should throw exception as is', async () => {
-      (authorRepository.delete as jest.Mock).mockRejectedValue(
-        new InternalServerErrorException(),
+  describe('editAuthor', () => {
+    it('should return updated author', async () => {
+      (authorRepository.selectOneBy as jest.Mock).mockResolvedValue(mockAuthor);
+
+      await authorService.editAuthor(`${mockAuthor.id}`, {
+        firstName: 'Tested',
+      });
+
+      expect(authorRepository.update).toHaveBeenCalledTimes(1);
+      expect(authorRepository.update).toHaveBeenCalledWith({
+        ...mockAuthor,
+        firstName: 'Tested',
+      });
+    });
+
+    it('should throw: [NO_DATA_FOUND]', async () => {
+      (authorRepository.selectOneBy as jest.Mock).mockRejectedValue(
+        new EntityNotFoundError(Author, { id: 12345 }),
       );
 
       try {
-        await authorService.deleteAuthor('12345');
+        await authorService.editAuthor('12345', mockAuthorDto);
       } catch (error) {
-        expect(error).toBeInstanceOf(InternalServerErrorException);
-        expect(error.status).toBe(500);
-        expect(error.response.message).toBe('Internal Server Error');
+        expect(error).toBeInstanceOf(NotFoundException);
+        expect(error.status).toBe(404);
+        expect(error.response.message).toBe(
+          '(Author)[NO_DATA_FOUND] Cannot perform operation: Data not found.',
+        );
       }
     });
   });

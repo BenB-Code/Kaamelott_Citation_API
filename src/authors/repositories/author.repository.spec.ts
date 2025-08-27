@@ -30,6 +30,8 @@ describe('AuthorRepository', () => {
           useValue: {
             save: jest.fn(),
             delete: jest.fn(),
+            findOneByOrFail: jest.fn(),
+            findBy: jest.fn(),
           },
         },
       ],
@@ -61,5 +63,31 @@ describe('AuthorRepository', () => {
 
     expect(repository.delete).toHaveBeenCalledTimes(1);
     expect(repository.delete).toHaveBeenCalledWith(`${mockAuthor.id}`);
+  });
+
+  it('should call update', () => {
+    authorRepository.update(mockAuthor);
+
+    expect(repository.save).toHaveBeenCalledTimes(1);
+    expect(repository.save).toHaveBeenCalledWith(mockAuthor);
+  });
+
+  it('should call selectOneBy', () => {
+    authorRepository.selectOneBy({ firstName: 'Jhon', id: 12 });
+
+    expect(repository.findOneByOrFail).toHaveBeenCalledTimes(1);
+    expect(repository.findOneByOrFail).toHaveBeenCalledWith({
+      firstName: 'Jhon',
+      id: 12,
+    });
+  });
+
+  it('should call selectBy', () => {
+    authorRepository.selectBy({ firstName: 'Jhon' });
+
+    expect(repository.findBy).toHaveBeenCalledTimes(1);
+    expect(repository.findBy).toHaveBeenCalledWith({
+      firstName: 'Jhon',
+    });
   });
 });

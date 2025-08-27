@@ -15,11 +15,19 @@ export class AuthorRepository {
     return await this.authorRepository.save(author);
   }
 
-  async update() {}
+  async update(author: Author): Promise<Author> {
+    return await this.authorRepository.save(author);
+  }
 
   async delete(authorId: string): Promise<DeleteResult> {
     return await this.authorRepository.delete(authorId);
   }
 
-  async select() {}
+  async selectOneBy(filter: object): Promise<Author> {
+    return await this.authorRepository.findOneByOrFail(filter);
+  }
+
+  async selectBy(filters: object): Promise<Author[]> {
+    return await this.authorRepository.findBy(filters);
+  }
 }

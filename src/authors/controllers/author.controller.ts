@@ -7,7 +7,6 @@ import {
   HttpStatus,
   NotImplementedException,
   Param,
-  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -37,9 +36,12 @@ export class AuthorController {
     throw new NotImplementedException();
   }
 
-  @Patch('/:id')
-  editSpecificAuthor(@Param() params: FindByIdParams) {
-    throw new NotImplementedException();
+  @Post('/:id')
+  editSpecificAuthor(
+    @Param() params: FindByIdParams,
+    @Body() authorDto: Partial<AuthorDto>,
+  ) {
+    return this.authorService.editAuthor(params.id, authorDto);
   }
 
   @Delete('/:id')

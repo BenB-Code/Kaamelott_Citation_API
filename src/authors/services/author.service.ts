@@ -39,4 +39,15 @@ export class AuthorService {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
+
+  async editAuthor(id: string, authorDto: Partial<AuthorDto>): Promise<Author> {
+    try {
+      const author = await this.authorRepository.selectOneBy({ id: +id });
+      Object.assign(author, authorDto);
+      console.log(author);
+      return await this.authorRepository.update(author);
+    } catch (error) {
+      this.databaseExceptions.handleDatabaseError(error, this.context);
+    }
+  }
 }
