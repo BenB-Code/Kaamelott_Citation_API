@@ -58,10 +58,7 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Données Docker
-docker/postgres/
-docker/compose/
-docker/environment/
-docker/logs/
+docker
 
 # Backups
 backups/

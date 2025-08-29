@@ -3,10 +3,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { resolve } from 'path';
 import { Actor } from './actors/entities/actor.entity';
-import { Character } from './actors/entities/character.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthorModule } from './authors/author.module';
 import { Author } from './authors/entities/author.entity';
+
+import { Character } from './actors/entities/character.entity';
 import { Citation } from './citations/entities/citation.entity';
 import { LogLevelEnum } from './common/logger/models/log-level.enum';
 import { Logger } from './common/logger/services/logger.service';
@@ -52,6 +54,7 @@ import { Show } from './shows/entities/show.entity';
       }),
     }),
     HealthModule,
+    AuthorModule,
   ],
   controllers: [AppController],
   providers: [
