@@ -8,7 +8,8 @@ import { AppService } from './app.service';
 import { AuthorModule } from './authors/author.module';
 import { Author } from './authors/entities/author.entity';
 
-import { Character } from './actors/entities/character.entity';
+import { CharacterModule } from './characters/character.module';
+import { Character } from './characters/entities/character.entity';
 import { Citation } from './citations/entities/citation.entity';
 import { LogLevelEnum } from './common/logger/models/log-level.enum';
 import { Logger } from './common/logger/services/logger.service';
@@ -55,6 +56,7 @@ import { Show } from './shows/entities/show.entity';
     }),
     HealthModule,
     AuthorModule,
+    CharacterModule,
   ],
   controllers: [AppController],
   providers: [
