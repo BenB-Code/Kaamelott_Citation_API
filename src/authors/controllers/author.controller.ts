@@ -6,13 +6,13 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { FindByIdParams } from '../../common/params/find-by-id.params';
 import { AuthorDto } from '../dto/author.dto';
 import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { Author } from '../entities/author.entity';
@@ -30,22 +30,24 @@ export class AuthorController {
   }
 
   @Get('/:id')
-  getSpecificAuthor(@Param() params: FindByIdParams): Promise<Author> {
-    return this.authorService.getSpecificAuthor(params.id);
+  getSpecificAuthor(@Param('id', ParseIntPipe) id: number): Promise<Author> {
+    return this.authorService.getSpecificAuthor(id);
   }
 
   @Patch('/:id')
   editSpecificAuthor(
-    @Param() params: FindByIdParams,
+    @Param('id', ParseIntPipe) id: number,
     @Body() authorDto: UpdateAuthorDto,
-  ) {
-    return this.authorService.editAuthor(params.id, authorDto);
+  ): Promise<Author> {
+    return this.authorService.editAuthor(id, authorDto);
   }
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificAuthor(@Param() params: FindByIdParams): Promise<DeleteResult> {
-    return this.authorService.deleteAuthor(params.id);
+  deleteSpecificAuthor(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<DeleteResult> {
+    return this.authorService.deleteAuthor(id);
   }
 
   @Post()

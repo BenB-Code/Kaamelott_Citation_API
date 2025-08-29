@@ -91,14 +91,14 @@ describe('AuthorService', () => {
         affected: 1,
       });
 
-      const result = await authorService.deleteAuthor('12345');
+      const result = await authorService.deleteAuthor(12345);
 
       expect(result).toEqual({
         raw: [],
         affected: 1,
       });
       expect(authorRepository.delete).toHaveBeenCalledTimes(1);
-      expect(authorRepository.delete).toHaveBeenCalledWith('12345');
+      expect(authorRepository.delete).toHaveBeenCalledWith({ id: 12345 });
     });
 
     it('should throw exception as is', async () => {
@@ -107,7 +107,7 @@ describe('AuthorService', () => {
       );
 
       try {
-        await authorService.deleteAuthor('12345');
+        await authorService.deleteAuthor(12345);
       } catch (error) {
         expect(error).toBeInstanceOf(InternalServerErrorException);
         expect(error.status).toBe(500);
@@ -122,7 +122,7 @@ describe('AuthorService', () => {
       });
 
       try {
-        await authorService.deleteAuthor('12345');
+        await authorService.deleteAuthor(12345);
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.status).toBe(404);
@@ -137,7 +137,7 @@ describe('AuthorService', () => {
     it('should return updated author', async () => {
       (authorRepository.selectOneBy as jest.Mock).mockResolvedValue(mockAuthor);
 
-      await authorService.editAuthor(`${mockAuthor.id}`, {
+      await authorService.editAuthor(mockAuthor.id, {
         firstName: 'Tested',
       });
 
@@ -154,7 +154,7 @@ describe('AuthorService', () => {
       );
 
       try {
-        await authorService.editAuthor('12345', mockAuthorDto);
+        await authorService.editAuthor(12345, mockAuthorDto);
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.status).toBe(404);
@@ -167,10 +167,10 @@ describe('AuthorService', () => {
 
   describe('getSpecificAuthorAuthor', () => {
     it('should return the author', async () => {
-      await authorService.getSpecificAuthor('1');
+      await authorService.getSpecificAuthor(1);
 
       expect(authorRepository.selectOneBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectOneBy).toHaveBeenCalledWith({ id: +'1' });
+      expect(authorRepository.selectOneBy).toHaveBeenCalledWith({ id: 1 });
     });
 
     it('should throw: [NO_DATA_FOUND]', async () => {
@@ -179,7 +179,7 @@ describe('AuthorService', () => {
       );
 
       try {
-        await authorService.getSpecificAuthor('12345');
+        await authorService.getSpecificAuthor(12345);
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.status).toBe(404);
@@ -191,140 +191,11 @@ describe('AuthorService', () => {
   });
 
   describe('getAllAuthors', () => {
-    const mockFilterParams: FilterAuthorParams = {
-      limit: 100,
-      offset: 0,
-      search: 'ast',
-      sortBy: 'lastName',
-      sortOrder: 'DESC',
-    } as FilterAuthorParams;
-
     const mockAuthors = [mockAuthor];
     const mockCount = 1;
 
-    it('should return paginated authors', async () => {
-      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockAuthors,
-        mockCount,
-      ]);
-
-      const result = await authorService.getAllAuthors(mockFilterParams);
-
-      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(mockFilterParams);
-      expect(result).toEqual({
-        data: mockAuthors,
-        metadata: {
-          limit: mockFilterParams.limit,
-          offset: mockFilterParams.offset,
-          total: mockCount,
-        },
-      });
-    });
-
-    it('should return empty result when no authors found', async () => {
-      (authorRepository.selectBy as jest.Mock).mockResolvedValue([[], 0]);
-
-      const result = await authorService.getAllAuthors(mockFilterParams);
-
-      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(mockFilterParams);
-      expect(result).toEqual({
-        data: [],
-        metadata: {
-          limit: mockFilterParams.limit,
-          offset: mockFilterParams.offset,
-          total: 0,
-        },
-      });
-    });
-
-    it('should handle search filter', async () => {
-      const searchFilter = {
-        search: 'John',
-        limit: 10,
-        offset: 0,
-      } as FilterAuthorParams;
-      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockAuthors,
-        mockCount,
-      ]);
-
-      await authorService.getAllAuthors(searchFilter);
-
-      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(searchFilter);
-    });
-
-    it('should handle firstName filter', async () => {
-      const firstNameFilter = {
-        firstName: 'John',
-        limit: 10,
-        offset: 0,
-      } as FilterAuthorParams;
-      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockAuthors,
-        mockCount,
-      ]);
-
-      await authorService.getAllAuthors(firstNameFilter);
-
-      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(firstNameFilter);
-    });
-
-    it('should handle lastName filter', async () => {
-      const lastNameFilter = {
-        lastName: 'Doe',
-        limit: 10,
-        offset: 0,
-      } as FilterAuthorParams;
-      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockAuthors,
-        mockCount,
-      ]);
-
-      await authorService.getAllAuthors(lastNameFilter);
-
-      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(lastNameFilter);
-    });
-
-    it('should handle pagination parameters', async () => {
-      const paginationFilter = { limit: 50, offset: 25 } as FilterAuthorParams;
-      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockAuthors,
-        mockCount,
-      ]);
-
-      const result = await authorService.getAllAuthors(paginationFilter);
-
-      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(paginationFilter);
-      expect(result.metadata.limit).toBe(50);
-      expect(result.metadata.offset).toBe(25);
-    });
-
-    it('should handle sorting parameters', async () => {
-      const sortingFilter = {
-        sortBy: 'firstName',
-        sortOrder: 'ASC',
-        limit: 10,
-        offset: 0,
-      } as FilterAuthorParams;
-      (authorRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockAuthors,
-        mockCount,
-      ]);
-
-      await authorService.getAllAuthors(sortingFilter);
-
-      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(sortingFilter);
-    });
-
-    it('should handle multiple filters combined', async () => {
-      const combinedFilter = {
+    it('should return paginated authors with complex filters', async () => {
+      const complexFilters = {
         search: 'test',
         firstName: 'John',
         lastName: 'Doe',
@@ -333,23 +204,51 @@ describe('AuthorService', () => {
         limit: 20,
         offset: 10,
       } as FilterAuthorParams;
+
       (authorRepository.selectBy as jest.Mock).mockResolvedValue([
         mockAuthors,
         mockCount,
       ]);
 
-      await authorService.getAllAuthors(combinedFilter);
+      const result = await authorService.getAllAuthors(complexFilters);
 
       expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
-      expect(authorRepository.selectBy).toHaveBeenCalledWith(combinedFilter);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(complexFilters);
+      expect(result).toEqual({
+        data: mockAuthors,
+        metadata: {
+          limit: complexFilters.limit,
+          offset: complexFilters.offset,
+          total: mockCount,
+        },
+      });
+    });
+
+    it('should return empty result when no authors found', async () => {
+      const emptyFilters = { limit: 10, offset: 0 } as FilterAuthorParams;
+      (authorRepository.selectBy as jest.Mock).mockResolvedValue([[], 0]);
+
+      const result = await authorService.getAllAuthors(emptyFilters);
+
+      expect(authorRepository.selectBy).toHaveBeenCalledTimes(1);
+      expect(authorRepository.selectBy).toHaveBeenCalledWith(emptyFilters);
+      expect(result).toEqual({
+        data: [],
+        metadata: {
+          limit: emptyFilters.limit,
+          offset: emptyFilters.offset,
+          total: 0,
+        },
+      });
     });
 
     it('should throw database exception when repository throws error', async () => {
       const mockError = new Error('Database connection failed');
+      const basicFilters = { limit: 10, offset: 0 } as FilterAuthorParams;
       (authorRepository.selectBy as jest.Mock).mockRejectedValue(mockError);
 
       try {
-        await authorService.getAllAuthors(mockFilterParams);
+        await authorService.getAllAuthors(basicFilters);
       } catch (error) {
         expect(error).toBeInstanceOf(InternalServerErrorException);
       }

@@ -23,14 +23,6 @@ describe('AuthorController', () => {
     updatedAt: new Date('2025-08-26'),
   } as Author;
 
-  const mockFilterParams: FilterAuthorParams = {
-    limit: 100,
-    offset: 0,
-    search: 'ast',
-    sortBy: 'lastName',
-    sortOrder: 'DESC',
-  } as FilterAuthorParams;
-
   const mockPaginationResponse: PaginationResponse<Author> = {
     data: [mockAuthor],
     metadata: {
@@ -77,120 +69,64 @@ describe('AuthorController', () => {
   });
 
   it('should call delete', async () => {
-    await authorController.deleteSpecificAuthor({ id: '1' });
+    await authorController.deleteSpecificAuthor(1);
 
     expect(authorService.deleteAuthor).toHaveBeenCalledTimes(1);
-    expect(authorService.deleteAuthor).toHaveBeenCalledWith('1');
+    expect(authorService.deleteAuthor).toHaveBeenCalledWith(1);
   });
 
   it('should call editAuthor', async () => {
-    await authorController.editSpecificAuthor({ id: '1' }, mockAuthorDto);
+    await authorController.editSpecificAuthor(1, mockAuthorDto);
 
     expect(authorService.editAuthor).toHaveBeenCalledTimes(1);
-    expect(authorService.editAuthor).toHaveBeenCalledWith('1', mockAuthorDto);
+    expect(authorService.editAuthor).toHaveBeenCalledWith(1, mockAuthorDto);
   });
 
   it('should call getSpecificAuthor', async () => {
-    await authorController.getSpecificAuthor({ id: '1' });
+    await authorController.getSpecificAuthor(1);
 
     expect(authorService.getSpecificAuthor).toHaveBeenCalledTimes(1);
-    expect(authorService.getSpecificAuthor).toHaveBeenLastCalledWith('1');
+    expect(authorService.getSpecificAuthor).toHaveBeenLastCalledWith(1);
   });
 
   describe('getAllAuthors', () => {
-    it('should call getAllAuthors and return paginated response', async () => {
+    it('should call getAllAuthors and return paginated response with complex filters', async () => {
+      const complexFilters = {
+        search: 'test',
+        firstName: 'John',
+        lastName: 'Doe',
+        limit: 10,
+        offset: 20,
+        sortBy: 'firstName',
+        sortOrder: 'ASC',
+      } as FilterAuthorParams;
+
       (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
         mockPaginationResponse,
       );
 
-      const result = await authorController.getAllAuthors(mockFilterParams);
+      const result = await authorController.getAllAuthors(complexFilters);
 
       expect(authorService.getAllAuthors).toHaveBeenCalledTimes(1);
-      expect(authorService.getAllAuthors).toHaveBeenCalledWith(
-        mockFilterParams,
-      );
+      expect(authorService.getAllAuthors).toHaveBeenCalledWith(complexFilters);
       expect(result).toEqual(mockPaginationResponse);
     });
 
     it('should call getAllAuthors with empty filters', async () => {
       const emptyFilters = {} as FilterAuthorParams;
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue({
+      const emptyResponse = {
         data: [],
         metadata: { limit: 100, offset: 0, total: 0 },
-      });
+      };
+      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
+        emptyResponse,
+      );
 
-      await authorController.getAllAuthors(emptyFilters);
+      const result = await authorController.getAllAuthors(emptyFilters);
 
       expect(authorService.getAllAuthors).toHaveBeenCalledTimes(1);
       expect(authorService.getAllAuthors).toHaveBeenCalledWith(emptyFilters);
-    });
-
-    it('should call getAllAuthors with search filter', async () => {
-      const searchFilters = { search: 'John' } as FilterAuthorParams;
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
-
-      await authorController.getAllAuthors(searchFilters);
-
-      expect(authorService.getAllAuthors).toHaveBeenCalledTimes(1);
-      expect(authorService.getAllAuthors).toHaveBeenCalledWith(searchFilters);
-    });
-
-    it('should call getAllAuthors with firstName filter', async () => {
-      const firstNameFilters = { firstName: 'John' } as FilterAuthorParams;
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
-
-      await authorController.getAllAuthors(firstNameFilters);
-
-      expect(authorService.getAllAuthors).toHaveBeenCalledTimes(1);
-      expect(authorService.getAllAuthors).toHaveBeenCalledWith(
-        firstNameFilters,
-      );
-    });
-
-    it('should call getAllAuthors with lastName filter', async () => {
-      const lastNameFilters = { lastName: 'Doe' } as FilterAuthorParams;
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
-
-      await authorController.getAllAuthors(lastNameFilters);
-
-      expect(authorService.getAllAuthors).toHaveBeenCalledTimes(1);
-      expect(authorService.getAllAuthors).toHaveBeenCalledWith(lastNameFilters);
-    });
-
-    it('should call getAllAuthors with pagination parameters', async () => {
-      const paginationFilters = { limit: 10, offset: 20 } as FilterAuthorParams;
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue({
-        data: [],
-        metadata: { limit: 10, offset: 20, total: 0 },
-      });
-
-      await authorController.getAllAuthors(paginationFilters);
-
-      expect(authorService.getAllAuthors).toHaveBeenCalledTimes(1);
-      expect(authorService.getAllAuthors).toHaveBeenCalledWith(
-        paginationFilters,
-      );
-    });
-
-    it('should call getAllAuthors with sorting parameters', async () => {
-      const sortingFilters = {
-        sortBy: 'firstName',
-        sortOrder: 'ASC',
-      } as FilterAuthorParams;
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
-
-      await authorController.getAllAuthors(sortingFilters);
-
-      expect(authorService.getAllAuthors).toHaveBeenCalledTimes(1);
-      expect(authorService.getAllAuthors).toHaveBeenCalledWith(sortingFilters);
+      expect(result).toEqual(emptyResponse);
     });
   });
 });

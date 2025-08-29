@@ -25,9 +25,11 @@ export class AuthorService {
     }
   }
 
-  async deleteAuthor(authorId: string): Promise<DeleteResult> {
+  async deleteAuthor(id: number): Promise<DeleteResult> {
     try {
-      const deleteResult = await this.authorRepository.delete(authorId);
+      const deleteResult = await this.authorRepository.delete({
+        id,
+      });
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
@@ -44,9 +46,9 @@ export class AuthorService {
     }
   }
 
-  async editAuthor(id: string, authorDto: UpdateAuthorDto): Promise<Author> {
+  async editAuthor(id: number, authorDto: UpdateAuthorDto): Promise<Author> {
     try {
-      const author = await this.authorRepository.selectOneBy({ id: +id });
+      const author = await this.authorRepository.selectOneBy({ id });
       Object.assign(author, authorDto);
       return await this.authorRepository.update(author);
     } catch (error) {
@@ -54,9 +56,9 @@ export class AuthorService {
     }
   }
 
-  async getSpecificAuthor(id: string): Promise<Author> {
+  async getSpecificAuthor(id: number): Promise<Author> {
     try {
-      return await this.authorRepository.selectOneBy({ id: +id });
+      return await this.authorRepository.selectOneBy({ id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

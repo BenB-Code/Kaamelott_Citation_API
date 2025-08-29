@@ -28,6 +28,9 @@ describe('AuthorRepository', () => {
     skip: jest.fn().mockReturnThis(),
     take: jest.fn().mockReturnThis(),
     getManyAndCount: jest.fn(),
+    leftJoin: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    getOneOrFail: jest.fn(),
   } as unknown as SelectQueryBuilder<Author>;
 
   beforeEach(async () => {
@@ -61,46 +64,65 @@ describe('AuthorRepository', () => {
     expect(authorRepository).toBeDefined();
   });
 
-  it('should call create', () => {
-    authorRepository.create(mockAuthorDto);
+  it('should call create', async () => {
+    await authorRepository.create(mockAuthorDto);
 
     expect(repository.save).toHaveBeenCalledTimes(1);
     expect(repository.save).toHaveBeenCalledWith(mockAuthorDto);
   });
 
-  it('should call delete', () => {
-    authorRepository.delete(`${mockAuthor.id}`);
+  it('should call delete', async () => {
+    await authorRepository.delete({ id: mockAuthor.id });
 
     expect(repository.delete).toHaveBeenCalledTimes(1);
-    expect(repository.delete).toHaveBeenCalledWith(`${mockAuthor.id}`);
+    expect(repository.delete).toHaveBeenCalledWith({ id: mockAuthor.id });
   });
 
-  it('should call update', () => {
-    authorRepository.update(mockAuthor);
+  it('should call update', async () => {
+    await authorRepository.update(mockAuthor);
 
     expect(repository.save).toHaveBeenCalledTimes(1);
     expect(repository.save).toHaveBeenCalledWith(mockAuthor);
   });
 
-  it('should call selectOneBy', () => {
-    authorRepository.selectOneBy({ firstName: 'John', id: 12 });
+  it('should call selectOneBy', async () => {
+    mockQueryBuilder.getOneOrFail = jest.fn().mockResolvedValue(mockAuthor);
 
-    expect(repository.findOneByOrFail).toHaveBeenCalledTimes(1);
-    expect(repository.findOneByOrFail).toHaveBeenCalledWith({
+    const result = await authorRepository.selectOneBy({
       firstName: 'John',
+      lastName: 'Doe',
       id: 12,
     });
+
+    expect(repository.createQueryBuilder).toHaveBeenCalledWith('author');
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
+      'author.citations',
+      'citation',
+    );
+    expect(mockQueryBuilder.select).toHaveBeenCalledWith([
+      'author.id',
+      'author.firstName',
+      'author.lastName',
+      'author.picture',
+      'author.createdAt',
+      'author.updatedAt',
+      'citation.id',
+    ]);
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
+      `LOWER(author."firstName") = LOWER(:firstName)`,
+      { firstName: 'John' },
+    );
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
+      `LOWER(author."lastName") = LOWER(:lastName)`,
+      { lastName: 'Doe' },
+    );
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`author.id = :id`, {
+      id: 12,
+    });
+    expect(result).toEqual(mockAuthor);
   });
 
   describe('selectBy', () => {
-    const mockFilterParams: FilterAuthorParams = {
-      limit: 100,
-      offset: 0,
-      search: 'ast',
-      sortBy: 'lastName',
-      sortOrder: 'DESC',
-    } as FilterAuthorParams;
-
     const mockAuthors = [mockAuthor];
     const mockCount = 1;
 
@@ -111,81 +133,8 @@ describe('AuthorRepository', () => {
         .mockResolvedValue([mockAuthors, mockCount]);
     });
 
-    it('should call selectBy with basic filter', async () => {
-      const result = await authorRepository.selectBy(mockFilterParams);
-
-      expect(repository.createQueryBuilder).toHaveBeenCalledTimes(1);
-      expect(repository.createQueryBuilder).toHaveBeenCalledWith('author');
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `(LOWER(author."firstName") ILIKE LOWER(:search) OR LOWER(author."lastName") ILIKE LOWER(:search))`,
-        { search: `%${mockFilterParams.search}%` },
-      );
-      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(
-        `author.${mockFilterParams.sortBy}`,
-        mockFilterParams.sortOrder,
-      );
-      expect(mockQueryBuilder.skip).toHaveBeenCalledWith(
-        mockFilterParams.offset,
-      );
-      expect(mockQueryBuilder.take).toHaveBeenCalledWith(
-        mockFilterParams.limit,
-      );
-      expect(result).toEqual([mockAuthors, mockCount]);
-    });
-
-    it('should handle firstName filter', async () => {
-      const firstNameFilter = {
-        firstName: 'John',
-        limit: 10,
-        offset: 0,
-        sortBy: 'createdAt',
-        sortOrder: 'ASC',
-      } as FilterAuthorParams;
-
-      await authorRepository.selectBy(firstNameFilter);
-
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(author."firstName") = LOWER(:firstName)`,
-        { firstName: firstNameFilter.firstName },
-      );
-    });
-
-    it('should handle lastName filter', async () => {
-      const lastNameFilter = {
-        lastName: 'Doe',
-        limit: 10,
-        offset: 0,
-        sortBy: 'createdAt',
-        sortOrder: 'ASC',
-      } as FilterAuthorParams;
-
-      await authorRepository.selectBy(lastNameFilter);
-
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(author."lastName") = LOWER(:lastName)`,
-        { lastName: lastNameFilter.lastName },
-      );
-    });
-
-    it('should handle search filter', async () => {
-      const searchFilter = {
-        search: 'test',
-        limit: 10,
-        offset: 0,
-        sortBy: 'createdAt',
-        sortOrder: 'ASC',
-      } as FilterAuthorParams;
-
-      await authorRepository.selectBy(searchFilter);
-
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `(LOWER(author."firstName") ILIKE LOWER(:search) OR LOWER(author."lastName") ILIKE LOWER(:search))`,
-        { search: `%${searchFilter.search}%` },
-      );
-    });
-
-    it('should handle multiple filters', async () => {
-      const multipleFilters = {
+    it('should handle complex filters and query building', async () => {
+      const complexFilters = {
         firstName: 'John',
         lastName: 'Doe',
         search: 'test',
@@ -195,31 +144,47 @@ describe('AuthorRepository', () => {
         sortOrder: 'DESC',
       } as FilterAuthorParams;
 
-      await authorRepository.selectBy(multipleFilters);
+      const result = await authorRepository.selectBy(complexFilters);
+
+      expect(repository.createQueryBuilder).toHaveBeenCalledTimes(1);
+      expect(repository.createQueryBuilder).toHaveBeenCalledWith('author');
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
+        'author.citations',
+        'citation',
+      );
+      expect(mockQueryBuilder.select).toHaveBeenCalledWith([
+        'author.id',
+        'author.firstName',
+        'author.lastName',
+        'author.picture',
+        'author.createdAt',
+        'author.updatedAt',
+        'citation.id',
+      ]);
 
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `LOWER(author."firstName") = LOWER(:firstName)`,
-        { firstName: multipleFilters.firstName },
+        { firstName: complexFilters.firstName },
       );
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `LOWER(author."lastName") = LOWER(:lastName)`,
-        { lastName: multipleFilters.lastName },
+        { lastName: complexFilters.lastName },
       );
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `(LOWER(author."firstName") ILIKE LOWER(:search) OR LOWER(author."lastName") ILIKE LOWER(:search))`,
-        { search: `%${multipleFilters.search}%` },
+        { search: `%${complexFilters.search}%` },
       );
+
       expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(
-        `author.${multipleFilters.sortBy}`,
-        multipleFilters.sortOrder,
+        `author.${complexFilters.sortBy}`,
+        complexFilters.sortOrder,
       );
-      expect(mockQueryBuilder.skip).toHaveBeenCalledWith(
-        multipleFilters.offset,
-      );
-      expect(mockQueryBuilder.take).toHaveBeenCalledWith(multipleFilters.limit);
+      expect(mockQueryBuilder.skip).toHaveBeenCalledWith(complexFilters.offset);
+      expect(mockQueryBuilder.take).toHaveBeenCalledWith(complexFilters.limit);
+      expect(result).toEqual([mockAuthors, mockCount]);
     });
 
-    it('should handle empty filters with defaults', async () => {
+    it('should handle empty filters with pagination only', async () => {
       const emptyFilters = {
         limit: 100,
         offset: 0,
@@ -238,40 +203,16 @@ describe('AuthorRepository', () => {
       expect(mockQueryBuilder.take).toHaveBeenCalledWith(emptyFilters.limit);
     });
 
-    it('should handle pagination parameters', async () => {
-      const paginationFilter = {
-        limit: 50,
-        offset: 25,
-        sortBy: 'updatedAt',
-        sortOrder: 'ASC',
-      } as FilterAuthorParams;
-
-      await authorRepository.selectBy(paginationFilter);
-
-      expect(mockQueryBuilder.skip).toHaveBeenCalledWith(25);
-      expect(mockQueryBuilder.take).toHaveBeenCalledWith(50);
-    });
-
-    it('should handle sorting parameters', async () => {
-      const sortingFilter = {
-        sortBy: 'firstName',
-        sortOrder: 'ASC',
+    it('should return empty result when no authors found', async () => {
+      const basicFilters = {
         limit: 10,
         offset: 0,
+        sortBy: 'id',
+        sortOrder: 'ASC',
       } as FilterAuthorParams;
-
-      await authorRepository.selectBy(sortingFilter);
-
-      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(
-        'author.firstName',
-        'ASC',
-      );
-    });
-
-    it('should return empty result when no authors found', async () => {
       mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([[], 0]);
 
-      const result = await authorRepository.selectBy(mockFilterParams);
+      const result = await authorRepository.selectBy(basicFilters);
 
       expect(result).toEqual([[], 0]);
     });
