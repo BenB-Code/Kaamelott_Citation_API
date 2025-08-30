@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { AuthorModule } from './authors/author.module';
 import { Author } from './authors/entities/author.entity';
 
+import { ActorModule } from './actors/actor.module';
 import { CharacterModule } from './characters/character.module';
 import { Character } from './characters/entities/character.entity';
 import { Citation } from './citations/entities/citation.entity';
@@ -57,6 +58,7 @@ import { Show } from './shows/entities/show.entity';
     HealthModule,
     AuthorModule,
     CharacterModule,
+    ActorModule,
   ],
   controllers: [AppController],
   providers: [
