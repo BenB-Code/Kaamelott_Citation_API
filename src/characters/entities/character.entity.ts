@@ -1,4 +1,3 @@
-import { Citation } from '../../citations/entities/citation.entity';
 import {
   Column,
   CreateDateColumn,
@@ -11,7 +10,8 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Actor } from './actor.entity';
+import { Actor } from '../../actors/entities/actor.entity';
+import { Citation } from '../../citations/entities/citation.entity';
 
 @Entity()
 @Unique(['name'])
