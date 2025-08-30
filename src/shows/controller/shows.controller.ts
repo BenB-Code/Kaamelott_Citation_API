@@ -1,0 +1,57 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
+import { ShowDto } from '../dto/show.dto';
+import { updateShowDto } from '../dto/update-show.dto';
+import { Show } from '../entities/show.entity';
+import { FilterShowParams } from '../params/filter-show.params';
+import { ShowsService } from '../services/shows.service';
+import { PaginationResponse } from './../../common/pagination/pagination.response';
+
+@Controller('show')
+export class ShowsController {
+  constructor(private readonly showService: ShowsService) {}
+  @Get()
+  getAllShows(
+    @Query() filters: FilterShowParams,
+  ): Promise<PaginationResponse<Show>> {
+    return this.showService.getAllShows(filters);
+  }
+
+  @Get('/:id')
+  getSpecificShow(@Param('id', ParseIntPipe) id: number): Promise<Show> {
+    return this.showService.getSpecificShow(id);
+  }
+
+  @Patch('/:id')
+  editSpecificShow(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() authorDto: updateShowDto,
+  ): Promise<Show> {
+    return this.showService.editShow(id, authorDto);
+  }
+
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deleteSpecificShow(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<DeleteResult> {
+    return this.showService.deleteShow(id);
+  }
+
+  @Post()
+  createShow(@Body() authorDto: ShowDto): Promise<Show> {
+    return this.showService.createShow(authorDto);
+  }
+}
