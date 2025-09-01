@@ -116,14 +116,14 @@ describe('DatabaseExceptions', () => {
           );
         }
       });
-      it('should throw BadRequestException, INVALIDE_DATETIME_FORMAT', () => {
+      it('should throw BadRequestException, INVALID_DATETIME_FORMAT', () => {
         try {
           databaseExceptions.handleDatabaseError(getError('22007'));
         } catch (error) {
           expect(error).toBeInstanceOf(BadRequestException);
           expect(error.status).toBe(400);
           expect(error.response.message).toBe(
-            '[INVALIDE_DATETIME_FORMAT] Cannot perform operation: ',
+            '[INVALID_DATETIME_FORMAT] Cannot perform operation: ',
           );
         }
       });
