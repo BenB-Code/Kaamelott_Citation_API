@@ -1,33 +1,34 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { AuthorDto } from '../dto/author.dto';
-import { UpdateAuthorDto } from '../dto/update-author.dto';
-import { Author } from '../entities/author.entity';
-import { FilterAuthorParams } from '../params/filter-author.params';
-import { AuthorRepository } from '../repositories/author.repository';
+import { SeasonDto } from '../dto/season.dto';
+import { UpdateSeasonDto } from '../dto/update-season.dto';
+import { FilterSeasonParams } from '../params/filter-season.params';
+import { SeasonRepository } from '../repositories/season.repository';
 import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { PaginationResponse } from '../../common/pagination/pagination.response';
+import { Season } from '../entities/season.entity';
 
 @Injectable()
-export class AuthorService {
-  context = 'Author';
+export class SeasonService {
+  context = 'Season';
+
   constructor(
-    private readonly authorRepository: AuthorRepository,
+    private readonly seasonRepository: SeasonRepository,
     private readonly databaseExceptions: DatabaseExceptions,
   ) {}
 
-  async createAuthor(author: AuthorDto): Promise<Author> {
+  async createSeason(season: SeasonDto): Promise<Season> {
     try {
-      return await this.authorRepository.create(author);
+      return await this.seasonRepository.create(season);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async deleteAuthor(id: number): Promise<DeleteResult> {
+  async deleteSeason(id: number): Promise<DeleteResult> {
     try {
-      const deleteResult = await this.authorRepository.delete({
+      const deleteResult = await this.seasonRepository.delete({
         id,
       });
       if (!deleteResult.affected) {
@@ -46,32 +47,32 @@ export class AuthorService {
     }
   }
 
-  async editAuthor(id: number, authorDto: UpdateAuthorDto): Promise<Author> {
+  async editSeason(id: number, seasonDto: UpdateSeasonDto): Promise<Season> {
     try {
-      const author = await this.authorRepository.selectOneBy({ id });
-      Object.assign(author, authorDto);
-      return await this.authorRepository.update(author);
+      const season = await this.seasonRepository.selectOneBy({ id });
+      Object.assign(season, seasonDto);
+      return await this.seasonRepository.update(season);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async getSpecificAuthor(id: number): Promise<Author> {
+  async getSpecificSeason(id: number): Promise<Season> {
     try {
-      return await this.authorRepository.selectOneBy({ id });
+      return await this.seasonRepository.selectOneBy({ id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async getAllAuthors(
-    filters: FilterAuthorParams,
-  ): Promise<PaginationResponse<Author>> {
+  async getAllSeasons(
+    filters: FilterSeasonParams,
+  ): Promise<PaginationResponse<Season>> {
     try {
-      const [authors, total] = await this.authorRepository.selectBy(filters);
+      const [seasons, total] = await this.seasonRepository.selectBy(filters);
 
       return {
-        data: authors,
+        data: seasons,
         metadata: {
           limit: filters.limit,
           offset: filters.offset,

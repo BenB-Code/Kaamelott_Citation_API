@@ -1,33 +1,34 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { AuthorDto } from '../dto/author.dto';
-import { UpdateAuthorDto } from '../dto/update-author.dto';
-import { Author } from '../entities/author.entity';
-import { FilterAuthorParams } from '../params/filter-author.params';
-import { AuthorRepository } from '../repositories/author.repository';
+import { ShowDto } from '../dto/show.dto';
+import { updateShowDto } from '../dto/update-show.dto';
+import { Show } from '../entities/show.entity';
+import { FilterShowParams } from '../params/filter-show.params';
+import { ShowRepository } from '../repositories/show.repository';
 import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
+import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
 import { PaginationResponse } from '../../common/pagination/pagination.response';
 
 @Injectable()
-export class AuthorService {
-  context = 'Author';
+export class ShowService {
+  context = 'Show';
+
   constructor(
-    private readonly authorRepository: AuthorRepository,
+    private readonly showRepository: ShowRepository,
     private readonly databaseExceptions: DatabaseExceptions,
   ) {}
 
-  async createAuthor(author: AuthorDto): Promise<Author> {
+  async createShow(show: ShowDto): Promise<Show> {
     try {
-      return await this.authorRepository.create(author);
+      return await this.showRepository.create(show);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async deleteAuthor(id: number): Promise<DeleteResult> {
+  async deleteShow(id: number): Promise<DeleteResult> {
     try {
-      const deleteResult = await this.authorRepository.delete({
+      const deleteResult = await this.showRepository.delete({
         id,
       });
       if (!deleteResult.affected) {
@@ -46,32 +47,32 @@ export class AuthorService {
     }
   }
 
-  async editAuthor(id: number, authorDto: UpdateAuthorDto): Promise<Author> {
+  async editShow(id: number, showDto: updateShowDto): Promise<Show> {
     try {
-      const author = await this.authorRepository.selectOneBy({ id });
-      Object.assign(author, authorDto);
-      return await this.authorRepository.update(author);
+      const show = await this.showRepository.selectOneBy({ id });
+      Object.assign(show, showDto);
+      return await this.showRepository.update(show);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async getSpecificAuthor(id: number): Promise<Author> {
+  async getSpecificShow(id: number): Promise<Show> {
     try {
-      return await this.authorRepository.selectOneBy({ id });
+      return await this.showRepository.selectOneBy({ id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async getAllAuthors(
-    filters: FilterAuthorParams,
-  ): Promise<PaginationResponse<Author>> {
+  async getAllShows(
+    filters: FilterShowParams,
+  ): Promise<PaginationResponse<Show>> {
     try {
-      const [authors, total] = await this.authorRepository.selectBy(filters);
+      const [shows, total] = await this.showRepository.selectBy(filters);
 
       return {
-        data: authors,
+        data: shows,
         metadata: {
           limit: filters.limit,
           offset: filters.offset,

@@ -9,8 +9,8 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Citation } from './../../citations/entities/citation.entity';
-import { Season } from './season.entity';
+import { Citation } from '../../citations/entities/citation.entity';
+import { Season } from '../../seasons/entities/season.entity';
 
 @Entity()
 @Index(['season', 'number'])

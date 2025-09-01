@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Episode } from './entities/episode.entity';
-import { Movie } from './entities/movie.entity';
-import { Season } from './entities/season.entity';
+import { DatabaseExceptions } from '../common/exceptions/database-exceptions.service';
+import { ShowController } from './controller/show.controller';
 import { Show } from './entities/show.entity';
-import { ShowsController } from './shows.controller';
-import { ShowsService } from './shows.service';
+import { ShowRepository } from './repositories/show.repository';
+import { ShowService } from './services/show.service';
 
 @Module({
-  controllers: [ShowsController],
-  imports: [TypeOrmModule.forFeature([Show, Season, Movie, Episode])],
-  providers: [ShowsService],
+  controllers: [ShowController],
+  imports: [TypeOrmModule.forFeature([Show])],
+  providers: [ShowService, ShowRepository, DatabaseExceptions],
 })
 export class ShowsModule {}

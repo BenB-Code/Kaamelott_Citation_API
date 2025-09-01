@@ -29,12 +29,12 @@ export class AuthorController {
     return this.authorService.getAllAuthors(filters);
   }
 
-  @Get('/:id')
+  @Get(':id')
   getSpecificAuthor(@Param('id', ParseIntPipe) id: number): Promise<Author> {
     return this.authorService.getSpecificAuthor(id);
   }
 
-  @Patch('/:id')
+  @Patch(':id')
   editSpecificAuthor(
     @Param('id', ParseIntPipe) id: number,
     @Body() authorDto: UpdateAuthorDto,
@@ -42,7 +42,7 @@ export class AuthorController {
     return this.authorService.editAuthor(id, authorDto);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteSpecificAuthor(
     @Param('id', ParseIntPipe) id: number,

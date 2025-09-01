@@ -30,14 +30,14 @@ export class CharacterController {
     return this.characterService.getAllCharacters(filters);
   }
 
-  @Get('/:id')
+  @Get(':id')
   getSpecificCharacter(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<Character> {
     return this.characterService.getSpecificCharacter(id);
   }
 
-  @Patch('/:id')
+  @Patch(':id')
   editSpecificCharacter(
     @Param('id', ParseIntPipe) id: number,
     @Body() characterDto: UpdateCharacterDto,
@@ -45,7 +45,7 @@ export class CharacterController {
     return this.characterService.editCharacter(id, characterDto);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteSpecificCharacter(
     @Param('id', ParseIntPipe) id: number,
@@ -58,7 +58,7 @@ export class CharacterController {
     return this.characterService.createCharacter(characterDto);
   }
 
-  @Post('/:characterId/actor/:actorId')
+  @Post(':characterId/actor/:actorId')
   @HttpCode(HttpStatus.CREATED)
   associateCharacterActor(@Param() params: CharacterActor): Promise<void> {
     return this.characterService.associateCharacterActor({
@@ -67,7 +67,7 @@ export class CharacterController {
     });
   }
 
-  @Delete('/:characterId/actor/:actorId')
+  @Delete(':characterId/actor/:actorId')
   @HttpCode(HttpStatus.NO_CONTENT)
   dissociateCharacterActor(@Param() params: CharacterActor): Promise<void> {
     return this.characterService.dissociateCharacterActor({

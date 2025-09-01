@@ -8,8 +8,8 @@ import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { ActorDto } from '../dto/actor.dto';
 import { Actor } from '../entities/actor.entity';
 import { FilterActorParams } from '../params/filter-actor.params';
-import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
-import { ActorRepository } from './../repositories/actor.repository';
+import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
+import { ActorRepository } from '../repositories/actor.repository';
 import { ActorService } from './actor.service';
 
 describe('ActorService', () => {

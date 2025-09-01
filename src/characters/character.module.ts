@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DatabaseExceptions } from './../common/exceptions/database-exceptions.service';
+import { DatabaseExceptions } from '../common/exceptions/database-exceptions.service';
 import { CharacterController } from './controllers/character.controller';
 import { Character } from './entities/character.entity';
 import { CharacterRepository } from './repositories/character.repository';

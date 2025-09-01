@@ -29,12 +29,12 @@ export class ActorController {
     return this.actorService.getAllActors(filters);
   }
 
-  @Get('/:id')
+  @Get(':id')
   getSpecificActor(@Param('id', ParseIntPipe) id: number): Promise<Actor> {
     return this.actorService.getSpecificActor(id);
   }
 
-  @Patch('/:id')
+  @Patch(':id')
   editSpecificActor(
     @Param('id', ParseIntPipe) id: number,
     @Body() actorDto: UpdateActorDto,
@@ -42,7 +42,7 @@ export class ActorController {
     return this.actorService.editActor(id, actorDto);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteSpecificActor(
     @Param('id', ParseIntPipe) id: number,

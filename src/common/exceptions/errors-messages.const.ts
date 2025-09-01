@@ -9,8 +9,8 @@ export const ERROR_MESSAGES = {
     '[OPERATION_FAILED] Cannot perform operation: Database operation failed',
   RESTRICT_VIOLATION:
     '[RESTRICT_VIOLATION] Cannot perform operation: resource has dependent records',
-  INVALIDE_DATETIME_FORMAT:
-    '[INVALIDE_DATETIME_FORMAT] Cannot perform operation: ',
+  INVALID_DATETIME_FORMAT:
+    '[INVALID_DATETIME_FORMAT] Cannot perform operation: ',
   NUM_OUT_OF_RANGE:
     '[NUM_OUT_OF_RANGE] Cannot perform operation: Date in a wrong format',
   TOO_LONG_STRING:

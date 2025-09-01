@@ -5,9 +5,9 @@ import { ActorDto } from '../dto/actor.dto';
 import { UpdateActorDto } from '../dto/update-actor.dto';
 import { FilterActorParams } from '../params/filter-actor.params';
 import { ActorRepository } from '../repositories/actor.repository';
-import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from './../../common/pagination/pagination.response';
-import { Actor } from './../entities/actor.entity';
+import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
+import { PaginationResponse } from '../../common/pagination/pagination.response';
+import { Actor } from '../entities/actor.entity';
 
 @Injectable()
 export class ActorService {
