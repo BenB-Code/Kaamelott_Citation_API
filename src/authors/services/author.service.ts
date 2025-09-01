@@ -6,8 +6,8 @@ import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { Author } from '../entities/author.entity';
 import { FilterAuthorParams } from '../params/filter-author.params';
 import { AuthorRepository } from '../repositories/author.repository';
-import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from './../../common/pagination/pagination.response';
+import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
+import { PaginationResponse } from '../../common/pagination/pagination.response';
 
 @Injectable()
 export class AuthorService {

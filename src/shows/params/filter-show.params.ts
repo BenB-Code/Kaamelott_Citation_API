@@ -13,8 +13,8 @@ import {
   MEDIA_TYPE,
   NAME,
   UPDATED_AT,
-} from './../../common/constants/filters.constant';
-import { SearchFilterParams } from './../../common/params/search-filter.params';
+} from '../../common/constants/filters.constant';
+import { SearchFilterParams } from '../../common/params/search-filter.params';
 
 export class FilterShowParams extends SearchFilterParams {
   @IsOptional()

@@ -9,7 +9,7 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Citation } from './../../citations/entities/citation.entity';
+import { Citation } from '../../citations/entities/citation.entity';
 import { Show } from './show.entity';
 
 @Entity()

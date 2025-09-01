@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DatabaseExceptions } from './../common/exceptions/database-exceptions.service';
+import { DatabaseExceptions } from '../common/exceptions/database-exceptions.service';
 import { ShowController } from './controller/show.controller';
 import { Show } from './entities/show.entity';
 import { ShowRepository } from './repositories/show.repository';
