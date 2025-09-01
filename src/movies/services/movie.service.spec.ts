@@ -64,6 +64,8 @@ describe('MovieService', () => {
 
   describe('createMovie', () => {
     it('should create the movie', async () => {
+      (movieRepository.create as jest.Mock).mockResolvedValueOnce(mockMovie);
+
       await movieService.createMovie(mockMovieDto);
 
       expect(movieRepository.create).toHaveBeenCalledTimes(1);

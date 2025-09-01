@@ -64,6 +64,10 @@ describe('EpisodeService', () => {
 
   describe('createEpisode', () => {
     it('should create the episode', async () => {
+      (episodeRepository.create as jest.Mock).mockResolvedValueOnce(
+        mockEpisode,
+      );
+
       await episodeService.createEpisode(mockEpisodeDto);
 
       expect(episodeRepository.create).toHaveBeenCalledTimes(1);
