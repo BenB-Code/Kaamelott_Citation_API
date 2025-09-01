@@ -16,12 +16,13 @@ import { ShowDto } from '../dto/show.dto';
 import { updateShowDto } from '../dto/update-show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
-import { ShowsService } from '../services/shows.service';
-import { PaginationResponse } from './../../common/pagination/pagination.response';
+import { ShowService } from '../services/show.service';
+import { PaginationResponse } from '../../common/pagination/pagination.response';
 
 @Controller('show')
-export class ShowsController {
-  constructor(private readonly showService: ShowsService) {}
+export class ShowController {
+  constructor(private readonly showService: ShowService) {}
+
   @Get()
   getAllShows(
     @Query() filters: FilterShowParams,
@@ -29,12 +30,12 @@ export class ShowsController {
     return this.showService.getAllShows(filters);
   }
 
-  @Get('/:id')
+  @Get(':id')
   getSpecificShow(@Param('id', ParseIntPipe) id: number): Promise<Show> {
     return this.showService.getSpecificShow(id);
   }
 
-  @Patch('/:id')
+  @Patch(':id')
   editSpecificShow(
     @Param('id', ParseIntPipe) id: number,
     @Body() authorDto: updateShowDto,
@@ -42,7 +43,7 @@ export class ShowsController {
     return this.showService.editShow(id, authorDto);
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteSpecificShow(
     @Param('id', ParseIntPipe) id: number,

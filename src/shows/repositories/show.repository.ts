@@ -47,7 +47,7 @@ export class ShowRepository {
       });
     }
     if (filter.mediaType) {
-      query.andWhere(`LOWER(show."mediaType") = LOWER(:mediaType)`, {
+      query.andWhere(`show."mediaType" = :mediaType`, {
         mediaType: filter.mediaType,
       });
     }

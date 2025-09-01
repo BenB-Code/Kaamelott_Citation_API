@@ -5,13 +5,14 @@ import { updateShowDto } from '../dto/update-show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
 import { ShowRepository } from '../repositories/show.repository';
-import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
-import { ERROR_MESSAGES } from './../../common/exceptions/errors-messages.const';
-import { PaginationResponse } from './../../common/pagination/pagination.response';
+import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
+import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
+import { PaginationResponse } from '../../common/pagination/pagination.response';
 
 @Injectable()
-export class ShowsService {
+export class ShowService {
   context = 'Show';
+
   constructor(
     private readonly showRepository: ShowRepository,
     private readonly databaseExceptions: DatabaseExceptions,
@@ -79,7 +80,7 @@ export class ShowsService {
         },
       };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }

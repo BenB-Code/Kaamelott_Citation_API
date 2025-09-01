@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { Author } from './../../authors/entities/author.entity';
 import { DatabaseExceptions } from './database-exceptions.service';
+import { Author } from '../../authors/entities/author.entity';
 
 describe('DatabaseExceptions', () => {
   let databaseExceptions: DatabaseExceptions;
