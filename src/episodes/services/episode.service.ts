@@ -20,7 +20,10 @@ export class EpisodeService {
 
   async createEpisode(episode: EpisodeDto): Promise<Episode> {
     try {
-      return await this.episodeRepository.create(episode);
+      const createdEpisode = await this.episodeRepository.create(episode);
+      return await this.episodeRepository.selectOneBy({
+        id: createdEpisode.id,
+      });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

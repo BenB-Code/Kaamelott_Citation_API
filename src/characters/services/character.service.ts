@@ -13,6 +13,7 @@ import { Character } from '../entities/character.entity';
 @Injectable()
 export class CharacterService {
   context = 'Character';
+
   constructor(
     private readonly characterRepository: CharacterRepository,
     private readonly databaseExceptions: DatabaseExceptions,
@@ -27,7 +28,9 @@ export class CharacterService {
           actorId: character.actorId,
         });
       }
-      return createdCharacter;
+      return await this.characterRepository.selectOneBy({
+        id: createdCharacter.id,
+      });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

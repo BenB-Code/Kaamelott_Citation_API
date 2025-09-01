@@ -20,7 +20,8 @@ export class MovieService {
 
   async createMovie(movie: MovieDto): Promise<Movie> {
     try {
-      return await this.movieRepository.create(movie);
+      const ceratedMovie = await this.movieRepository.create(movie);
+      return await this.movieRepository.selectOneBy({ id: ceratedMovie.id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

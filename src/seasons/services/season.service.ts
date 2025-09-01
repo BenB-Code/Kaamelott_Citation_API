@@ -20,7 +20,8 @@ export class SeasonService {
 
   async createSeason(season: SeasonDto): Promise<Season> {
     try {
-      return await this.seasonRepository.create(season);
+      const createdSeason = await this.seasonRepository.create(season);
+      return await this.seasonRepository.selectOneBy({ id: createdSeason.id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
