@@ -80,7 +80,6 @@ export class ShowService {
         },
       };
     } catch (error) {
-      console.log(error);
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
