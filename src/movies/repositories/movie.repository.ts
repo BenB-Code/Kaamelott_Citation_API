@@ -16,7 +16,7 @@ export class MovieRepository {
   async create(movie: MovieDto): Promise<Movie> {
     return await this.movieRepository.save({
       name: movie.name,
-      releaseDate: new Date(movie.releaseDate),
+      releaseDate: movie.releaseDate,
       picture: movie.picture,
       show: { id: movie.showId },
     });

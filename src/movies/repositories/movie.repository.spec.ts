@@ -73,7 +73,7 @@ describe('MovieRepository', () => {
   it('should call create', async () => {
     const expectedMovie = {
       name: mockMovieDto.name,
-      releaseDate: new Date(mockMovieDto.releaseDate),
+      releaseDate: mockMovieDto.releaseDate,
       picture: mockMovieDto.picture,
       show: { id: mockMovieDto.showId },
     };
