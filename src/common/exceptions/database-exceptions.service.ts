@@ -55,7 +55,7 @@ export class DatabaseExceptions {
           throw new BadRequestException({
             error: HttpErrorByCode[HttpStatus.BAD_REQUEST].name,
             message: this.formatMessage(
-              ERROR_MESSAGES.INVALIDE_DATETIME_FORMAT,
+              ERROR_MESSAGES.INVALID_DATETIME_FORMAT,
               context,
             ),
             statusCode: HttpStatus.BAD_REQUEST,

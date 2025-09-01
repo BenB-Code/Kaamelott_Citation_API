@@ -6,9 +6,9 @@ import { UpdateCharacterDto } from '../dto/update-character.dto';
 import { FilterCharacterParams } from '../params/filter-character.params';
 import { CharacterRepository } from '../repositories/character.repository';
 import { CharacterActor } from '../types/character-actor.type';
-import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from './../../common/pagination/pagination.response';
-import { Character } from './../entities/character.entity';
+import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
+import { PaginationResponse } from '../../common/pagination/pagination.response';
+import { Character } from '../entities/character.entity';
 
 @Injectable()
 export class CharacterService {

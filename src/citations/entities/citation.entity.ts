@@ -10,11 +10,11 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Actor } from './../../actors/entities/actor.entity';
-import { Author } from './../../authors/entities/author.entity';
-import { Character } from './../../characters/entities/character.entity';
-import { Episode } from './../../shows/entities/episode.entity';
-import { Movie } from './../../shows/entities/movie.entity';
+import { Actor } from '../../actors/entities/actor.entity';
+import { Author } from '../../authors/entities/author.entity';
+import { Character } from '../../characters/entities/character.entity';
+import { Episode } from '../../shows/entities/episode.entity';
+import { Movie } from '../../shows/entities/movie.entity';
 
 @Entity()
 @Unique(['text', 'episode', 'movie', 'character'])
