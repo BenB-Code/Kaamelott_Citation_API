@@ -9,8 +9,8 @@ import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { CharacterDto } from '../dto/character.dto';
 import { Character } from '../entities/character.entity';
 import { FilterCharacterParams } from '../params/filter-character.params';
-import { DatabaseExceptions } from './../../common/exceptions/database-exceptions.service';
-import { CharacterRepository } from './../repositories/character.repository';
+import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
+import { CharacterRepository } from '../repositories/character.repository';
 import { CharacterService } from './character.service';
 
 describe('CharacterService', () => {
