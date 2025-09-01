@@ -5,3 +5,4 @@ export const LASTNAME = 'lastName';
 export const NAME = 'name';
 export const MEDIA_TYPE = 'mediaType';
 export const NUMBER = 'number';
+export const RELEASE_DATE = 'releaseDate';
