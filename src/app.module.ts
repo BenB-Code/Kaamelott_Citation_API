@@ -17,11 +17,12 @@ import { Logger } from './common/logger/services/logger.service';
 import { appConfigSchema } from './config/config.types';
 import { DatabaseConfig } from './config/database.config';
 import { HealthModule } from './health/health.module';
+import { SeasonModule } from './seasons/season.module';
 import { Episode } from './shows/entities/episode.entity';
 import { Movie } from './shows/entities/movie.entity';
-import { Season } from './shows/entities/season.entity';
 import { Show } from './shows/entities/show.entity';
 import { ShowsModule } from './shows/shows.module';
+import { Season } from './seasons/entities/season.entity';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { ShowsModule } from './shows/shows.module';
     CharacterModule,
     ActorModule,
     ShowsModule,
+    SeasonModule,
   ],
   controllers: [AppController],
   providers: [

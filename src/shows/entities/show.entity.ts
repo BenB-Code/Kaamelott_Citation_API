@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { MediaType } from '../constant/media-type.enum';
 import { Movie } from './movie.entity';
-import { Season } from './season.entity';
+import { Season } from '../../seasons/entities/season.entity';
 
 @Entity()
 @Index(['mediaType', 'name'])
