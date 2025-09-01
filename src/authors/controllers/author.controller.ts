@@ -22,6 +22,7 @@ import { AuthorService } from '../services/author.service';
 @Controller('author')
 export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
+
   @Get()
   getAllAuthors(
     @Query() filters: FilterAuthorParams,

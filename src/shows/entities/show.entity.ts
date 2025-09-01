@@ -9,7 +9,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { MediaType } from '../constant/media-type.enum';
-import { Movie } from './movie.entity';
+import { Movie } from '../../movies/entities/movie.entity';
 import { Season } from '../../seasons/entities/season.entity';
 
 @Entity()
