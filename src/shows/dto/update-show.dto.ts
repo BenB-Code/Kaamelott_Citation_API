@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { MediaType } from '../constant/media-type.enum';
 
-export class updateShowDto {
+export class UpdateShowDto {
   @IsOptional()
   @IsString()
   @MinLength(1)
