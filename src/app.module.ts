@@ -25,6 +25,7 @@ import { Movie } from './movies/entities/movie.entity';
 import { Show } from './shows/entities/show.entity';
 import { ShowsModule } from './shows/shows.module';
 import { Season } from './seasons/entities/season.entity';
+import { CitationModule } from './citations/citation.module';
 
 @Module({
   imports: [
@@ -67,6 +68,7 @@ import { Season } from './seasons/entities/season.entity';
     SeasonModule,
     EpisodeModule,
     MovieModule,
+    CitationModule,
   ],
   controllers: [AppController],
   providers: [
