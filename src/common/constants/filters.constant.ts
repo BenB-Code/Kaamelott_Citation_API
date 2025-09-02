@@ -6,3 +6,7 @@ export const NAME = 'name';
 export const MEDIA_TYPE = 'mediaType';
 export const NUMBER = 'number';
 export const RELEASE_DATE = 'releaseDate';
+export const EPISODE_ID = 'episodeId';
+export const CHARACTER_ID = 'characterId';
+export const MOVIE_ID = 'movieId';
+export const CITATION_ID = 'citationId';
