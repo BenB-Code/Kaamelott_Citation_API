@@ -62,6 +62,10 @@ describe('CharacterService', () => {
 
   describe('createCharacter', () => {
     it('should create the character', async () => {
+      (characterRepository.create as jest.Mock).mockResolvedValueOnce(
+        mockCharacter,
+      );
+
       await characterService.createCharacter(mockCharacterDto);
 
       expect(characterRepository.create).toHaveBeenCalledTimes(1);

@@ -1,37 +1,35 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { SeasonDto } from '../dto/season.dto';
-import { UpdateSeasonDto } from '../dto/update-season.dto';
-import { FilterSeasonParams } from '../params/filter-season.params';
-import { SeasonRepository } from '../repositories/season.repository';
+import { MovieDto } from '../dto/movie.dto';
+import { UpdateMovieDto } from '../dto/update-movie.dto';
+import { FilterMovieParams } from '../params/filter-movie.params';
+import { MovieRepository } from '../repositories/movie.repository';
 import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { Season } from '../entities/season.entity';
+import { Movie } from '../entities/movie.entity';
 
 @Injectable()
-export class SeasonService {
-  context = 'Season';
+export class MovieService {
+  context = 'Movie';
 
   constructor(
-    private readonly seasonRepository: SeasonRepository,
+    private readonly movieRepository: MovieRepository,
     private readonly databaseExceptions: DatabaseExceptions,
   ) {}
 
-  async createSeason(season: SeasonDto): Promise<Season> {
+  async createMovie(movie: MovieDto): Promise<Movie> {
     try {
-      const createdSeason = await this.seasonRepository.create(season);
-      return await this.seasonRepository.selectOneBy({ id: createdSeason.id });
+      const ceratedMovie = await this.movieRepository.create(movie);
+      return await this.movieRepository.selectOneBy({ id: ceratedMovie.id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async deleteSeason(id: number): Promise<DeleteResult> {
+  async deleteMovie(id: number): Promise<DeleteResult> {
     try {
-      const deleteResult = await this.seasonRepository.delete({
-        id,
-      });
+      const deleteResult = await this.movieRepository.delete({ id });
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
@@ -48,32 +46,35 @@ export class SeasonService {
     }
   }
 
-  async editSeason(id: number, seasonDto: UpdateSeasonDto): Promise<Season> {
+  async editMovie(id: number, movieDto: UpdateMovieDto): Promise<Movie> {
     try {
-      const season = await this.seasonRepository.selectOneBy({ id });
-      Object.assign(season, seasonDto);
-      return await this.seasonRepository.update(season);
+      const movie = await this.movieRepository.selectOneBy({ id });
+      Object.assign(movie, movieDto);
+      if (movieDto.releaseDate) {
+        movie.releaseDate = new Date(movieDto.releaseDate);
+      }
+      return await this.movieRepository.update(movie);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async getSpecificSeason(id: number): Promise<Season> {
+  async getSpecificMovie(id: number): Promise<Movie> {
     try {
-      return await this.seasonRepository.selectOneBy({ id });
+      return await this.movieRepository.selectOneBy({ id });
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
   }
 
-  async getAllSeasons(
-    filters: FilterSeasonParams,
-  ): Promise<PaginationResponse<Season>> {
+  async getAllMovies(
+    filters: FilterMovieParams,
+  ): Promise<PaginationResponse<Movie>> {
     try {
-      const [seasons, total] = await this.seasonRepository.selectBy(filters);
+      const [movies, total] = await this.movieRepository.selectBy(filters);
 
       return {
-        data: seasons,
+        data: movies,
         metadata: {
           limit: filters.limit,
           offset: filters.offset,

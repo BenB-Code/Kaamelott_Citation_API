@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { ShowDto } from '../dto/show.dto';
-import { updateShowDto } from '../dto/update-show.dto';
+import { UpdateShowDto } from '../dto/update-show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
 import { ShowRepository } from '../repositories/show.repository';
@@ -47,7 +47,7 @@ export class ShowService {
     }
   }
 
-  async editShow(id: number, showDto: updateShowDto): Promise<Show> {
+  async editShow(id: number, showDto: UpdateShowDto): Promise<Show> {
     try {
       const show = await this.showRepository.selectOneBy({ id });
       Object.assign(show, showDto);

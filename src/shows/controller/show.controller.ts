@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 import { ShowDto } from '../dto/show.dto';
-import { updateShowDto } from '../dto/update-show.dto';
+import { UpdateShowDto } from '../dto/update-show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
 import { ShowService } from '../services/show.service';
@@ -38,7 +38,7 @@ export class ShowController {
   @Patch(':id')
   editSpecificShow(
     @Param('id', ParseIntPipe) id: number,
-    @Body() authorDto: updateShowDto,
+    @Body() authorDto: UpdateShowDto,
   ): Promise<Show> {
     return this.showService.editShow(id, authorDto);
   }

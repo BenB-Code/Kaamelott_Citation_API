@@ -62,6 +62,8 @@ describe('SeasonService', () => {
 
   describe('createSeason', () => {
     it('should create the season', async () => {
+      (seasonRepository.create as jest.Mock).mockResolvedValueOnce(mockSeason);
+
       await seasonService.createSeason(mockSeasonDto);
 
       expect(seasonRepository.create).toHaveBeenCalledTimes(1);

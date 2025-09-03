@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Show } from '../../shows/entities/show.entity';
-import { Episode } from '../../shows/entities/episode.entity';
+import { Episode } from '../../episodes/entities/episode.entity';
 
 @Entity()
 @Unique(['show', 'name'])

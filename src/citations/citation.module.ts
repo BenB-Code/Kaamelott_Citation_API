@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CitationController } from './citation.controller';
-import { CitationService } from './citation.service';
+import { CitationController } from './controllers/citation.controller';
+import { CitationService } from './services/citation.service';
 import { Citation } from './entities/citation.entity';
+import { CitationRepository } from './repositories/citation.repository';
+import { DatabaseExceptions } from '../common/exceptions/database-exceptions.service';
 
 @Module({
   controllers: [CitationController],
   imports: [TypeOrmModule.forFeature([Citation])],
-  providers: [CitationService],
+  providers: [CitationService, CitationRepository, DatabaseExceptions],
 })
 export class CitationModule {}

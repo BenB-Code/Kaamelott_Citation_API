@@ -10,7 +10,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Citation } from '../../citations/entities/citation.entity';
-import { Show } from './show.entity';
+import { Show } from '../../shows/entities/show.entity';
 
 @Entity()
 @Index(['name', 'releaseDate'])

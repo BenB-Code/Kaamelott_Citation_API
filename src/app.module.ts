@@ -18,11 +18,14 @@ import { appConfigSchema } from './config/config.types';
 import { DatabaseConfig } from './config/database.config';
 import { HealthModule } from './health/health.module';
 import { SeasonModule } from './seasons/season.module';
-import { Episode } from './shows/entities/episode.entity';
-import { Movie } from './shows/entities/movie.entity';
+import { EpisodeModule } from './episodes/episode.module';
+import { MovieModule } from './movies/movie.module';
+import { Episode } from './episodes/entities/episode.entity';
+import { Movie } from './movies/entities/movie.entity';
 import { Show } from './shows/entities/show.entity';
 import { ShowsModule } from './shows/shows.module';
 import { Season } from './seasons/entities/season.entity';
+import { CitationModule } from './citations/citation.module';
 
 @Module({
   imports: [
@@ -63,6 +66,9 @@ import { Season } from './seasons/entities/season.entity';
     ActorModule,
     ShowsModule,
     SeasonModule,
+    EpisodeModule,
+    MovieModule,
+    CitationModule,
   ],
   controllers: [AppController],
   providers: [
