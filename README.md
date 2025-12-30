@@ -1,6 +1,6 @@
 # 🏰 API Citations Kaamelott
 
-Une API RESTful robuste développée avec NestJS pour gérer les citations de la série culte Kaamelott d'Alexandre Astier.
+WIP - Une API RESTful robuste développée avec NestJS pour gérer les citations de la série culte Kaamelott d'Alexandre Astier.
 
 ## 📋 Table des matières
 
