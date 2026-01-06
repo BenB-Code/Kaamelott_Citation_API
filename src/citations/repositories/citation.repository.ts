@@ -17,7 +17,7 @@ export class CitationRepository {
   async create(citation: CitationDto): Promise<Citation> {
     return await this.citationRepository.save({
       text: citation.text,
-      character: { id: citation.characterId } as any,
+      character: { id: citation.characterId },
       episode: citation.episodeId ? ({ id: citation.episodeId } as any) : null,
       movie: citation.movieId ? ({ id: citation.movieId } as any) : null,
     });
@@ -68,7 +68,7 @@ export class CitationRepository {
       .leftJoinAndSelect('citation.authors', 'authors');
 
     Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined) {
+      if (value) {
         queryBuilder.andWhere(`citation.${key} = :${key}`, { [key]: value });
       }
     });
@@ -108,7 +108,7 @@ export class CitationRepository {
   }
 
   async associateCitationWithField(ids: CitationWithField, tableName: string) {
-    return await this.citationRepository
+    await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, tableName)
       .of(ids.citationId)
@@ -116,7 +116,7 @@ export class CitationRepository {
   }
 
   async dissociateCitationWithField(ids: CitationWithField, fieldName: string) {
-    return await this.citationRepository
+    await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, fieldName)
       .of(ids.citationId)

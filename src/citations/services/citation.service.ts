@@ -46,7 +46,7 @@ export class CitationService {
     try {
       const citation = await this.citationRepository.selectOneBy({ id });
       Object.assign(citation, citationDto);
-      return this.citationRepository.update(citation);
+      return await this.citationRepository.update(citation);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error);
     }
@@ -113,10 +113,10 @@ export class CitationService {
   }
 
   async associateCitationWithField(ids: CitationWithField, fieldName: string) {
-    return await this.citationRepository.associateCitationWithField(ids, fieldName);
+    await this.citationRepository.associateCitationWithField(ids, fieldName);
   }
 
   async dissociateCitationWithField(ids: CitationWithField, fieldName: string) {
-    return await this.citationRepository.dissociateCitationWithField(ids, fieldName);
+    await this.citationRepository.dissociateCitationWithField(ids, fieldName);
   }
 }

@@ -88,7 +88,7 @@ export class AuthorRepository {
       );
     }
 
-    query.orderBy(`author.${filter.sortBy}`, filter.sortOrder);
+    query.orderBy(`author.${filter.sortBy ?? ''}`, filter.sortOrder);
     query.skip(filter.offset).take(filter.limit);
 
     return await query.getManyAndCount();

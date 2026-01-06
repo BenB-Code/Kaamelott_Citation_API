@@ -94,7 +94,7 @@ export class ActorRepository {
       );
     }
 
-    query.orderBy(`actor.${filter.sortBy}`, filter.sortOrder);
+    query.orderBy(`actor.${filter.sortBy ?? ''}`, filter.sortOrder);
     query.skip(filter.offset).take(filter.limit);
 
     return await query.getManyAndCount();

@@ -43,6 +43,7 @@ export default tseslint.config(
         { checksVoidReturn: { attributes: false } },
       ],
       '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-extraneous-class': 'warn',
     },
   },
   {
