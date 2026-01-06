@@ -1,0 +1,11 @@
+# docker/postgres/Dockerfile
+FROM postgres:16-alpine
+
+COPY postgresql.dev.conf /etc/postgresql/postgresql.conf
+
+CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD pg_isready -U kaamelott_dev_user -d kaamelott_db_dev
+
+EXPOSE 5432
