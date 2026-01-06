@@ -33,12 +33,7 @@ describe('FilterActorParams', () => {
   });
 
   it('should accept valid sortBy values', async () => {
-    const validSortByValues = [
-      'createdAt',
-      'updatedAt',
-      'firstName',
-      'lastName',
-    ];
+    const validSortByValues = ['createdAt', 'updatedAt', 'firstName', 'lastName'];
 
     for (const sortBy of validSortByValues) {
       const filterParams = plainToInstance(FilterActorParams, { sortBy });

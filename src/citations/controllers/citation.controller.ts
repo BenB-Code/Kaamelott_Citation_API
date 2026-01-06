@@ -25,16 +25,12 @@ export class CitationController {
   constructor(private readonly citationService: CitationService) {}
 
   @Get()
-  getAllCitation(
-    @Query() filters: FilterCitationParams,
-  ): Promise<PaginationResponse<Citation>> {
+  getAllCitation(@Query() filters: FilterCitationParams): Promise<PaginationResponse<Citation>> {
     return this.citationService.getAllCitations(filters);
   }
 
   @Get(':id')
-  getSpecificCitation(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<Citation> {
+  getSpecificCitation(@Param('id', ParseIntPipe) id: number): Promise<Citation> {
     return this.citationService.getSpecificCitation(id);
   }
 
@@ -53,9 +49,7 @@ export class CitationController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificCitation(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificCitation(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.citationService.deleteSpecificCitation(id);
   }
 

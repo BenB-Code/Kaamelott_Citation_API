@@ -24,9 +24,7 @@ export class EpisodeController {
   constructor(private readonly episodeService: EpisodeService) {}
 
   @Get()
-  getAllEpisodes(
-    @Query() filters: FilterEpisodeParams,
-  ): Promise<PaginationResponse<Episode>> {
+  getAllEpisodes(@Query() filters: FilterEpisodeParams): Promise<PaginationResponse<Episode>> {
     return this.episodeService.getAllEpisodes(filters);
   }
 
@@ -45,9 +43,7 @@ export class EpisodeController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificEpisode(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificEpisode(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.episodeService.deleteEpisode(id);
   }
 

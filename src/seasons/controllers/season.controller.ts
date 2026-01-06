@@ -24,9 +24,7 @@ export class SeasonController {
   constructor(private readonly seasonService: SeasonService) {}
 
   @Get()
-  getAllSeasons(
-    @Query() filters: FilterSeasonParams,
-  ): Promise<PaginationResponse<Season>> {
+  getAllSeasons(@Query() filters: FilterSeasonParams): Promise<PaginationResponse<Season>> {
     return this.seasonService.getAllSeasons(filters);
   }
 
@@ -45,9 +43,7 @@ export class SeasonController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificSeason(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificSeason(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.seasonService.deleteSeason(id);
   }
 

@@ -57,9 +57,7 @@ describe('EpisodeRepository', () => {
     }).compile();
 
     episodeRepository = module.get<EpisodeRepository>(EpisodeRepository);
-    repository = module.get<Partial<Repository<Episode>>>(
-      getRepositoryToken(Episode),
-    );
+    repository = module.get<Partial<Repository<Episode>>>(getRepositoryToken(Episode));
   });
 
   afterEach(() => {
@@ -112,18 +110,9 @@ describe('EpisodeRepository', () => {
     });
 
     expect(repository.createQueryBuilder).toHaveBeenCalledWith('episode');
-    expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith(
-      'episode.season',
-      'season',
-    );
-    expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith(
-      'season.show',
-      'show',
-    );
-    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-      'episode.citations',
-      'citation',
-    );
+    expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith('episode.season', 'season');
+    expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith('season.show', 'show');
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('episode.citations', 'citation');
     expect(mockQueryBuilder.select).toHaveBeenCalledWith([
       'episode.id',
       'episode.name',
@@ -137,18 +126,15 @@ describe('EpisodeRepository', () => {
       'show.name',
       'citation.id',
     ]);
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `LOWER(episode.name) = LOWER(:name)`,
-      { name: 'Épisode 1' },
-    );
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `season.id = :seasonId`,
-      { seasonId: 1 },
-    );
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `episode.number = :number`,
-      { number: 1 },
-    );
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(episode.name) = LOWER(:name)`, {
+      name: 'Épisode 1',
+    });
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`season.id = :seasonId`, {
+      seasonId: 1,
+    });
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`episode.number = :number`, {
+      number: 1,
+    });
     expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`episode.id = :id`, {
       id: 12,
     });
@@ -161,9 +147,7 @@ describe('EpisodeRepository', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      mockQueryBuilder.getManyAndCount = jest
-        .fn()
-        .mockResolvedValue([mockEpisodes, mockCount]);
+      mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([mockEpisodes, mockCount]);
     });
 
     it('should handle complex filters and query building', async () => {
@@ -182,18 +166,9 @@ describe('EpisodeRepository', () => {
 
       expect(repository.createQueryBuilder).toHaveBeenCalledTimes(1);
       expect(repository.createQueryBuilder).toHaveBeenCalledWith('episode');
-      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith(
-        'episode.season',
-        'season',
-      );
-      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith(
-        'season.show',
-        'show',
-      );
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-        'episode.citations',
-        'citation',
-      );
+      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith('episode.season', 'season');
+      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith('season.show', 'show');
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('episode.citations', 'citation');
       expect(mockQueryBuilder.select).toHaveBeenCalledWith([
         'episode.id',
         'episode.name',
@@ -208,18 +183,15 @@ describe('EpisodeRepository', () => {
         'citation.id',
       ]);
 
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `season.id = :seasonId`,
-        { seasonId: complexFilters.seasonId },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(episode.name) = LOWER(:name)`,
-        { name: complexFilters.name },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `episode.number = :number`,
-        { number: complexFilters.number },
-      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`season.id = :seasonId`, {
+        seasonId: complexFilters.seasonId,
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(episode.name) = LOWER(:name)`, {
+        name: complexFilters.name,
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`episode.number = :number`, {
+        number: complexFilters.number,
+      });
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `LOWER(episode.name) ILIKE LOWER(:search)`,
         { search: `%${complexFilters.search}%` },
@@ -281,18 +253,15 @@ describe('EpisodeRepository', () => {
 
       await episodeRepository.selectBy(caseFilter);
 
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `season.id = :seasonId`,
-        { seasonId: 1 },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(episode.name) = LOWER(:name)`,
-        { name: 'ÉPISODE 1' },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `episode.number = :number`,
-        { number: 1 },
-      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`season.id = :seasonId`, {
+        seasonId: 1,
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(episode.name) = LOWER(:name)`, {
+        name: 'ÉPISODE 1',
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`episode.number = :number`, {
+        number: 1,
+      });
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `LOWER(episode.name) ILIKE LOWER(:search)`,
         { search: '%TEST%' },

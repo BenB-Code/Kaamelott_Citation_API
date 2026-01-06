@@ -33,10 +33,7 @@ export class AuthorService {
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
-            this.databaseExceptions.formatMessage(
-              ERROR_MESSAGES.NO_DATA_FOUND,
-              this.context,
-            ),
+            this.databaseExceptions.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, this.context),
           ),
         );
       }
@@ -64,9 +61,7 @@ export class AuthorService {
     }
   }
 
-  async getAllAuthors(
-    filters: FilterAuthorParams,
-  ): Promise<PaginationResponse<Author>> {
+  async getAllAuthors(filters: FilterAuthorParams): Promise<PaginationResponse<Author>> {
     try {
       const [authors, total] = await this.authorRepository.selectBy(filters);
 

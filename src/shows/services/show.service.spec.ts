@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { ShowDto } from '../dto/show.dto';
@@ -102,9 +98,7 @@ describe('ShowService', () => {
     });
 
     it('should throw exception as is', async () => {
-      (showRepository.delete as jest.Mock).mockRejectedValue(
-        new InternalServerErrorException(),
-      );
+      (showRepository.delete as jest.Mock).mockRejectedValue(new InternalServerErrorException());
 
       try {
         await showService.deleteShow(12345);
@@ -204,10 +198,7 @@ describe('ShowService', () => {
         offset: 10,
       } as FilterShowParams;
 
-      (showRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockShows,
-        mockCount,
-      ]);
+      (showRepository.selectBy as jest.Mock).mockResolvedValue([mockShows, mockCount]);
 
       const result = await showService.getAllShows(complexFilters);
 

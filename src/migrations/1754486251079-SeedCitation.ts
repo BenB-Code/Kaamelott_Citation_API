@@ -36,18 +36,11 @@ export class SeedCitation1754486251079 implements MigrationInterface {
       throw new Error("Characters non trouvés. Exécutez d'abord SeedCharacter");
     }
 
-    const showsMap = Object.fromEntries(
-      shows.map((show) => [show.id, show.mediaType]),
-    );
+    const showsMap = Object.fromEntries(shows.map((show) => [show.id, show.mediaType]));
     const moviesMap = Object.fromEntries(
-      movies.map((movie) => [
-        `${movie.name}-${showsMap[movie.showId]}`,
-        movie.id,
-      ]),
+      movies.map((movie) => [`${movie.name}-${showsMap[movie.showId]}`, movie.id]),
     );
-    const seasonsMap = Object.fromEntries(
-      seasons.map((season) => [season.id, season.name]),
-    );
+    const seasonsMap = Object.fromEntries(seasons.map((season) => [season.id, season.name]));
     const episodesMap = Object.fromEntries(
       episodes.map((episode) => [
         `${episode.name || ''}-${episode.number || ''}-${seasonsMap[episode.seasonId]}`,
@@ -57,7 +50,6 @@ export class SeedCitation1754486251079 implements MigrationInterface {
     const charactersMap = Object.fromEntries(
       characters.map((character) => [character.name, character.id]),
     );
-
 
     const citations = [
       {
@@ -6158,12 +6150,7 @@ export class SeedCitation1754486251079 implements MigrationInterface {
             INSERT INTO "citation" ("episodeId", "movieId", "characterId", "text")
             VALUES ($1, $2, $3, $4)
             `,
-        [
-          citation.episodeId,
-          citation.movieId,
-          citation.characterId,
-          citation.text,
-        ],
+        [citation.episodeId, citation.movieId, citation.characterId, citation.text],
       );
     }
 

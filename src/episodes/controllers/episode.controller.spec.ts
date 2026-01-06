@@ -106,16 +106,12 @@ describe('EpisodeController', () => {
         sortOrder: 'ASC',
       } as FilterEpisodeParams;
 
-      (episodeService.getAllEpisodes as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (episodeService.getAllEpisodes as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await episodeController.getAllEpisodes(complexFilters);
 
       expect(episodeService.getAllEpisodes).toHaveBeenCalledTimes(1);
-      expect(episodeService.getAllEpisodes).toHaveBeenCalledWith(
-        complexFilters,
-      );
+      expect(episodeService.getAllEpisodes).toHaveBeenCalledWith(complexFilters);
       expect(result).toEqual(mockPaginationResponse);
     });
 
@@ -125,9 +121,7 @@ describe('EpisodeController', () => {
         data: [],
         metadata: { limit: 100, offset: 0, total: 0 },
       };
-      (episodeService.getAllEpisodes as jest.Mock).mockResolvedValue(
-        emptyResponse,
-      );
+      (episodeService.getAllEpisodes as jest.Mock).mockResolvedValue(emptyResponse);
 
       const result = await episodeController.getAllEpisodes(emptyFilters);
 

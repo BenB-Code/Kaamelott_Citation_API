@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { EpisodeDto } from '../dto/episode.dto';
@@ -64,9 +60,7 @@ describe('EpisodeService', () => {
 
   describe('createEpisode', () => {
     it('should create the episode', async () => {
-      (episodeRepository.create as jest.Mock).mockResolvedValueOnce(
-        mockEpisode,
-      );
+      (episodeRepository.create as jest.Mock).mockResolvedValueOnce(mockEpisode);
 
       await episodeService.createEpisode(mockEpisodeDto);
 
@@ -110,9 +104,7 @@ describe('EpisodeService', () => {
     });
 
     it('should throw exception as is', async () => {
-      (episodeRepository.delete as jest.Mock).mockRejectedValue(
-        new InternalServerErrorException(),
-      );
+      (episodeRepository.delete as jest.Mock).mockRejectedValue(new InternalServerErrorException());
 
       try {
         await episodeService.deleteEpisode(12345);
@@ -143,9 +135,7 @@ describe('EpisodeService', () => {
 
   describe('editEpisode', () => {
     it('should return updated episode', async () => {
-      (episodeRepository.selectOneBy as jest.Mock).mockResolvedValue(
-        mockEpisode,
-      );
+      (episodeRepository.selectOneBy as jest.Mock).mockResolvedValue(mockEpisode);
 
       await episodeService.editEpisode(mockEpisode.id, {
         name: 'Tested',
@@ -218,10 +208,7 @@ describe('EpisodeService', () => {
         offset: 10,
       } as FilterEpisodeParams;
 
-      (episodeRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockEpisodes,
-        mockCount,
-      ]);
+      (episodeRepository.selectBy as jest.Mock).mockResolvedValue([mockEpisodes, mockCount]);
 
       const result = await episodeService.getAllEpisodes(complexFilters);
 

@@ -18,12 +18,9 @@ export class CitationService {
     private readonly databaseExceptions: DatabaseExceptions,
   ) {}
 
-  async getAllCitations(
-    filters: FilterCitationParams,
-  ): Promise<PaginationResponse<Citation>> {
+  async getAllCitations(filters: FilterCitationParams): Promise<PaginationResponse<Citation>> {
     try {
-      const [citations, total] =
-        await this.citationRepository.selectBy(filters);
+      const [citations, total] = await this.citationRepository.selectBy(filters);
       return {
         data: citations,
         metadata: {
@@ -45,10 +42,7 @@ export class CitationService {
     }
   }
 
-  async editCitation(
-    id: number,
-    citationDto: UpdateCitationDto,
-  ): Promise<Citation> {
+  async editCitation(id: number, citationDto: UpdateCitationDto): Promise<Citation> {
     try {
       const citation = await this.citationRepository.selectOneBy({ id });
       Object.assign(citation, citationDto);
@@ -119,16 +113,10 @@ export class CitationService {
   }
 
   async associateCitationWithField(ids: CitationWithField, fieldName: string) {
-    return await this.citationRepository.associateCitationWithField(
-      ids,
-      fieldName,
-    );
+    return await this.citationRepository.associateCitationWithField(ids, fieldName);
   }
 
   async dissociateCitationWithField(ids: CitationWithField, fieldName: string) {
-    return await this.citationRepository.dissociateCitationWithField(
-      ids,
-      fieldName,
-    );
+    return await this.citationRepository.dissociateCitationWithField(ids, fieldName);
   }
 }

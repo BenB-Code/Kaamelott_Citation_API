@@ -112,10 +112,7 @@ describe('FilterCitationParams', () => {
       offset: 0,
     };
 
-    const filterParams = plainToInstance(
-      FilterCitationParams,
-      searchOnlyFilter,
-    );
+    const filterParams = plainToInstance(FilterCitationParams, searchOnlyFilter);
     const errors = await validate(filterParams);
 
     expect(errors).toHaveLength(0);

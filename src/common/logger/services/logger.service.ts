@@ -19,9 +19,7 @@ export class Logger implements LoggerService {
       colorize: options.colorize ?? process.env.NODE_ENV !== 'production',
       logLevel:
         options.logLevel ??
-        (process.env.NODE_ENV === 'production'
-          ? LogLevelEnum.INFO
-          : LogLevelEnum.DEBUG),
+        (process.env.NODE_ENV === 'production' ? LogLevelEnum.INFO : LogLevelEnum.DEBUG),
     };
   }
 
@@ -123,42 +121,27 @@ export class Logger implements LoggerService {
   // Méthodes principales du LoggerService NestJS
   log(message: any, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.LOG)) return;
-    this.write(
-      this.formatMessage(LogLevelEnum.LOG, message, context),
-      LogLevelEnum.LOG,
-    );
+    this.write(this.formatMessage(LogLevelEnum.LOG, message, context), LogLevelEnum.LOG);
   }
 
   error(message: any, trace?: string, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.ERROR)) return;
-    this.write(
-      this.formatMessage(LogLevelEnum.ERROR, message, context, trace),
-      LogLevelEnum.ERROR,
-    );
+    this.write(this.formatMessage(LogLevelEnum.ERROR, message, context, trace), LogLevelEnum.ERROR);
   }
 
   warn(message: any, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.WARN)) return;
-    this.write(
-      this.formatMessage(LogLevelEnum.WARN, message, context),
-      LogLevelEnum.WARN,
-    );
+    this.write(this.formatMessage(LogLevelEnum.WARN, message, context), LogLevelEnum.WARN);
   }
 
   debug(message: any, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.DEBUG)) return;
-    this.write(
-      this.formatMessage(LogLevelEnum.DEBUG, message, context),
-      LogLevelEnum.DEBUG,
-    );
+    this.write(this.formatMessage(LogLevelEnum.DEBUG, message, context), LogLevelEnum.DEBUG);
   }
 
   verbose(message: any, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.VERBOSE)) return;
-    this.write(
-      this.formatMessage(LogLevelEnum.VERBOSE, message, context),
-      LogLevelEnum.VERBOSE,
-    );
+    this.write(this.formatMessage(LogLevelEnum.VERBOSE, message, context), LogLevelEnum.VERBOSE);
   }
 
   // Méthode pour logger les requêtes HTTP

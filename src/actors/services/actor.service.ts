@@ -33,10 +33,7 @@ export class ActorService {
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
-            this.databaseExceptions.formatMessage(
-              ERROR_MESSAGES.NO_DATA_FOUND,
-              this.context,
-            ),
+            this.databaseExceptions.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, this.context),
           ),
         );
       }
@@ -64,9 +61,7 @@ export class ActorService {
     }
   }
 
-  async getAllActors(
-    filters: FilterActorParams,
-  ): Promise<PaginationResponse<Actor>> {
+  async getAllActors(filters: FilterActorParams): Promise<PaginationResponse<Actor>> {
     try {
       const [actors, total] = await this.actorRepository.selectBy(filters);
 

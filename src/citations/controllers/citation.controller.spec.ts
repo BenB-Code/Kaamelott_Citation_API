@@ -71,24 +71,18 @@ describe('CitationController', () => {
   });
 
   it('should call createCitation', async () => {
-    (citationService.createCitation as jest.Mock).mockResolvedValue(
-      mockCitation,
-    );
+    (citationService.createCitation as jest.Mock).mockResolvedValue(mockCitation);
 
     const result = await citationController.createCitation(mockCitationDto);
 
     expect(citationService.createCitation).toHaveBeenCalledTimes(1);
-    expect(citationService.createCitation).toHaveBeenCalledWith(
-      mockCitationDto,
-    );
+    expect(citationService.createCitation).toHaveBeenCalledWith(mockCitationDto);
     expect(result).toEqual(mockCitation);
   });
 
   it('should call deleteSpecificCitation', async () => {
     const mockDeleteResult = { raw: [], affected: 1 };
-    (citationService.deleteSpecificCitation as jest.Mock).mockResolvedValue(
-      mockDeleteResult,
-    );
+    (citationService.deleteSpecificCitation as jest.Mock).mockResolvedValue(mockDeleteResult);
 
     const result = await citationController.deleteSpecificCitation(1);
 
@@ -111,9 +105,7 @@ describe('CitationController', () => {
   });
 
   it('should call getSpecificCitation', async () => {
-    (citationService.getSpecificCitation as jest.Mock).mockResolvedValue(
-      mockCitation,
-    );
+    (citationService.getSpecificCitation as jest.Mock).mockResolvedValue(mockCitation);
 
     const result = await citationController.getSpecificCitation(1);
 
@@ -135,16 +127,12 @@ describe('CitationController', () => {
         sortOrder: 'ASC',
       } as FilterCitationParams;
 
-      (citationService.getAllCitations as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (citationService.getAllCitations as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await citationController.getAllCitation(complexFilters);
 
       expect(citationService.getAllCitations).toHaveBeenCalledTimes(1);
-      expect(citationService.getAllCitations).toHaveBeenCalledWith(
-        complexFilters,
-      );
+      expect(citationService.getAllCitations).toHaveBeenCalledWith(complexFilters);
       expect(result).toEqual(mockPaginationResponse);
     });
 
@@ -154,16 +142,12 @@ describe('CitationController', () => {
         data: [],
         metadata: { limit: 100, offset: 0, total: 0 },
       };
-      (citationService.getAllCitations as jest.Mock).mockResolvedValue(
-        emptyResponse,
-      );
+      (citationService.getAllCitations as jest.Mock).mockResolvedValue(emptyResponse);
 
       const result = await citationController.getAllCitation(emptyFilters);
 
       expect(citationService.getAllCitations).toHaveBeenCalledTimes(1);
-      expect(citationService.getAllCitations).toHaveBeenCalledWith(
-        emptyFilters,
-      );
+      expect(citationService.getAllCitations).toHaveBeenCalledWith(emptyFilters);
       expect(result).toEqual(emptyResponse);
     });
   });
@@ -174,13 +158,8 @@ describe('CitationController', () => {
 
       await citationController.associateCitationActor(ids);
 
-      expect(citationService.associateCitationWithField).toHaveBeenCalledTimes(
-        1,
-      );
-      expect(citationService.associateCitationWithField).toHaveBeenCalledWith(
-        ids,
-        'actors',
-      );
+      expect(citationService.associateCitationWithField).toHaveBeenCalledTimes(1);
+      expect(citationService.associateCitationWithField).toHaveBeenCalledWith(ids, 'actors');
     });
 
     it('should call dissociateCitationActor', async () => {
@@ -188,13 +167,8 @@ describe('CitationController', () => {
 
       await citationController.dissociateCitationActor(ids);
 
-      expect(citationService.dissociateCitationWithField).toHaveBeenCalledTimes(
-        1,
-      );
-      expect(citationService.dissociateCitationWithField).toHaveBeenCalledWith(
-        ids,
-        'actors',
-      );
+      expect(citationService.dissociateCitationWithField).toHaveBeenCalledTimes(1);
+      expect(citationService.dissociateCitationWithField).toHaveBeenCalledWith(ids, 'actors');
     });
 
     it('should call associateCitationAuthor', async () => {
@@ -202,13 +176,8 @@ describe('CitationController', () => {
 
       await citationController.associateCitationAuthor(ids);
 
-      expect(citationService.associateCitationWithField).toHaveBeenCalledTimes(
-        1,
-      );
-      expect(citationService.associateCitationWithField).toHaveBeenCalledWith(
-        ids,
-        'authors',
-      );
+      expect(citationService.associateCitationWithField).toHaveBeenCalledTimes(1);
+      expect(citationService.associateCitationWithField).toHaveBeenCalledWith(ids, 'authors');
     });
 
     it('should call dissociateCitationAuthor', async () => {
@@ -216,13 +185,8 @@ describe('CitationController', () => {
 
       await citationController.dissociateCitationAuthor(ids);
 
-      expect(citationService.dissociateCitationWithField).toHaveBeenCalledTimes(
-        1,
-      );
-      expect(citationService.dissociateCitationWithField).toHaveBeenCalledWith(
-        ids,
-        'authors',
-      );
+      expect(citationService.dissociateCitationWithField).toHaveBeenCalledTimes(1);
+      expect(citationService.dissociateCitationWithField).toHaveBeenCalledWith(ids, 'authors');
     });
   });
 });

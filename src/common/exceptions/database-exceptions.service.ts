@@ -34,50 +34,35 @@ export class DatabaseExceptions {
         case '22001':
           throw new BadRequestException({
             error: HttpErrorByCode[HttpStatus.BAD_REQUEST].name,
-            message: this.formatMessage(
-              ERROR_MESSAGES.TOO_LONG_STRING,
-              context,
-            ),
+            message: this.formatMessage(ERROR_MESSAGES.TOO_LONG_STRING, context),
             statusCode: HttpStatus.BAD_REQUEST,
             cause: error.driverError.detail,
           });
         case '22003':
           throw new BadRequestException({
             error: HttpErrorByCode[HttpStatus.BAD_REQUEST].name,
-            message: this.formatMessage(
-              ERROR_MESSAGES.NUM_OUT_OF_RANGE,
-              context,
-            ),
+            message: this.formatMessage(ERROR_MESSAGES.NUM_OUT_OF_RANGE, context),
             statusCode: HttpStatus.BAD_REQUEST,
             cause: error.driverError.detail,
           });
         case '22007':
           throw new BadRequestException({
             error: HttpErrorByCode[HttpStatus.BAD_REQUEST].name,
-            message: this.formatMessage(
-              ERROR_MESSAGES.INVALID_DATETIME_FORMAT,
-              context,
-            ),
+            message: this.formatMessage(ERROR_MESSAGES.INVALID_DATETIME_FORMAT, context),
             statusCode: HttpStatus.BAD_REQUEST,
             cause: error.driverError.detail,
           });
         case '23001':
           throw new BadRequestException({
             error: HttpErrorByCode[HttpStatus.BAD_REQUEST].name,
-            message: this.formatMessage(
-              ERROR_MESSAGES.RESTRICT_VIOLATION,
-              context,
-            ),
+            message: this.formatMessage(ERROR_MESSAGES.RESTRICT_VIOLATION, context),
             statusCode: HttpStatus.BAD_REQUEST,
             cause: error.driverError.detail,
           });
         case '23502':
           throw new BadRequestException({
             error: HttpErrorByCode[HttpStatus.BAD_REQUEST].name,
-            message: this.formatMessage(
-              ERROR_MESSAGES.NOT_NULL_VIOLATION,
-              context,
-            ),
+            message: this.formatMessage(ERROR_MESSAGES.NOT_NULL_VIOLATION, context),
             statusCode: HttpStatus.BAD_REQUEST,
             cause: error.driverError.detail,
           });
@@ -91,20 +76,14 @@ export class DatabaseExceptions {
         case '23505':
           throw new ConflictException({
             error: HttpErrorByCode[HttpStatus.CONFLICT].name,
-            message: this.formatMessage(
-              ERROR_MESSAGES.UNIQUE_VIOLATION,
-              context,
-            ),
+            message: this.formatMessage(ERROR_MESSAGES.UNIQUE_VIOLATION, context),
             statusCode: HttpStatus.CONFLICT,
             cause: error.driverError.detail,
           });
         default:
           throw new InternalServerErrorException({
             error: HttpErrorByCode[HttpStatus.INTERNAL_SERVER_ERROR].name,
-            message: this.formatMessage(
-              ERROR_MESSAGES.OPERATION_FAILED,
-              context,
-            ),
+            message: this.formatMessage(ERROR_MESSAGES.OPERATION_FAILED, context),
             statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
             cause: error.driverError.detail,
           });
@@ -119,8 +98,6 @@ export class DatabaseExceptions {
       });
     }
 
-    throw new InternalServerErrorException(
-      error.message || ERROR_MESSAGES.OPERATION_FAILED,
-    );
+    throw new InternalServerErrorException(error.message || ERROR_MESSAGES.OPERATION_FAILED);
   }
 }

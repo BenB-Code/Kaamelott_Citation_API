@@ -64,9 +64,7 @@ describe('CitationRepository', () => {
     }).compile();
 
     citationRepository = module.get<CitationRepository>(CitationRepository);
-    repository = module.get<Partial<Repository<Citation>>>(
-      getRepositoryToken(Citation),
-    );
+    repository = module.get<Partial<Repository<Citation>>>(getRepositoryToken(Citation));
   });
 
   afterEach(() => {
@@ -154,9 +152,7 @@ describe('CitationRepository', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      mockQueryBuilder.getManyAndCount = jest
-        .fn()
-        .mockResolvedValue([mockCitations, mockCount]);
+      mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([mockCitations, mockCount]);
     });
 
     it('should handle complex filters with search and sorting', async () => {
@@ -175,10 +171,7 @@ describe('CitationRepository', () => {
 
       expect(repository.createQueryBuilder).toHaveBeenCalledWith('citation');
       expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalled();
-      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(
-        'character.id',
-        'DESC',
-      );
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('character.id', 'DESC');
       expect(mockQueryBuilder.skip).toHaveBeenCalledWith(20);
       expect(mockQueryBuilder.take).toHaveBeenCalledWith(10);
       expect(result).toEqual([mockCitations, mockCount]);
@@ -194,10 +187,7 @@ describe('CitationRepository', () => {
 
       await citationRepository.selectBy(emptyFilters);
 
-      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(
-        'citation.createdAt',
-        'DESC',
-      );
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('citation.createdAt', 'DESC');
       expect(mockQueryBuilder.skip).toHaveBeenCalledWith(0);
       expect(mockQueryBuilder.take).toHaveBeenCalledWith(100);
     });
@@ -219,10 +209,7 @@ describe('CitationRepository', () => {
           sortOrder: 'ASC',
         } as FilterCitationParams;
         await citationRepository.selectBy(filters);
-        expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(
-          test.expected,
-          'ASC',
-        );
+        expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith(test.expected, 'ASC');
       }
     });
 

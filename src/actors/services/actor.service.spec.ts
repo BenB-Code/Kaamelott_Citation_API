@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { ActorDto } from '../dto/actor.dto';
@@ -102,9 +98,7 @@ describe('ActorService', () => {
     });
 
     it('should throw exception as is', async () => {
-      (actorRepository.delete as jest.Mock).mockRejectedValue(
-        new InternalServerErrorException(),
-      );
+      (actorRepository.delete as jest.Mock).mockRejectedValue(new InternalServerErrorException());
 
       try {
         await actorService.deleteActor(12345);
@@ -205,10 +199,7 @@ describe('ActorService', () => {
         offset: 10,
       } as FilterActorParams;
 
-      (actorRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockActors,
-        mockCount,
-      ]);
+      (actorRepository.selectBy as jest.Mock).mockResolvedValue([mockActors, mockCount]);
 
       const result = await actorService.getAllActors(complexFilters);
 

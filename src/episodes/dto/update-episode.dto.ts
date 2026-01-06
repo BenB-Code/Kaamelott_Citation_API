@@ -1,11 +1,4 @@
-import {
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsNumber, IsOptional, IsPositive, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class UpdateEpisodeDto {
   @IsOptional()

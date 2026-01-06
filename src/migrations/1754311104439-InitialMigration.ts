@@ -25,15 +25,11 @@ export class InitialMigration1754311104439 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "season" ("id" SERIAL NOT NULL, "name" character varying(75) NOT NULL, "picture" character varying(250), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "showId" integer, CONSTRAINT "UQ_430659632183cd126def13b78e5" UNIQUE ("showId", "name"), CONSTRAINT "PK_8ac0d081dbdb7ab02d166bcda9f" PRIMARY KEY ("id"))`,
     );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_b3e4a42a8be8b449354a8b31cc" ON "season" ("name") `,
-    );
+    await queryRunner.query(`CREATE INDEX "IDX_b3e4a42a8be8b449354a8b31cc" ON "season" ("name") `);
     await queryRunner.query(
       `CREATE TABLE "episode" ("id" SERIAL NOT NULL, "name" character varying(150), "number" smallint, "picture" character varying(250), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "seasonId" integer, CONSTRAINT "UQ_9c81578a57f573c4d649330d4e4" UNIQUE ("seasonId", "number", "name"), CONSTRAINT "PK_7258b95d6d2bf7f621845a0e143" PRIMARY KEY ("id"))`,
     );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_5b8186cd5641b3bf6ee49479ce" ON "episode" ("name") `,
-    );
+    await queryRunner.query(`CREATE INDEX "IDX_5b8186cd5641b3bf6ee49479ce" ON "episode" ("name") `);
     await queryRunner.query(
       `CREATE INDEX "IDX_7166afa4951d08d8d88a4304e6" ON "episode" ("number") `,
     );
@@ -49,9 +45,7 @@ export class InitialMigration1754311104439 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "movie" ("id" SERIAL NOT NULL, "name" character varying(75) NOT NULL, "releaseDate" date NOT NULL, "picture" character varying(250), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "showId" integer, CONSTRAINT "UQ_e8c05dc994381d0c330ff16373a" UNIQUE ("name", "releaseDate", "showId"), CONSTRAINT "PK_cb3bb4d61cf764dc035cbedd422" PRIMARY KEY ("id"))`,
     );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_cee7125f3cbad047d34a6e1353" ON "movie" ("name") `,
-    );
+    await queryRunner.query(`CREATE INDEX "IDX_cee7125f3cbad047d34a6e1353" ON "movie" ("name") `);
     await queryRunner.query(
       `CREATE INDEX "IDX_4da334f952d24a0bf6a2902945" ON "movie" ("releaseDate") `,
     );
@@ -68,9 +62,7 @@ export class InitialMigration1754311104439 implements MigrationInterface {
     await queryRunner.query(
       `CREATE TABLE "show" ("id" SERIAL NOT NULL, "name" character varying(75) NOT NULL, "mediaType" "public"."show_mediatype_enum" NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_7c8e9ee31783156b22436e4c726" UNIQUE ("mediaType", "name"), CONSTRAINT "PK_e9993c2777c1d0907e845fce4d1" PRIMARY KEY ("id"))`,
     );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_c5861774818d3e1ab3c5c7463d" ON "show" ("name") `,
-    );
+    await queryRunner.query(`CREATE INDEX "IDX_c5861774818d3e1ab3c5c7463d" ON "show" ("name") `);
     await queryRunner.query(
       `CREATE INDEX "IDX_7c8e9ee31783156b22436e4c72" ON "show" ("mediaType", "name") `,
     );
@@ -158,9 +150,7 @@ export class InitialMigration1754311104439 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "character_actor" DROP CONSTRAINT "FK_fcfe9360470f1a66baabbaaead5"`,
     );
-    await queryRunner.query(
-      `ALTER TABLE "movie" DROP CONSTRAINT "FK_441b10b4da0095900fa5e3ea1e0"`,
-    );
+    await queryRunner.query(`ALTER TABLE "movie" DROP CONSTRAINT "FK_441b10b4da0095900fa5e3ea1e0"`);
     await queryRunner.query(
       `ALTER TABLE "citation" DROP CONSTRAINT "FK_e299e86204e6dd7c2be54c0c1be"`,
     );
@@ -176,73 +166,35 @@ export class InitialMigration1754311104439 implements MigrationInterface {
     await queryRunner.query(
       `ALTER TABLE "season" DROP CONSTRAINT "FK_1addcb12701996373de04873742"`,
     );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_39a1f9bad5d2eedf46f3008d36"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_a276f6a5aded3bf01fc6a7ef66"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_39a1f9bad5d2eedf46f3008d36"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_a276f6a5aded3bf01fc6a7ef66"`);
     await queryRunner.query(`DROP TABLE "citation_author"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_d484af57c60d97963f9265669f"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_66bce05a3da51d73d1896d609e"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_d484af57c60d97963f9265669f"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_66bce05a3da51d73d1896d609e"`);
     await queryRunner.query(`DROP TABLE "citation_actor"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_329210c738ed6ca2581627b589"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_fcfe9360470f1a66baabbaaead"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_329210c738ed6ca2581627b589"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_fcfe9360470f1a66baabbaaead"`);
     await queryRunner.query(`DROP TABLE "character_actor"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_7c8e9ee31783156b22436e4c72"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_c5861774818d3e1ab3c5c7463d"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_7c8e9ee31783156b22436e4c72"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_c5861774818d3e1ab3c5c7463d"`);
     await queryRunner.query(`DROP TABLE "show"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_4f7be22383ee689e458305612d"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_4da334f952d24a0bf6a2902945"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_cee7125f3cbad047d34a6e1353"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_4f7be22383ee689e458305612d"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_4da334f952d24a0bf6a2902945"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_cee7125f3cbad047d34a6e1353"`);
     await queryRunner.query(`DROP TABLE "movie"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_58a6b31f9609466983c6bf55ff"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_58a6b31f9609466983c6bf55ff"`);
     await queryRunner.query(`DROP TABLE "citation"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_54b95a630c80e6df7563e66a30"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_7166afa4951d08d8d88a4304e6"`,
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_5b8186cd5641b3bf6ee49479ce"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_54b95a630c80e6df7563e66a30"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_7166afa4951d08d8d88a4304e6"`);
+    await queryRunner.query(`DROP INDEX "public"."IDX_5b8186cd5641b3bf6ee49479ce"`);
     await queryRunner.query(`DROP TABLE "episode"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_b3e4a42a8be8b449354a8b31cc"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_b3e4a42a8be8b449354a8b31cc"`);
     await queryRunner.query(`DROP TABLE "season"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_cae5e33adeffb5e009874e8b7e"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_cae5e33adeffb5e009874e8b7e"`);
     await queryRunner.query(`DROP TABLE "author"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_92e0c1c260c269baca05671371"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_92e0c1c260c269baca05671371"`);
     await queryRunner.query(`DROP TABLE "actor"`);
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_d80158dde1461b74ed8499e7d8"`,
-    );
+    await queryRunner.query(`DROP INDEX "public"."IDX_d80158dde1461b74ed8499e7d8"`);
     await queryRunner.query(`DROP TABLE "character"`);
   }
 }

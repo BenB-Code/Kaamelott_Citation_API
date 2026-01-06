@@ -51,18 +51,14 @@ describe('CharacterRepository', () => {
             findOneByOrFail: jest.fn(),
             findBy: jest.fn(),
             createQueryBuilder: jest.fn().mockReturnValue(mockQueryBuilder),
-            relationQueryBuilder: jest
-              .fn()
-              .mockReturnValue(mockRelationQueryBuilder),
+            relationQueryBuilder: jest.fn().mockReturnValue(mockRelationQueryBuilder),
           },
         },
       ],
     }).compile();
 
     characterRepository = module.get<CharacterRepository>(CharacterRepository);
-    repository = module.get<Partial<Repository<Character>>>(
-      getRepositoryToken(Character),
-    );
+    repository = module.get<Partial<Repository<Character>>>(getRepositoryToken(Character));
   });
 
   afterEach(() => {
@@ -103,14 +99,8 @@ describe('CharacterRepository', () => {
     });
 
     expect(repository.createQueryBuilder).toHaveBeenCalledWith('character');
-    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-      'character.citations',
-      'citation',
-    );
-    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-      'character.actors',
-      'actor',
-    );
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('character.citations', 'citation');
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('character.actors', 'actor');
     expect(mockQueryBuilder.select).toHaveBeenCalledWith([
       'character.id',
       'character.name',
@@ -124,12 +114,9 @@ describe('CharacterRepository', () => {
       `LOWER(character."name") = LOWER(:name)`,
       { name: 'Arthur' },
     );
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `character.id = :id`,
-      {
-        id: 12,
-      },
-    );
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`character.id = :id`, {
+      id: 12,
+    });
     expect(result).toEqual(mockCharacter);
   });
 
@@ -139,9 +126,7 @@ describe('CharacterRepository', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      mockQueryBuilder.getManyAndCount = jest
-        .fn()
-        .mockResolvedValue([mockCharacters, mockCount]);
+      mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([mockCharacters, mockCount]);
     });
 
     it('should handle complex filters and query building', async () => {
@@ -158,14 +143,8 @@ describe('CharacterRepository', () => {
 
       expect(repository.createQueryBuilder).toHaveBeenCalledTimes(1);
       expect(repository.createQueryBuilder).toHaveBeenCalledWith('character');
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-        'character.citations',
-        'citation',
-      );
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-        'character.actors',
-        'actor',
-      );
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('character.citations', 'citation');
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('character.actors', 'actor');
       expect(mockQueryBuilder.select).toHaveBeenCalledWith([
         'character.id',
         'character.name',

@@ -54,9 +54,7 @@ export class CharacterRepository {
     return await query.getOneOrFail();
   }
 
-  async selectBy(
-    filter: FilterCharacterParams,
-  ): Promise<[Character[], number]> {
+  async selectBy(filter: FilterCharacterParams): Promise<[Character[], number]> {
     const query = this.characterRepository
       .createQueryBuilder('character')
       .leftJoin('character.citations', 'citation')

@@ -23,9 +23,7 @@ import { ActorService } from '../services/actor.service';
 export class ActorController {
   constructor(private readonly actorService: ActorService) {}
   @Get()
-  getAllActors(
-    @Query() filters: FilterActorParams,
-  ): Promise<PaginationResponse<Actor>> {
+  getAllActors(@Query() filters: FilterActorParams): Promise<PaginationResponse<Actor>> {
     return this.actorService.getAllActors(filters);
   }
 
@@ -44,9 +42,7 @@ export class ActorController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificActor(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificActor(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.actorService.deleteActor(id);
   }
 

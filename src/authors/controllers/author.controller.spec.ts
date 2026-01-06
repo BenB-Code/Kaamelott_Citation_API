@@ -101,9 +101,7 @@ describe('AuthorController', () => {
         sortOrder: 'ASC',
       } as FilterAuthorParams;
 
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await authorController.getAllAuthors(complexFilters);
 
@@ -118,9 +116,7 @@ describe('AuthorController', () => {
         data: [],
         metadata: { limit: 100, offset: 0, total: 0 },
       };
-      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(
-        emptyResponse,
-      );
+      (authorService.getAllAuthors as jest.Mock).mockResolvedValue(emptyResponse);
 
       const result = await authorController.getAllAuthors(emptyFilters);
 

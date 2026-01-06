@@ -61,11 +61,7 @@ describe('DatabaseExceptions', () => {
           description: 'Option description',
           cause: 'Test',
         };
-        const error = new HttpException(
-          errorMessage,
-          HttpStatus.BAD_REQUEST,
-          errorOptions,
-        );
+        const error = new HttpException(errorMessage, HttpStatus.BAD_REQUEST, errorOptions);
         try {
           databaseExceptions.handleDatabaseError(error);
         } catch (error) {
@@ -188,9 +184,7 @@ describe('DatabaseExceptions', () => {
     describe('QueryFailedError', () => {
       it('should throw NotFoundException, NO_DATA_FOUND', () => {
         try {
-          databaseExceptions.handleDatabaseError(
-            new EntityNotFoundError(Author, { id: 12345 }),
-          );
+          databaseExceptions.handleDatabaseError(new EntityNotFoundError(Author, { id: 12345 }));
         } catch (error) {
           expect(error).toBeInstanceOf(NotFoundException);
           expect(error.status).toBe(404);
@@ -216,9 +210,7 @@ describe('DatabaseExceptions', () => {
 
       it('should throw InternalServerErrorException, specific message', () => {
         try {
-          databaseExceptions.handleDatabaseError(
-            new Error('Error test message'),
-          );
+          databaseExceptions.handleDatabaseError(new Error('Error test message'));
         } catch (error) {
           expect(error).toBeInstanceOf(InternalServerErrorException);
           expect(error.status).toBe(500);

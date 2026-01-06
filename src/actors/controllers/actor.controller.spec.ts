@@ -101,9 +101,7 @@ describe('ActorController', () => {
         sortOrder: 'ASC',
       } as FilterActorParams;
 
-      (actorService.getAllActors as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (actorService.getAllActors as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await actorController.getAllActors(complexFilters);
 

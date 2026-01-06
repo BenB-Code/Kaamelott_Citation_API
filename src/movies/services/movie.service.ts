@@ -33,10 +33,7 @@ export class MovieService {
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
-            this.databaseExceptions.formatMessage(
-              ERROR_MESSAGES.NO_DATA_FOUND,
-              this.context,
-            ),
+            this.databaseExceptions.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, this.context),
           ),
         );
       }
@@ -67,9 +64,7 @@ export class MovieService {
     }
   }
 
-  async getAllMovies(
-    filters: FilterMovieParams,
-  ): Promise<PaginationResponse<Movie>> {
+  async getAllMovies(filters: FilterMovieParams): Promise<PaginationResponse<Movie>> {
     try {
       const [movies, total] = await this.movieRepository.selectBy(filters);
 

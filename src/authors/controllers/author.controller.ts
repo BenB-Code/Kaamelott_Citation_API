@@ -24,9 +24,7 @@ export class AuthorController {
   constructor(private readonly authorService: AuthorService) {}
 
   @Get()
-  getAllAuthors(
-    @Query() filters: FilterAuthorParams,
-  ): Promise<PaginationResponse<Author>> {
+  getAllAuthors(@Query() filters: FilterAuthorParams): Promise<PaginationResponse<Author>> {
     return this.authorService.getAllAuthors(filters);
   }
 
@@ -45,9 +43,7 @@ export class AuthorController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificAuthor(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificAuthor(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.authorService.deleteAuthor(id);
   }
 
