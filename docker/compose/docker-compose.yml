@@ -43,7 +43,6 @@ services:
 networks:
   kaamelott-network:
     driver: bridge
-    internal: true
 
 volumes:
   postgres_data:
