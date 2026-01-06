@@ -14,7 +14,7 @@ export class SeedCitationAuthor1755795729346 implements MigrationInterface {
       throw new Error("author non trouvé. Exécutez d'abord la migration SeedAuthor");
     }
     if (!citations?.length) {
-      throw new Error("'citation non trouvé. Exécutez d\'abord la migration SeedCitation';
+      throw new Error('\'citation non trouvé. Exécutez d\'abord la migration SeedCitation\';');
     }
     const authorsMap = Object.fromEntries(
       authors.map((author) => [`${author.firstName} ${author.lastName}`, author.id]),

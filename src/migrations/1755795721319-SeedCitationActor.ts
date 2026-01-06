@@ -22,7 +22,8 @@ export class SeedCitationActor1755795721319 implements MigrationInterface {
       );
     }
     if (!citation?.length) {
-      throw new Error("'citation non trouvé. Exécutez d\'abord la migration SeedCitation';
+      throw new Error('\'citation non trouvé. Exécutez d\'abord la migration SeedCitation\';',
+      );
     }
 
     const citationsActors = citation.flatMap((citation) =>
