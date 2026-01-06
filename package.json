@@ -8,6 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.{ts,scss,html,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,scss,html,json}\"",
     "start:local": "set ENV=local&& nest start --watch",
     "start:local:debug": "set ENV=local&& nest start --debug --watch",
     "start:dev": "nest start --watch",
@@ -19,7 +20,6 @@
     "test:cov": "jest --config ./jest.config.json --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --config ./jest.config.json --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "format:check": "prettier --check \"src/**/*.{ts,scss,html,json}\"",
     "typeorm": "typeorm-ts-node-commonjs",
     "migration:create": "npm run typeorm -- migration:create",
     "migration:generate": "npm run typeorm -- migration:generate -d ./typeorm.config.ts",
