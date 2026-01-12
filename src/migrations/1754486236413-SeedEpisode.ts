@@ -6,13 +6,9 @@ export class SeedEpisode1754486236413 implements MigrationInterface {
         SELECT id, name FROM "season"
         `);
     if (!seasons?.length) {
-      throw new Error(
-        "Seasons non trouvé. Exécutez d'abord la migration SeedSeason",
-      );
+      throw new Error("Seasons non trouvé. Exécutez d'abord la migration SeedSeason");
     }
-    const seasonMap = Object.fromEntries(
-      seasons.map((season) => [season.name, season.id]),
-    );
+    const seasonMap = Object.fromEntries(seasons.map((season) => [season.name, season.id]));
 
     const episodes = [
       { name: null, number: 6, seasonId: seasonMap['épisodes pilotes'] },

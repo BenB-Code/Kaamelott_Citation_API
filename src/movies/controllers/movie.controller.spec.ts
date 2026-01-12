@@ -106,9 +106,7 @@ describe('MovieController', () => {
         sortOrder: 'ASC',
       } as FilterMovieParams;
 
-      (movieService.getAllMovies as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (movieService.getAllMovies as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await movieController.getAllMovies(complexFilters);
 

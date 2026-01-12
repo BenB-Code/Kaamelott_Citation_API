@@ -51,9 +51,7 @@ describe('AuthorRepository', () => {
     }).compile();
 
     authorRepository = module.get<AuthorRepository>(AuthorRepository);
-    repository = module.get<Partial<Repository<Author>>>(
-      getRepositoryToken(Author),
-    );
+    repository = module.get<Partial<Repository<Author>>>(getRepositoryToken(Author));
   });
 
   afterEach(() => {
@@ -95,10 +93,7 @@ describe('AuthorRepository', () => {
     });
 
     expect(repository.createQueryBuilder).toHaveBeenCalledWith('author');
-    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-      'author.citations',
-      'citation',
-    );
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('author.citations', 'citation');
     expect(mockQueryBuilder.select).toHaveBeenCalledWith([
       'author.id',
       'author.firstName',
@@ -128,9 +123,7 @@ describe('AuthorRepository', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      mockQueryBuilder.getManyAndCount = jest
-        .fn()
-        .mockResolvedValue([mockAuthors, mockCount]);
+      mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([mockAuthors, mockCount]);
     });
 
     it('should handle complex filters and query building', async () => {
@@ -148,10 +141,7 @@ describe('AuthorRepository', () => {
 
       expect(repository.createQueryBuilder).toHaveBeenCalledTimes(1);
       expect(repository.createQueryBuilder).toHaveBeenCalledWith('author');
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-        'author.citations',
-        'citation',
-      );
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('author.citations', 'citation');
       expect(mockQueryBuilder.select).toHaveBeenCalledWith([
         'author.id',
         'author.firstName',

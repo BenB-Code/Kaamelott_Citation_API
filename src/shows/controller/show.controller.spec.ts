@@ -101,9 +101,7 @@ describe('ShowController', () => {
         sortOrder: 'ASC',
       } as FilterShowParams;
 
-      (showService.getAllShows as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (showService.getAllShows as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await showController.getAllShows(complexFilters);
 

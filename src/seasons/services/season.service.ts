@@ -35,10 +35,7 @@ export class SeasonService {
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
-            this.databaseExceptions.formatMessage(
-              ERROR_MESSAGES.NO_DATA_FOUND,
-              this.context,
-            ),
+            this.databaseExceptions.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, this.context),
           ),
         );
       }
@@ -66,9 +63,7 @@ export class SeasonService {
     }
   }
 
-  async getAllSeasons(
-    filters: FilterSeasonParams,
-  ): Promise<PaginationResponse<Season>> {
+  async getAllSeasons(filters: FilterSeasonParams): Promise<PaginationResponse<Season>> {
     try {
       const [seasons, total] = await this.seasonRepository.selectBy(filters);
 

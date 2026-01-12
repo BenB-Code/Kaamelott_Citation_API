@@ -67,9 +67,7 @@ describe('CharacterController', () => {
     await characterController.createCharacter(mockCharacterDto);
 
     expect(characterService.createCharacter).toHaveBeenCalledTimes(1);
-    expect(characterService.createCharacter).toHaveBeenCalledWith(
-      mockCharacterDto,
-    );
+    expect(characterService.createCharacter).toHaveBeenCalledWith(mockCharacterDto);
   });
 
   it('should call delete', async () => {
@@ -83,10 +81,7 @@ describe('CharacterController', () => {
     await characterController.editSpecificCharacter(1, mockCharacterDto);
 
     expect(characterService.editCharacter).toHaveBeenCalledTimes(1);
-    expect(characterService.editCharacter).toHaveBeenCalledWith(
-      1,
-      mockCharacterDto,
-    );
+    expect(characterService.editCharacter).toHaveBeenCalledWith(1, mockCharacterDto);
   });
 
   it('should call getSpecificCharacter', async () => {
@@ -107,16 +102,12 @@ describe('CharacterController', () => {
         sortOrder: 'ASC',
       } as FilterCharacterParams;
 
-      (characterService.getAllCharacters as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (characterService.getAllCharacters as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await characterController.getAllCharacters(complexFilters);
 
       expect(characterService.getAllCharacters).toHaveBeenCalledTimes(1);
-      expect(characterService.getAllCharacters).toHaveBeenCalledWith(
-        complexFilters,
-      );
+      expect(characterService.getAllCharacters).toHaveBeenCalledWith(complexFilters);
       expect(result).toEqual(mockPaginationResponse);
     });
 
@@ -126,16 +117,12 @@ describe('CharacterController', () => {
         data: [],
         metadata: { limit: 100, offset: 0, total: 0 },
       };
-      (characterService.getAllCharacters as jest.Mock).mockResolvedValue(
-        emptyResponse,
-      );
+      (characterService.getAllCharacters as jest.Mock).mockResolvedValue(emptyResponse);
 
       const result = await characterController.getAllCharacters(emptyFilters);
 
       expect(characterService.getAllCharacters).toHaveBeenCalledTimes(1);
-      expect(characterService.getAllCharacters).toHaveBeenCalledWith(
-        emptyFilters,
-      );
+      expect(characterService.getAllCharacters).toHaveBeenCalledWith(emptyFilters);
       expect(result).toEqual(emptyResponse);
     });
   });

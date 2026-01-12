@@ -62,9 +62,7 @@ describe('CharacterService', () => {
 
   describe('createCharacter', () => {
     it('should create the character', async () => {
-      (characterRepository.create as jest.Mock).mockResolvedValueOnce(
-        mockCharacter,
-      );
+      (characterRepository.create as jest.Mock).mockResolvedValueOnce(mockCharacter);
 
       await characterService.createCharacter(mockCharacterDto);
 
@@ -88,9 +86,7 @@ describe('CharacterService', () => {
         ...mockCharacterDto,
         actorId: 1,
       });
-      expect(characterRepository.associateCharacterActor).toHaveBeenCalledTimes(
-        1,
-      );
+      expect(characterRepository.associateCharacterActor).toHaveBeenCalledTimes(1);
       expect(characterRepository.associateCharacterActor).toHaveBeenCalledWith({
         characterId: 12,
         actorId: 1,
@@ -166,9 +162,7 @@ describe('CharacterService', () => {
 
   describe('editCharacter', () => {
     it('should return updated character', async () => {
-      (characterRepository.selectOneBy as jest.Mock).mockResolvedValue(
-        mockCharacter,
-      );
+      (characterRepository.selectOneBy as jest.Mock).mockResolvedValue(mockCharacter);
 
       await characterService.editCharacter(mockCharacter.id, {
         name: 'Tested',
@@ -237,10 +231,7 @@ describe('CharacterService', () => {
         offset: 10,
       } as FilterCharacterParams;
 
-      (characterRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockCharacters,
-        mockCount,
-      ]);
+      (characterRepository.selectBy as jest.Mock).mockResolvedValue([mockCharacters, mockCount]);
 
       const result = await characterService.getAllCharacters(complexFilters);
 
@@ -294,9 +285,7 @@ describe('CharacterService', () => {
         actorId: 1,
       });
 
-      expect(characterRepository.associateCharacterActor).toHaveBeenCalledTimes(
-        1,
-      );
+      expect(characterRepository.associateCharacterActor).toHaveBeenCalledTimes(1);
       expect(characterRepository.associateCharacterActor).toHaveBeenCalledWith({
         characterId: 1,
         actorId: 1,
@@ -308,9 +297,7 @@ describe('CharacterService', () => {
         const mockError = new QueryFailedError('', [], {
           code: '23503',
         } as any);
-        (
-          characterRepository.associateCharacterActor as jest.Mock
-        ).mockRejectedValue(mockError);
+        (characterRepository.associateCharacterActor as jest.Mock).mockRejectedValue(mockError);
 
         await characterService.associateCharacterActor({
           characterId: 1,
@@ -333,15 +320,11 @@ describe('CharacterService', () => {
         actorId: 1,
       });
 
-      expect(
-        characterRepository.dissociateCharacterActor,
-      ).toHaveBeenCalledTimes(1);
-      expect(characterRepository.dissociateCharacterActor).toHaveBeenCalledWith(
-        {
-          characterId: 1,
-          actorId: 1,
-        },
-      );
+      expect(characterRepository.dissociateCharacterActor).toHaveBeenCalledTimes(1);
+      expect(characterRepository.dissociateCharacterActor).toHaveBeenCalledWith({
+        characterId: 1,
+        actorId: 1,
+      });
     });
 
     it('should throw [FK_VIOLATION]', async () => {
@@ -349,9 +332,7 @@ describe('CharacterService', () => {
         const mockError = new QueryFailedError('', [], {
           code: '23503',
         } as any);
-        (
-          characterRepository.dissociateCharacterActor as jest.Mock
-        ).mockRejectedValue(mockError);
+        (characterRepository.dissociateCharacterActor as jest.Mock).mockRejectedValue(mockError);
 
         await characterService.dissociateCharacterActor({
           characterId: 1,

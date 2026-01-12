@@ -37,10 +37,7 @@ export class EpisodeService {
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
-            this.databaseExceptions.formatMessage(
-              ERROR_MESSAGES.NO_DATA_FOUND,
-              this.context,
-            ),
+            this.databaseExceptions.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, this.context),
           ),
         );
       }
@@ -50,10 +47,7 @@ export class EpisodeService {
     }
   }
 
-  async editEpisode(
-    id: number,
-    episodeDto: UpdateEpisodeDto,
-  ): Promise<Episode> {
+  async editEpisode(id: number, episodeDto: UpdateEpisodeDto): Promise<Episode> {
     try {
       const episode = await this.episodeRepository.selectOneBy({ id });
       Object.assign(episode, episodeDto);
@@ -71,9 +65,7 @@ export class EpisodeService {
     }
   }
 
-  async getAllEpisodes(
-    filters: FilterEpisodeParams,
-  ): Promise<PaginationResponse<Episode>> {
+  async getAllEpisodes(filters: FilterEpisodeParams): Promise<PaginationResponse<Episode>> {
     try {
       const [episodes, total] = await this.episodeRepository.selectBy(filters);
 

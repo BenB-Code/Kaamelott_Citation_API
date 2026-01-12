@@ -57,9 +57,7 @@ describe('MovieRepository', () => {
     }).compile();
 
     movieRepository = module.get<MovieRepository>(MovieRepository);
-    repository = module.get<Partial<Repository<Movie>>>(
-      getRepositoryToken(Movie),
-    );
+    repository = module.get<Partial<Repository<Movie>>>(getRepositoryToken(Movie));
   });
 
   afterEach(() => {
@@ -109,14 +107,8 @@ describe('MovieRepository', () => {
     });
 
     expect(repository.createQueryBuilder).toHaveBeenCalledWith('movie');
-    expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith(
-      'movie.show',
-      'show',
-    );
-    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-      'movie.citations',
-      'citation',
-    );
+    expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith('movie.show', 'show');
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('movie.citations', 'citation');
     expect(mockQueryBuilder.select).toHaveBeenCalledWith([
       'movie.id',
       'movie.name',
@@ -128,18 +120,13 @@ describe('MovieRepository', () => {
       'show.name',
       'citation.id',
     ]);
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `LOWER(movie.name) = LOWER(:name)`,
-      { name: 'Film Kaamelott' },
-    );
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `show.id = :showId`,
-      { showId: 1 },
-    );
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `movie.releaseDate = :releaseDate`,
-      { releaseDate: new Date('2021-07-21') },
-    );
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(movie.name) = LOWER(:name)`, {
+      name: 'Film Kaamelott',
+    });
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`show.id = :showId`, { showId: 1 });
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`movie.releaseDate = :releaseDate`, {
+      releaseDate: new Date('2021-07-21'),
+    });
     expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`movie.id = :id`, {
       id: 12,
     });
@@ -152,9 +139,7 @@ describe('MovieRepository', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      mockQueryBuilder.getManyAndCount = jest
-        .fn()
-        .mockResolvedValue([mockMovies, mockCount]);
+      mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([mockMovies, mockCount]);
     });
 
     it('should handle complex filters and query building', async () => {
@@ -173,14 +158,8 @@ describe('MovieRepository', () => {
 
       expect(repository.createQueryBuilder).toHaveBeenCalledTimes(1);
       expect(repository.createQueryBuilder).toHaveBeenCalledWith('movie');
-      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith(
-        'movie.show',
-        'show',
-      );
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-        'movie.citations',
-        'citation',
-      );
+      expect(mockQueryBuilder.leftJoinAndSelect).toHaveBeenCalledWith('movie.show', 'show');
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('movie.citations', 'citation');
       expect(mockQueryBuilder.select).toHaveBeenCalledWith([
         'movie.id',
         'movie.name',
@@ -193,18 +172,15 @@ describe('MovieRepository', () => {
         'citation.id',
       ]);
 
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `show.id = :showId`,
-        { showId: complexFilters.showId },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(movie.name) = LOWER(:name)`,
-        { name: complexFilters.name },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `movie.releaseDate = :releaseDate`,
-        { releaseDate: complexFilters.releaseDate },
-      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`show.id = :showId`, {
+        showId: complexFilters.showId,
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(movie.name) = LOWER(:name)`, {
+        name: complexFilters.name,
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`movie.releaseDate = :releaseDate`, {
+        releaseDate: complexFilters.releaseDate,
+      });
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `LOWER(movie.name) ILIKE LOWER(:search)`,
         { search: `%${complexFilters.search}%` },
@@ -266,18 +242,13 @@ describe('MovieRepository', () => {
 
       await movieRepository.selectBy(caseFilter);
 
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `show.id = :showId`,
-        { showId: 1 },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(movie.name) = LOWER(:name)`,
-        { name: 'FILM KAAMELOTT' },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `movie.releaseDate = :releaseDate`,
-        { releaseDate: '2021-07-21' },
-      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`show.id = :showId`, { showId: 1 });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(movie.name) = LOWER(:name)`, {
+        name: 'FILM KAAMELOTT',
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`movie.releaseDate = :releaseDate`, {
+        releaseDate: '2021-07-21',
+      });
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `LOWER(movie.name) ILIKE LOWER(:search)`,
         { search: '%TEST%' },

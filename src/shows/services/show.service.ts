@@ -34,10 +34,7 @@ export class ShowService {
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
-            this.databaseExceptions.formatMessage(
-              ERROR_MESSAGES.NO_DATA_FOUND,
-              this.context,
-            ),
+            this.databaseExceptions.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, this.context),
           ),
         );
       }
@@ -65,9 +62,7 @@ export class ShowService {
     }
   }
 
-  async getAllShows(
-    filters: FilterShowParams,
-  ): Promise<PaginationResponse<Show>> {
+  async getAllShows(filters: FilterShowParams): Promise<PaginationResponse<Show>> {
     try {
       const [shows, total] = await this.showRepository.selectBy(filters);
 

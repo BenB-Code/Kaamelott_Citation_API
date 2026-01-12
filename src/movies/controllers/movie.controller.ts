@@ -24,9 +24,7 @@ export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Get()
-  getAllMovies(
-    @Query() filters: FilterMovieParams,
-  ): Promise<PaginationResponse<Movie>> {
+  getAllMovies(@Query() filters: FilterMovieParams): Promise<PaginationResponse<Movie>> {
     return this.movieService.getAllMovies(filters);
   }
 
@@ -45,9 +43,7 @@ export class MovieController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificMovie(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificMovie(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.movieService.deleteMovie(id);
   }
 

@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { MovieDto } from '../dto/movie.dto';
@@ -108,9 +104,7 @@ describe('MovieService', () => {
     });
 
     it('should throw exception as is', async () => {
-      (movieRepository.delete as jest.Mock).mockRejectedValue(
-        new InternalServerErrorException(),
-      );
+      (movieRepository.delete as jest.Mock).mockRejectedValue(new InternalServerErrorException());
 
       try {
         await movieService.deleteMovie(12345);
@@ -230,10 +224,7 @@ describe('MovieService', () => {
         offset: 10,
       } as FilterMovieParams;
 
-      (movieRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockMovies,
-        mockCount,
-      ]);
+      (movieRepository.selectBy as jest.Mock).mockResolvedValue([mockMovies, mockCount]);
 
       const result = await movieService.getAllMovies(complexFilters);
 

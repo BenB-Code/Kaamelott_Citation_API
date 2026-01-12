@@ -31,9 +31,7 @@ export class CharacterController {
   }
 
   @Get(':id')
-  getSpecificCharacter(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<Character> {
+  getSpecificCharacter(@Param('id', ParseIntPipe) id: number): Promise<Character> {
     return this.characterService.getSpecificCharacter(id);
   }
 
@@ -47,9 +45,7 @@ export class CharacterController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificCharacter(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificCharacter(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.characterService.deleteCharacter(id);
   }
 

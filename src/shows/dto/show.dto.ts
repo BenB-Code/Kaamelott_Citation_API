@@ -1,10 +1,4 @@
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 import { MediaType } from '../constant/media-type.enum';
 
 export class ShowDto {

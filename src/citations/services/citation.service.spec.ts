@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { CitationDto } from '../dto/citation.dto';
@@ -70,19 +66,13 @@ describe('CitationService', () => {
 
   describe('createCitation', () => {
     it('should create citation with actors and authors', async () => {
-      (citationRepository.create as jest.Mock).mockResolvedValueOnce(
-        mockCitation,
-      );
-      (citationRepository.selectOneBy as jest.Mock).mockResolvedValueOnce(
-        mockCitation,
-      );
+      (citationRepository.create as jest.Mock).mockResolvedValueOnce(mockCitation);
+      (citationRepository.selectOneBy as jest.Mock).mockResolvedValueOnce(mockCitation);
 
       const result = await citationService.createCitation(mockCitationDto);
 
       expect(citationRepository.create).toHaveBeenCalledTimes(1);
-      expect(
-        citationRepository.associateCitationWithField,
-      ).toHaveBeenCalledTimes(3); // 2 actors + 1 author
+      expect(citationRepository.associateCitationWithField).toHaveBeenCalledTimes(3);
       expect(result).toEqual(mockCitation);
     });
 
@@ -105,9 +95,7 @@ describe('CitationService', () => {
 
   describe('deleteSpecificCitation', () => {
     it('should delete citation with associations', async () => {
-      (citationRepository.selectOneBy as jest.Mock).mockResolvedValue(
-        mockCitation,
-      );
+      (citationRepository.selectOneBy as jest.Mock).mockResolvedValue(mockCitation);
       (citationRepository.delete as jest.Mock).mockResolvedValue({
         raw: [],
         affected: 1,
@@ -115,9 +103,7 @@ describe('CitationService', () => {
 
       const result = await citationService.deleteSpecificCitation(1);
 
-      expect(
-        citationRepository.dissociateCitationWithField,
-      ).toHaveBeenCalledTimes(3); // 2 actors + 1 author
+      expect(citationRepository.dissociateCitationWithField).toHaveBeenCalledTimes(3);
       expect(citationRepository.delete).toHaveBeenCalledWith({ id: 1 });
       expect(result).toEqual({ raw: [], affected: 1 });
     });
@@ -140,9 +126,7 @@ describe('CitationService', () => {
 
   describe('editCitation', () => {
     it('should update citation', async () => {
-      (citationRepository.selectOneBy as jest.Mock).mockResolvedValue(
-        mockCitation,
-      );
+      (citationRepository.selectOneBy as jest.Mock).mockResolvedValue(mockCitation);
       (citationRepository.update as jest.Mock).mockResolvedValue({
         ...mockCitation,
         text: 'Updated text',
@@ -159,9 +143,7 @@ describe('CitationService', () => {
 
     it('should handle database errors', async () => {
       const mockError = new Error('Database connection failed');
-      (citationRepository.selectOneBy as jest.Mock).mockRejectedValue(
-        mockError,
-      );
+      (citationRepository.selectOneBy as jest.Mock).mockRejectedValue(mockError);
 
       try {
         await citationService.editCitation(1, { text: 'Updated text' });
@@ -173,9 +155,7 @@ describe('CitationService', () => {
 
   describe('getSpecificCitation', () => {
     it('should return citation', async () => {
-      (citationRepository.selectOneBy as jest.Mock).mockResolvedValue(
-        mockCitation,
-      );
+      (citationRepository.selectOneBy as jest.Mock).mockResolvedValue(mockCitation);
 
       const result = await citationService.getSpecificCitation(1);
 
@@ -211,10 +191,7 @@ describe('CitationService', () => {
         offset: 10,
       } as FilterCitationParams;
 
-      (citationRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockCitations,
-        mockCount,
-      ]);
+      (citationRepository.selectBy as jest.Mock).mockResolvedValue([mockCitations, mockCount]);
 
       const result = await citationService.getAllCitations(complexFilters);
 
@@ -246,27 +223,23 @@ describe('CitationService', () => {
 
   describe('associateCitationWithField', () => {
     it('should associate citation with field', async () => {
-      await citationService.associateCitationWithField(
+      await citationService.associateCitationWithField({ citationId: 1, fieldId: 2 }, 'actors');
+
+      expect(citationRepository.associateCitationWithField).toHaveBeenCalledWith(
         { citationId: 1, fieldId: 2 },
         'actors',
       );
-
-      expect(
-        citationRepository.associateCitationWithField,
-      ).toHaveBeenCalledWith({ citationId: 1, fieldId: 2 }, 'actors');
     });
   });
 
   describe('dissociateCitationWithField', () => {
     it('should dissociate citation from field', async () => {
-      await citationService.dissociateCitationWithField(
+      await citationService.dissociateCitationWithField({ citationId: 1, fieldId: 2 }, 'authors');
+
+      expect(citationRepository.dissociateCitationWithField).toHaveBeenCalledWith(
         { citationId: 1, fieldId: 2 },
         'authors',
       );
-
-      expect(
-        citationRepository.dissociateCitationWithField,
-      ).toHaveBeenCalledWith({ citationId: 1, fieldId: 2 }, 'authors');
     });
   });
 });

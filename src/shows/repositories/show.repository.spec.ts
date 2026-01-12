@@ -50,9 +50,7 @@ describe('ShowRepository', () => {
     }).compile();
 
     showRepository = module.get<ShowRepository>(ShowRepository);
-    repository = module.get<Partial<Repository<Show>>>(
-      getRepositoryToken(Show),
-    );
+    repository = module.get<Partial<Repository<Show>>>(getRepositoryToken(Show));
   });
 
   afterEach(() => {
@@ -101,14 +99,12 @@ describe('ShowRepository', () => {
       'show.createdAt',
       'show.updatedAt',
     ]);
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `LOWER(show."name") = LOWER(:name)`,
-      { name: 'kaamelott' },
-    );
-    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-      `show."mediaType" = :mediaType`,
-      { mediaType: 'film' },
-    );
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(show."name") = LOWER(:name)`, {
+      name: 'kaamelott',
+    });
+    expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`show."mediaType" = :mediaType`, {
+      mediaType: 'film',
+    });
     expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`show.id = :id`, {
       id: 12,
     });
@@ -121,9 +117,7 @@ describe('ShowRepository', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      mockQueryBuilder.getManyAndCount = jest
-        .fn()
-        .mockResolvedValue([mockShows, mockCount]);
+      mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([mockShows, mockCount]);
     });
 
     it('should handle complex filters and query building', async () => {
@@ -149,14 +143,12 @@ describe('ShowRepository', () => {
         'show.updatedAt',
       ]);
 
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(show."name") = LOWER(:name)`,
-        { name: complexFilters.name },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `show."mediaType" = :mediaType`,
-        { mediaType: complexFilters.mediaType },
-      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(show."name") = LOWER(:name)`, {
+        name: complexFilters.name,
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`show."mediaType" = :mediaType`, {
+        mediaType: complexFilters.mediaType,
+      });
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `(LOWER(show."name") ILIKE LOWER(:search))`,
         { search: `%${complexFilters.search}%` },
@@ -217,14 +209,12 @@ describe('ShowRepository', () => {
 
       await showRepository.selectBy(caseFilter);
 
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `LOWER(show."name") = LOWER(:name)`,
-        { name: 'KAAMEELOTT' },
-      );
-      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
-        `show."mediaType" = :mediaType`,
-        { mediaType: 'film' },
-      );
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`LOWER(show."name") = LOWER(:name)`, {
+        name: 'KAAMEELOTT',
+      });
+      expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(`show."mediaType" = :mediaType`, {
+        mediaType: 'film',
+      });
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         `(LOWER(show."name") ILIKE LOWER(:search))`,
         { search: '%TEST%' },

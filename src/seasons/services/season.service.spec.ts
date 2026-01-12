@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
 import { SeasonDto } from '../dto/season.dto';
@@ -106,9 +102,7 @@ describe('SeasonService', () => {
     });
 
     it('should throw exception as is', async () => {
-      (seasonRepository.delete as jest.Mock).mockRejectedValue(
-        new InternalServerErrorException(),
-      );
+      (seasonRepository.delete as jest.Mock).mockRejectedValue(new InternalServerErrorException());
 
       try {
         await seasonService.deleteSeason(12345);
@@ -211,10 +205,7 @@ describe('SeasonService', () => {
         offset: 10,
       } as FilterSeasonParams;
 
-      (seasonRepository.selectBy as jest.Mock).mockResolvedValue([
-        mockSeasons,
-        mockCount,
-      ]);
+      (seasonRepository.selectBy as jest.Mock).mockResolvedValue([mockSeasons, mockCount]);
 
       const result = await seasonService.getAllSeasons(complexFilters);
 

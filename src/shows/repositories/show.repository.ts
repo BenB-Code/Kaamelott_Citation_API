@@ -28,13 +28,7 @@ export class ShowRepository {
   async selectOneBy(filter: FindShowDto): Promise<Show> {
     const query = this.showRepository
       .createQueryBuilder('show')
-      .select([
-        'show.id',
-        'show.name',
-        'show.mediaType',
-        'show.createdAt',
-        'show.updatedAt',
-      ]);
+      .select(['show.id', 'show.name', 'show.mediaType', 'show.createdAt', 'show.updatedAt']);
 
     if (filter.id) {
       query.andWhere(`show.id = :id`, {
@@ -57,13 +51,7 @@ export class ShowRepository {
   async selectBy(filter: FilterShowParams): Promise<[Show[], number]> {
     const query = this.showRepository
       .createQueryBuilder('show')
-      .select([
-        'show.id',
-        'show.name',
-        'show.mediaType',
-        'show.createdAt',
-        'show.updatedAt',
-      ]);
+      .select(['show.id', 'show.name', 'show.mediaType', 'show.createdAt', 'show.updatedAt']);
 
     if (filter.name) {
       query.andWhere(`LOWER(show."name") = LOWER(:name)`, {
@@ -81,7 +69,8 @@ export class ShowRepository {
       });
     }
 
-    query.orderBy(`show.${filter.sortBy}`, filter.sortOrder);
+    const sortBy = filter.sortBy ?? 'id';
+    query.orderBy(`show.${sortBy}`, filter.sortOrder);
     query.skip(filter.offset).take(filter.limit);
 
     return await query.getManyAndCount();

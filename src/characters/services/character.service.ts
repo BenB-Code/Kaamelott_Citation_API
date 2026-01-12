@@ -44,10 +44,7 @@ export class CharacterService {
       if (!deleteResult.affected) {
         this.databaseExceptions.handleDatabaseError(
           new NotFoundException(
-            this.databaseExceptions.formatMessage(
-              ERROR_MESSAGES.NO_DATA_FOUND,
-              this.context,
-            ),
+            this.databaseExceptions.formatMessage(ERROR_MESSAGES.NO_DATA_FOUND, this.context),
           ),
         );
       }
@@ -57,10 +54,7 @@ export class CharacterService {
     }
   }
 
-  async editCharacter(
-    id: number,
-    characterDto: UpdateCharacterDto,
-  ): Promise<Character> {
+  async editCharacter(id: number, characterDto: UpdateCharacterDto): Promise<Character> {
     try {
       const character = await this.characterRepository.selectOneBy({ id });
       Object.assign(character, characterDto);
@@ -78,12 +72,9 @@ export class CharacterService {
     }
   }
 
-  async getAllCharacters(
-    filters: FilterCharacterParams,
-  ): Promise<PaginationResponse<Character>> {
+  async getAllCharacters(filters: FilterCharacterParams): Promise<PaginationResponse<Character>> {
     try {
-      const [characters, total] =
-        await this.characterRepository.selectBy(filters);
+      const [characters, total] = await this.characterRepository.selectBy(filters);
 
       return {
         data: characters,
@@ -100,7 +91,7 @@ export class CharacterService {
 
   async associateCharacterActor(ids: CharacterActor): Promise<void> {
     try {
-      return await this.characterRepository.associateCharacterActor(ids);
+      await this.characterRepository.associateCharacterActor(ids);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
@@ -108,7 +99,7 @@ export class CharacterService {
 
   async dissociateCharacterActor(ids: CharacterActor): Promise<void> {
     try {
-      return await this.characterRepository.dissociateCharacterActor(ids);
+      await this.characterRepository.dissociateCharacterActor(ids);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

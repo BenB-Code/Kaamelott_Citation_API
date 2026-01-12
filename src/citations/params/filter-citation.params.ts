@@ -27,13 +27,6 @@ export class FilterCitationParams extends SearchFilterParams {
   characterId?: number;
 
   @IsOptional()
-  @IsIn([
-    CREATED_AT,
-    UPDATED_AT,
-    EPISODE_ID,
-    CHARACTER_ID,
-    MOVIE_ID,
-    CITATION_ID,
-  ])
+  @IsIn([CREATED_AT, UPDATED_AT, EPISODE_ID, CHARACTER_ID, MOVIE_ID, CITATION_ID])
   sortBy: string = CREATED_AT;
 }

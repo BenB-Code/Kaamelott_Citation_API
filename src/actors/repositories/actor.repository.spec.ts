@@ -51,9 +51,7 @@ describe('ActorRepository', () => {
     }).compile();
 
     actorRepository = module.get<ActorRepository>(ActorRepository);
-    repository = module.get<Partial<Repository<Actor>>>(
-      getRepositoryToken(Actor),
-    );
+    repository = module.get<Partial<Repository<Actor>>>(getRepositoryToken(Actor));
   });
 
   afterEach(() => {
@@ -95,14 +93,8 @@ describe('ActorRepository', () => {
     });
 
     expect(repository.createQueryBuilder).toHaveBeenCalledWith('actor');
-    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-      'actor.citations',
-      'citation',
-    );
-    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-      'actor.characters',
-      'character',
-    );
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('actor.citations', 'citation');
+    expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('actor.characters', 'character');
     expect(mockQueryBuilder.select).toHaveBeenCalledWith([
       'actor.id',
       'actor.firstName',
@@ -134,9 +126,7 @@ describe('ActorRepository', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
-      mockQueryBuilder.getManyAndCount = jest
-        .fn()
-        .mockResolvedValue([mockActors, mockCount]);
+      mockQueryBuilder.getManyAndCount = jest.fn().mockResolvedValue([mockActors, mockCount]);
     });
 
     it('should handle complex filters and query building', async () => {
@@ -154,14 +144,8 @@ describe('ActorRepository', () => {
 
       expect(repository.createQueryBuilder).toHaveBeenCalledTimes(1);
       expect(repository.createQueryBuilder).toHaveBeenCalledWith('actor');
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-        'actor.citations',
-        'citation',
-      );
-      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith(
-        'actor.characters',
-        'character',
-      );
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('actor.citations', 'citation');
+      expect(mockQueryBuilder.leftJoin).toHaveBeenCalledWith('actor.characters', 'character');
       expect(mockQueryBuilder.select).toHaveBeenCalledWith([
         'actor.id',
         'actor.firstName',

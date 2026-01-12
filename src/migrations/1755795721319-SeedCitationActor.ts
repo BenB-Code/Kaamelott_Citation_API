@@ -14,9 +14,7 @@ export class SeedCitationActor1755795721319 implements MigrationInterface {
         `),
     ]);
     if (!actor?.length) {
-      throw new Error(
-        "actor non trouvé. Exécutez d'abord la migration SeedActor",
-      );
+      throw new Error("actor non trouvé. Exécutez d'abord la migration SeedActor");
     }
     if (!characterActor?.length) {
       throw new Error(
@@ -24,8 +22,7 @@ export class SeedCitationActor1755795721319 implements MigrationInterface {
       );
     }
     if (!citation?.length) {
-      throw new Error(
-        "citation non trouvé. Exécutez d'abord la migration SeedCitation",
+      throw new Error('\'citation non trouvé. Exécutez d\'abord la migration SeedCitation\';',
       );
     }
 

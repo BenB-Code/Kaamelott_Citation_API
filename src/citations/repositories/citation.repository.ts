@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Citation } from '../entities/citation.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, DeepPartial } from 'typeorm';
 import { CitationDto } from '../dto/citation.dto';
 import { FindCitationDto } from '../dto/find-citation.dto';
 import { FilterCitationParams } from '../params/filter-citation.params';
@@ -17,10 +17,10 @@ export class CitationRepository {
   async create(citation: CitationDto): Promise<Citation> {
     return await this.citationRepository.save({
       text: citation.text,
-      character: { id: citation.characterId } as any,
-      episode: citation.episodeId ? ({ id: citation.episodeId } as any) : null,
-      movie: citation.movieId ? ({ id: citation.movieId } as any) : null,
-    });
+      character: { id: citation.characterId },
+      episode: citation.episodeId ? { id: citation.episodeId } : null,
+      movie: citation.movieId ? { id: citation.movieId } : null,
+    } as DeepPartial<Citation>);
   }
 
   async update(citation: Citation): Promise<Citation> {
@@ -68,7 +68,7 @@ export class CitationRepository {
       .leftJoinAndSelect('citation.authors', 'authors');
 
     Object.entries(filters).forEach(([key, value]) => {
-      if (value !== undefined) {
+      if (value) {
         queryBuilder.andWhere(`citation.${key} = :${key}`, { [key]: value });
       }
     });
@@ -108,7 +108,7 @@ export class CitationRepository {
   }
 
   async associateCitationWithField(ids: CitationWithField, tableName: string) {
-    return await this.citationRepository
+    await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, tableName)
       .of(ids.citationId)
@@ -116,7 +116,7 @@ export class CitationRepository {
   }
 
   async dissociateCitationWithField(ids: CitationWithField, fieldName: string) {
-    return await this.citationRepository
+    await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, fieldName)
       .of(ids.citationId)

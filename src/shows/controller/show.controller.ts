@@ -24,9 +24,7 @@ export class ShowController {
   constructor(private readonly showService: ShowService) {}
 
   @Get()
-  getAllShows(
-    @Query() filters: FilterShowParams,
-  ): Promise<PaginationResponse<Show>> {
+  getAllShows(@Query() filters: FilterShowParams): Promise<PaginationResponse<Show>> {
     return this.showService.getAllShows(filters);
   }
 
@@ -45,9 +43,7 @@ export class ShowController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteSpecificShow(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeleteResult> {
+  deleteSpecificShow(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.showService.deleteShow(id);
   }
 

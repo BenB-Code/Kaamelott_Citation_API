@@ -1,0 +1,51 @@
+# docker/docker-compose.yml
+name: ${APP_NAME:-myapp}_${ENV:-dev}
+services:
+  postgres:
+    container_name: ${APP_NAME:-myapp}_postgres_${ENV:-dev}
+    build:
+      context: ../../
+      dockerfile: docker/postgres/Dockerfile.dev
+    env_file:
+      - ../environment/.env.${ENV:-dev}
+    restart: unless-stopped
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - kaamelott-network
+
+  nestjs:
+    container_name: ${APP_NAME:-myapp}_${ENV:-dev}
+    build:
+      context: ../../
+      dockerfile: docker/nestjs/Dockerfile
+      target: ${BUILD_TARGET:-development}
+    env_file:
+      - ../environment/.env.${ENV:-dev}
+    restart: unless-stopped
+
+    depends_on:
+      - postgres
+
+    volumes:
+      - kaamelott_data:/kaamelott/data:rw
+    networks:
+      - kaamelott-network
+
+    healthcheck:
+      test: [ 'CMD-SHELL', 'curl -f http://localhost:3000/health || exit 1' ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+networks:
+  kaamelott-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  kaamelott_data:
+    driver: local

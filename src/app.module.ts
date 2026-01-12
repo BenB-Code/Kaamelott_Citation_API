@@ -48,16 +48,7 @@ import { CitationModule } from './citations/citation.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         ...(await configService.get('database')),
-        entities: [
-          Show,
-          Season,
-          Movie,
-          Episode,
-          Author,
-          Actor,
-          Character,
-          Citation,
-        ],
+        entities: [Show, Season, Movie, Episode, Author, Actor, Character, Citation],
       }),
     }),
     HealthModule,

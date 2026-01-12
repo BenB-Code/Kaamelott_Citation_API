@@ -103,9 +103,7 @@ describe('SeasonController', () => {
         sortOrder: 'ASC',
       } as FilterSeasonParams;
 
-      (seasonService.getAllSeasons as jest.Mock).mockResolvedValue(
-        mockPaginationResponse,
-      );
+      (seasonService.getAllSeasons as jest.Mock).mockResolvedValue(mockPaginationResponse);
 
       const result = await seasonController.getAllSeasons(complexFilters);
 
@@ -120,9 +118,7 @@ describe('SeasonController', () => {
         data: [],
         metadata: { limit: 100, offset: 0, total: 0 },
       };
-      (seasonService.getAllSeasons as jest.Mock).mockResolvedValue(
-        emptyResponse,
-      );
+      (seasonService.getAllSeasons as jest.Mock).mockResolvedValue(emptyResponse);
 
       const result = await seasonController.getAllSeasons(emptyFilters);
 
