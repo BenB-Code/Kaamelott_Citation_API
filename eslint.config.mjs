@@ -47,6 +47,12 @@ export default tseslint.config(
     },
   },
   {
+    files: ['**/*.module.ts'],
+    rules: {
+      '@typescript-eslint/no-extraneous-class': 'off',
+    },
+  },
+  {
     files: ['**/*.spec.ts', '**/*.test.ts', 'test/**/*.ts'],
     languageOptions: {
       globals: {
