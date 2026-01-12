@@ -239,6 +239,19 @@ describe('EpisodeRepository', () => {
       expect(result).toEqual([[], 0]);
     });
 
+    it('should handle undefined sortBy with default empty string', async () => {
+      const filtersWithoutSortBy = {
+        limit: 10,
+        offset: 0,
+        sortBy: undefined,
+        sortOrder: 'ASC',
+      } as FilterEpisodeParams;
+
+      await episodeRepository.selectBy(filtersWithoutSortBy);
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('episode.', 'ASC');
+    });
+
     it('should properly construct case-insensitive queries', async () => {
       const caseFilter = {
         seasonId: 1,
