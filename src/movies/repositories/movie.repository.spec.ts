@@ -228,6 +228,19 @@ describe('MovieRepository', () => {
       expect(result).toEqual([[], 0]);
     });
 
+    it('should handle undefined sortBy with default empty string', async () => {
+      const filtersWithoutSortBy = {
+        limit: 10,
+        offset: 0,
+        sortBy: undefined,
+        sortOrder: 'ASC',
+      } as FilterMovieParams;
+
+      await movieRepository.selectBy(filtersWithoutSortBy);
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('movie.', 'ASC');
+    });
+
     it('should properly construct case-insensitive queries', async () => {
       const caseFilter = {
         showId: 1,
