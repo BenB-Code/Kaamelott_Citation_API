@@ -12,6 +12,7 @@ export default tseslint.config(
       'node_modules/**',
       'eslint.config.mjs',
       'src/migrations/**/*.ts',
+      '**/*.*spec.ts',
     ],
   },
   eslint.configs.recommended,
@@ -42,6 +43,13 @@ export default tseslint.config(
         { checksVoidReturn: { attributes: false } },
       ],
       '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-extraneous-class': 'warn',
+    },
+  },
+  {
+    files: ['**/*.module.ts'],
+    rules: {
+      '@typescript-eslint/no-extraneous-class': 'off',
     },
   },
   {

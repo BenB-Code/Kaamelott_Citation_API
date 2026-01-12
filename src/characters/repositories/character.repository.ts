@@ -80,14 +80,14 @@ export class CharacterRepository {
       });
     }
 
-    query.orderBy(`character.${filter.sortBy}`, filter.sortOrder);
+    query.orderBy(`character.${filter.sortBy ?? ''}`, filter.sortOrder);
     query.skip(filter.offset).take(filter.limit);
 
     return await query.getManyAndCount();
   }
 
   async associateCharacterActor(ids: CharacterActor) {
-    return await this.characterRepository
+    await this.characterRepository
       .createQueryBuilder()
       .relation(Character, 'actors')
       .of(ids.characterId)
@@ -95,7 +95,7 @@ export class CharacterRepository {
   }
 
   async dissociateCharacterActor(ids: CharacterActor) {
-    return await this.characterRepository
+    await this.characterRepository
       .createQueryBuilder()
       .relation(Character, 'actors')
       .of(ids.characterId)

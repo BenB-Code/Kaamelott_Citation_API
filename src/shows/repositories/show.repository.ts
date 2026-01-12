@@ -69,7 +69,8 @@ export class ShowRepository {
       });
     }
 
-    query.orderBy(`show.${filter.sortBy}`, filter.sortOrder);
+    const sortBy = filter.sortBy ?? 'id';
+    query.orderBy(`show.${sortBy}`, filter.sortOrder);
     query.skip(filter.offset).take(filter.limit);
 
     return await query.getManyAndCount();

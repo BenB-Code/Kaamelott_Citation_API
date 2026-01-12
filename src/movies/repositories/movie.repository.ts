@@ -108,7 +108,7 @@ export class MovieRepository {
       });
     }
 
-    query.orderBy(`movie.${filter.sortBy}`, filter.sortOrder);
+    query.orderBy(`movie.${filter.sortBy ?? ''}`, filter.sortOrder);
     query.skip(filter.offset).take(filter.limit);
 
     return await query.getManyAndCount();

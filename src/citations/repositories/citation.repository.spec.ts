@@ -199,7 +199,7 @@ describe('CitationRepository', () => {
         { sortBy: 'movieId', expected: 'movie.id' },
         { sortBy: 'citationId', expected: 'citation.id' },
         { sortBy: 'createdAt', expected: 'citation.createdAt' },
-        { sortBy: 'text', expected: 'citation.text' }, // fallback
+        { sortBy: 'text', expected: 'citation.text' },
       ];
 
       for (const test of sortTests) {
@@ -231,7 +231,6 @@ describe('CitationRepository', () => {
     it('should call associateCitationWithField', async () => {
       const ids = { citationId: 1, fieldId: 2 };
 
-      // Mock the chainable relation methods
       const mockChain = {
         relation: jest.fn().mockReturnThis(),
         of: jest.fn().mockReturnThis(),
@@ -250,7 +249,6 @@ describe('CitationRepository', () => {
     it('should call dissociateCitationWithField', async () => {
       const ids = { citationId: 1, fieldId: 3 };
 
-      // Mock the chainable relation methods
       const mockChain = {
         relation: jest.fn().mockReturnThis(),
         of: jest.fn().mockReturnThis(),

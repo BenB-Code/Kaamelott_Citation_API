@@ -91,7 +91,7 @@ export class CharacterService {
 
   async associateCharacterActor(ids: CharacterActor): Promise<void> {
     try {
-      return await this.characterRepository.associateCharacterActor(ids);
+      await this.characterRepository.associateCharacterActor(ids);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }
@@ -99,7 +99,7 @@ export class CharacterService {
 
   async dissociateCharacterActor(ids: CharacterActor): Promise<void> {
     try {
-      return await this.characterRepository.dissociateCharacterActor(ids);
+      await this.characterRepository.dissociateCharacterActor(ids);
     } catch (error) {
       this.databaseExceptions.handleDatabaseError(error, this.context);
     }

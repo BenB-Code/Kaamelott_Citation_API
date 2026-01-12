@@ -115,7 +115,7 @@ export class EpisodeRepository {
       });
     }
 
-    query.orderBy(`episode.${filter.sortBy}`, filter.sortOrder);
+    query.orderBy(`episode.${filter.sortBy ?? ''}`, filter.sortOrder);
     query.skip(filter.offset).take(filter.limit);
 
     return await query.getManyAndCount();

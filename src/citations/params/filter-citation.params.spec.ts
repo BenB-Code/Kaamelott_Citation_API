@@ -119,7 +119,7 @@ describe('FilterCitationParams', () => {
     expect(filterParams.search).toBe('Kaamelott');
     expect(filterParams.limit).toBe(50);
     expect(filterParams.offset).toBe(0);
-    expect(filterParams.sortBy).toBe(CREATED_AT); // default value
+    expect(filterParams.sortBy).toBe(CREATED_AT);
   });
 
   it('should accept filters with only relation IDs', async () => {
