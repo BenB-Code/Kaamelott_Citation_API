@@ -12,7 +12,7 @@ export default tseslint.config(
       'node_modules/**',
       'eslint.config.mjs',
       'src/migrations/**/*.ts',
-      '**/*.spec.ts',
+      '**/*.*spec.ts',
     ],
   },
   eslint.configs.recommended,
