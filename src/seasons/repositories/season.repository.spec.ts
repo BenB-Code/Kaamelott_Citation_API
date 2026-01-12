@@ -218,6 +218,19 @@ describe('SeasonRepository', () => {
       expect(result).toEqual([[], 0]);
     });
 
+    it('should handle undefined sortBy with default empty string', async () => {
+      const filtersWithoutSortBy = {
+        limit: 10,
+        offset: 0,
+        sortBy: undefined,
+        sortOrder: 'ASC',
+      } as FilterSeasonParams;
+
+      await seasonRepository.selectBy(filtersWithoutSortBy);
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('season.', 'ASC');
+    });
+
     it('should properly construct case-insensitive queries', async () => {
       const caseFilter = {
         showId: 1,
