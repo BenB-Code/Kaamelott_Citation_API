@@ -72,7 +72,7 @@ describe('CitationService', () => {
       const result = await citationService.createCitation(mockCitationDto);
 
       expect(citationRepository.create).toHaveBeenCalledTimes(1);
-      expect(citationRepository.associateCitationWithField).toHaveBeenCalledTimes(3); // 2 actors + 1 author
+      expect(citationRepository.associateCitationWithField).toHaveBeenCalledTimes(3);
       expect(result).toEqual(mockCitation);
     });
 
@@ -103,7 +103,7 @@ describe('CitationService', () => {
 
       const result = await citationService.deleteSpecificCitation(1);
 
-      expect(citationRepository.dissociateCitationWithField).toHaveBeenCalledTimes(3); // 2 actors + 1 author
+      expect(citationRepository.dissociateCitationWithField).toHaveBeenCalledTimes(3);
       expect(citationRepository.delete).toHaveBeenCalledWith({ id: 1 });
       expect(result).toEqual({ raw: [], affected: 1 });
     });

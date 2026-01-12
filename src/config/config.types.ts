@@ -1,4 +1,4 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
+import type { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 
 export interface ConfigType {

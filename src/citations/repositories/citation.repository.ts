@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Citation } from '../entities/citation.entity';
-import { DeleteResult, Repository } from 'typeorm';
+import { DeleteResult, Repository, DeepPartial } from 'typeorm';
 import { CitationDto } from '../dto/citation.dto';
 import { FindCitationDto } from '../dto/find-citation.dto';
 import { FilterCitationParams } from '../params/filter-citation.params';
@@ -18,9 +18,9 @@ export class CitationRepository {
     return await this.citationRepository.save({
       text: citation.text,
       character: { id: citation.characterId },
-      episode: citation.episodeId ? ({ id: citation.episodeId } as any) : null,
-      movie: citation.movieId ? ({ id: citation.movieId } as any) : null,
-    });
+      episode: citation.episodeId ? { id: citation.episodeId } : null,
+      movie: citation.movieId ? { id: citation.movieId } : null,
+    } as DeepPartial<Citation>);
   }
 
   async update(citation: Citation): Promise<Citation> {

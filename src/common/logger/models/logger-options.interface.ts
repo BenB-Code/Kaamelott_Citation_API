@@ -1,4 +1,4 @@
-import { LogLevelEnum } from './log-level.enum';
+import type { LogLevelEnum } from './log-level.enum';
 
 export interface LoggerOptions {
   context?: string;

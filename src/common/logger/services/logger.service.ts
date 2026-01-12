@@ -7,7 +7,7 @@ import { LoggerOptions } from '../models/logger-options.interface';
 
 @Injectable()
 export class Logger implements LoggerService {
-  private static instance: Logger;
+  private static instance: Logger | undefined;
   private readonly options: Required<LoggerOptions>;
   private readonly contextColors = new Map<string, chalk.ChalkFunction>();
   private colorIndex = 0;
@@ -24,10 +24,10 @@ export class Logger implements LoggerService {
   }
 
   static getInstance(options?: LoggerOptions): Logger {
-    if (!Logger.instance) {
-      Logger.instance = new Logger(options);
+    if (!this.instance) {
+      this.instance = new Logger(options);
     }
-    return Logger.instance;
+    return this.instance;
   }
 
   setContext(context: string): void {
@@ -49,12 +49,13 @@ export class Logger implements LoggerService {
       this.contextColors.set(context, colors[this.colorIndex % colors.length]);
       this.colorIndex++;
     }
-    return this.contextColors.get(context)!;
+    const color = this.contextColors.get(context);
+    return color ?? chalk.white;
   }
 
   private formatMessage(
     level: LogLevelEnum,
-    message: any,
+    message: unknown,
     context?: string,
     trace?: string,
   ): string {
@@ -66,8 +67,8 @@ export class Logger implements LoggerService {
 
     if (this.options.colorize) {
       const levelColor = LevelColors[level];
-      formattedMessage = timestamp ? `${chalk.gray(timestamp)} ` : '';
-      formattedMessage += `${levelColor.bold(levelName.padEnd(7))}`;
+      formattedMessage = timestamp ? chalk.gray(timestamp) + ' ' : '';
+      formattedMessage += levelColor.bold(levelName.padEnd(7));
 
       if (ctx) {
         const contextColor = this.getContextColor(ctx);
@@ -93,7 +94,7 @@ export class Logger implements LoggerService {
     return formattedMessage;
   }
 
-  private stringifyMessage(message: any): string {
+  private stringifyMessage(message: unknown): string {
     if (typeof message === 'string') {
       return message;
     }
@@ -102,15 +103,30 @@ export class Logger implements LoggerService {
       return message.stack || message.message;
     }
 
+    if (message === null) {
+      return 'null';
+    }
+
+    if (message === undefined) {
+      return 'undefined';
+    }
+
+    if (typeof message === 'number' || typeof message === 'boolean') {
+      return String(message);
+    }
+
+    if (typeof message === 'bigint' || typeof message === 'symbol') {
+      return String(message);
+    }
+
     if (typeof message === 'object') {
       try {
         return JSON.stringify(message, null, 2);
-      } catch (error) {
+      } catch {
         return '[Circular Object]';
       }
     }
-
-    return String(message);
+    return '[Unknown Type]';
   }
 
   private write(message: string, level: LogLevelEnum): void {
@@ -118,33 +134,31 @@ export class Logger implements LoggerService {
     stream.write(message + '\n');
   }
 
-  // Méthodes principales du LoggerService NestJS
-  log(message: any, context?: string): void {
+  log(message: unknown, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.LOG)) return;
     this.write(this.formatMessage(LogLevelEnum.LOG, message, context), LogLevelEnum.LOG);
   }
 
-  error(message: any, trace?: string, context?: string): void {
+  error(message: unknown, trace?: string, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.ERROR)) return;
     this.write(this.formatMessage(LogLevelEnum.ERROR, message, context, trace), LogLevelEnum.ERROR);
   }
 
-  warn(message: any, context?: string): void {
+  warn(message: unknown, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.WARN)) return;
     this.write(this.formatMessage(LogLevelEnum.WARN, message, context), LogLevelEnum.WARN);
   }
 
-  debug(message: any, context?: string): void {
+  debug(message: unknown, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.DEBUG)) return;
     this.write(this.formatMessage(LogLevelEnum.DEBUG, message, context), LogLevelEnum.DEBUG);
   }
 
-  verbose(message: any, context?: string): void {
+  verbose(message: unknown, context?: string): void {
     if (!this.shouldLog(LogLevelEnum.VERBOSE)) return;
     this.write(this.formatMessage(LogLevelEnum.VERBOSE, message, context), LogLevelEnum.VERBOSE);
   }
 
-  // Méthode pour logger les requêtes HTTP
   logHttpRequest(
     method: string,
     url: string,
@@ -161,11 +175,10 @@ export class Logger implements LoggerService {
 
     if (!this.shouldLog(level)) return;
 
-    const message = `${method} ${url} ${statusCode} - ${responseTime}ms`;
+    const message = `${method} ${url} ${String(statusCode)} - ${String(responseTime)}ms`;
     this.write(this.formatMessage(level, message, context || 'HTTP'), level);
   }
 
-  // Méthode pour créer un logger enfant avec un contexte spécifique
   createChild(context: string): Logger {
     return new Logger({
       ...this.options,
@@ -174,5 +187,4 @@ export class Logger implements LoggerService {
   }
 }
 
-// Export d'une instance singleton par défaut
 export const logger = Logger.getInstance();
