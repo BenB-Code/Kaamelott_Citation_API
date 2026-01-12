@@ -196,6 +196,19 @@ describe('ShowRepository', () => {
       expect(result).toEqual([[], 0]);
     });
 
+    it('should handle undefined sortBy with default id', async () => {
+      const filtersWithoutSortBy = {
+        limit: 10,
+        offset: 0,
+        sortBy: undefined,
+        sortOrder: 'ASC',
+      } as FilterShowParams;
+
+      await showRepository.selectBy(filtersWithoutSortBy);
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('show.id', 'ASC');
+    });
+
     it('should properly construct case-insensitive queries', async () => {
       const caseFilter = {
         name: 'KAAMEELOTT',

@@ -207,6 +207,19 @@ describe('AuthorRepository', () => {
       expect(result).toEqual([[], 0]);
     });
 
+    it('should handle undefined sortBy with default empty string', async () => {
+      const filtersWithoutSortBy = {
+        limit: 10,
+        offset: 0,
+        sortBy: undefined,
+        sortOrder: 'ASC',
+      } as FilterAuthorParams;
+
+      await authorRepository.selectBy(filtersWithoutSortBy);
+
+      expect(mockQueryBuilder.orderBy).toHaveBeenCalledWith('author.', 'ASC');
+    });
+
     it('should properly construct case-insensitive queries', async () => {
       const caseFilter = {
         firstName: 'JOHN',
