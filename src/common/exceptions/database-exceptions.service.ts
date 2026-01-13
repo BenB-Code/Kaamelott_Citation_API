@@ -18,7 +18,7 @@ interface PostgresDriverError {
 
 @Injectable()
 export class DatabaseExceptions {
-  formatMessage(message: string, context?: string) {
+  formatMessage(message: string, context?: string): string {
     const hasContext = context ? `(${context})` : '';
     return hasContext + message;
   }

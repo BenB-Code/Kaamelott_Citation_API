@@ -107,7 +107,7 @@ export class CitationRepository {
       .getManyAndCount();
   }
 
-  async associateCitationWithField(ids: CitationWithField, tableName: string) {
+  async associateCitationWithField(ids: CitationWithField, tableName: string): Promise<void> {
     await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, tableName)
@@ -115,7 +115,7 @@ export class CitationRepository {
       .add(ids.fieldId);
   }
 
-  async dissociateCitationWithField(ids: CitationWithField, fieldName: string) {
+  async dissociateCitationWithField(ids: CitationWithField, fieldName: string): Promise<void> {
     await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, fieldName)

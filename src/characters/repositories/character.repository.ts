@@ -86,7 +86,7 @@ export class CharacterRepository {
     return await query.getManyAndCount();
   }
 
-  async associateCharacterActor(ids: CharacterActor) {
+  async associateCharacterActor(ids: CharacterActor): Promise<void> {
     await this.characterRepository
       .createQueryBuilder()
       .relation(Character, 'actors')
@@ -94,7 +94,7 @@ export class CharacterRepository {
       .add(ids.actorId);
   }
 
-  async dissociateCharacterActor(ids: CharacterActor) {
+  async dissociateCharacterActor(ids: CharacterActor): Promise<void> {
     await this.characterRepository
       .createQueryBuilder()
       .relation(Character, 'actors')
