@@ -29,7 +29,6 @@ export const DatabaseConfig = registerAs('database', (): TypeOrmModuleOptions =>
           password: process.env.DB_PASSWORD,
         }),
     synchronize: process.env.DB_SYNC === '1',
-    entities: ['dist/**/*.entity{.ts,.js}'],
     migrations: ['dist/src/migrations/**/*{.ts,.js}'],
     ...sslConfig,
   };
