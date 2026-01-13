@@ -87,7 +87,7 @@ describe('CitationService', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(ConflictException);
         expect(error.response.message).toBe(
-          '[UNIQUE_VIOLATION] Cannot perform operation: Resource already exists',
+          '(Citation)[UNIQUE_VIOLATION] Cannot perform operation: Resource already exists',
         );
       }
     });
@@ -118,7 +118,7 @@ describe('CitationService', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.response.message).toBe(
-          '[NO_DATA_FOUND] Cannot perform operation: Data not found.',
+          '(Citation)[NO_DATA_FOUND] Cannot perform operation: Data not found.',
         );
       }
     });
