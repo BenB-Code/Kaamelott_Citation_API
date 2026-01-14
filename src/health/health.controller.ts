@@ -1,4 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
+import type { HealthCheckResult } from '@nestjs/terminus';
 import { HealthCheck, HealthCheckService, TypeOrmHealthIndicator } from '@nestjs/terminus';
 
 @Controller('health')
@@ -10,7 +11,7 @@ export class HealthController {
 
   @Get()
   @HealthCheck()
-  check() {
+  check(): Promise<HealthCheckResult> {
     return this.health.check([() => this.db.pingCheck('database')]);
   }
 }

@@ -55,25 +55,25 @@ export class CitationController {
 
   @Post(':citationId/actor/:fieldId')
   @HttpCode(HttpStatus.CREATED)
-  associateCitationActor(@Param() ids: CitationWithField) {
+  associateCitationActor(@Param() ids: CitationWithField): Promise<void> {
     return this.citationService.associateCitationWithField(ids, 'actors');
   }
 
   @Delete(':citationId/actor/:fieldId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  dissociateCitationActor(@Param() ids: CitationWithField) {
+  dissociateCitationActor(@Param() ids: CitationWithField): Promise<void> {
     return this.citationService.dissociateCitationWithField(ids, 'actors');
   }
 
   @Post(':citationId/author/:fieldId')
   @HttpCode(HttpStatus.CREATED)
-  associateCitationAuthor(@Param() ids: CitationWithField) {
+  associateCitationAuthor(@Param() ids: CitationWithField): Promise<void> {
     return this.citationService.associateCitationWithField(ids, 'authors');
   }
 
   @Delete(':citationId/author/:fieldId')
   @HttpCode(HttpStatus.NO_CONTENT)
-  dissociateCitationAuthor(@Param() ids: CitationWithField) {
+  dissociateCitationAuthor(@Param() ids: CitationWithField): Promise<void> {
     return this.citationService.dissociateCitationWithField(ids, 'authors');
   }
 }
