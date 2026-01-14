@@ -40,12 +40,8 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm run test:cov -- --watchAll=false
-      - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          file: ./coverage/lcov.info
-          fail_ci_if_error: false
+      - name: Run E2E tests
+        run: npm run test:e2e
 
   build:
     name: Build Application
