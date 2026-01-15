@@ -9,6 +9,8 @@ export const appConfigSchema = Joi.object({
   ENV: Joi.string().default('dev'),
   NODE_ENV: Joi.string().default('development'),
   BUILD_TARGET: Joi.string().default('development'),
+  ADMIN_API_KEYS: Joi.string().required(),
+  USER_API_KEYS: Joi.string().required(),
   DB_HOST: Joi.string().required(),
   DB_NAME: Joi.string().required(),
   DB_USER: Joi.string().required(),
