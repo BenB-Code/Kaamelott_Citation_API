@@ -10,7 +10,13 @@ import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { PUBLIC_KEY, ROLES_KEY } from '../../decorators';
-import { HEADER_X_API_KEY, USER_KEY } from '../../constants';
+import {
+  ADMIN_ACCESS_REQUIRED,
+  API_KEY_REQUIRED,
+  HEADER_X_API_KEY,
+  INVALID_API_KEY,
+  USER_KEY,
+} from '../../constants';
 import { ADMIN_API_KEYS, USER_API_KEYS } from '../../../config';
 
 @Injectable()
@@ -31,13 +37,13 @@ export class ApiKeyGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const apiKeyHeader: string = String(request.headers[HEADER_X_API_KEY] ?? '');
     if (!apiKeyHeader) {
-      throw new UnauthorizedException('API Key required');
+      throw new UnauthorizedException(API_KEY_REQUIRED);
     }
 
     const isAdmin = this.isAdminKey(apiKeyHeader);
     const isUser = this.isUserKey(apiKeyHeader);
     if (!isAdmin && !isUser) {
-      throw new ForbiddenException('Invalid API Key');
+      throw new ForbiddenException(INVALID_API_KEY);
     }
 
     const requiredRoles =
@@ -48,7 +54,7 @@ export class ApiKeyGuard implements CanActivate {
     if (isAdmin || (isUser && hasUserRole)) {
       return true;
     }
-    throw new UnauthorizedException('Admin access required');
+    throw new UnauthorizedException(ADMIN_ACCESS_REQUIRED);
   }
 
   isAdminKey(key: string): boolean {
