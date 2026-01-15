@@ -12,19 +12,22 @@ import {
   Query,
 } from '@nestjs/common';
 import { CitationDto } from '../dto/citation.dto';
-import { Citation } from '../entities/citation.entity';
 import { CitationService } from '../services/citation.service';
-import { DeleteResult } from 'typeorm';
-import { CitationWithField } from '../types/citation-with-field.type';
-import { UpdateCitationDto } from '../dto/update-citation.dto';
 import { FilterCitationParams } from '../params/filter-citation.params';
 import { PaginationResponse } from '../../common/pagination/pagination.response';
+import { Citation } from '../entities/citation.entity';
+import { UpdateCitationDto } from '../dto/update-citation.dto';
+import { DeleteResult } from 'typeorm';
+import { CitationWithField } from '../types/citation-with-field.type';
+import { USER_KEY } from '../../common/constants';
+import { Roles } from '../../common/decorators';
 
 @Controller('citation')
 export class CitationController {
   constructor(private readonly citationService: CitationService) {}
 
   @Get()
+  @Roles(USER_KEY)
   getAllCitation(@Query() filters: FilterCitationParams): Promise<PaginationResponse<Citation>> {
     return this.citationService.getAllCitations(filters);
   }
