@@ -1,0 +1,16 @@
+export const APP_NAME = 'APP_NAME';
+export const ENV = 'ENV';
+export const NODE_ENV = 'NODE_ENV';
+export const BUILD_TARGET = 'BUILD_TARGET';
+export const ADMIN_API_KEYS = 'ADMIN_API_KEYS';
+export const USER_API_KEYS = 'USER_API_KEYS';
+export const DB_HOST = 'DB_HOST';
+export const DB_NAME = 'DB_NAME';
+export const DB_USER = 'DB_USER';
+export const DB_PASSWORD = 'DB_PASSWORD';
+export const DB_PORT = 'DB_PORT';
+export const DB_HOST_AUTH_METHOD = 'DB_HOST_AUTH_METHOD';
+export const DB_SSL = 'DB_SSL';
+export const DB_SYNC = 'DB_SYNC';
+export const DATABASE_URL = 'DATABASE_URL';
+export const API_PORT = 'API_PORT';
