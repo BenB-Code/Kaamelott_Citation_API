@@ -1,347 +1,357 @@
-# 🏰 API Citations Kaamelott
+<div align="center">
 
-WIP - Une API RESTful robuste développée avec NestJS pour gérer les citations de la série culte Kaamelott d'Alexandre Astier.
+# Kaamelott Citation API
 
-## 📋 Table des matières
+### _API REST pour les citations de la serie Kaamelott_
 
-- [Aperçu du projet](#-aperçu-du-projet)
-- [Architecture](#-architecture)
-- [Stack technique](#-stack-technique)
-- [Installation](#-installation)
-- [API Endpoints](#-api-endpoints)
-- [Structure du projet](#-structure-du-projet)
-- [Scripts disponibles](#-scripts-disponibles)
-- [Tests](#-tests)
-- [Docker](#-docker)
-- [TODO](#-todo)
+---
 
-## 🎯 Aperçu du projet
+### Technologies
 
-Cette API permet de gérer un système complet de citations de Kaamelott avec :
+<img src="https://img.shields.io/badge/-NestJS%2011-E0234E?style=flat-square&logo=nestjs&logoColor=white"> <img src="https://img.shields.io/badge/-TypeORM%200.3-FE0803?style=flat-square&logo=typeorm&logoColor=white"> <img src="https://img.shields.io/badge/-Jest-C21325?style=flat-square&logo=jest&logoColor=white"> <img src="https://img.shields.io/badge/-npm-CB3837?style=flat-square&logo=npm&logoColor=white">
 
-- **Gestion des citations** : création, lecture, mise à jour, suppression
-- **Relations complexes** : personnages, acteurs, auteurs, épisodes, saisons, films
-- **Recherche avancée** : filtrage par texte, personnage, épisode, etc.
-- **Pagination** : navigation efficace dans les résultats
-- **Associations dynamiques** : liaison/déliaison entre citations et acteurs/auteurs
+<img src="https://img.shields.io/badge/-Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black"> <img src="https://img.shields.io/badge/-Node.js%2018+-339933?style=flat-square&logo=node.js&logoColor=white"> <img src="https://img.shields.io/badge/-Husky-42B983?style=flat-square&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/-Swagger-85EA2D?style=flat-square&logo=swagger&logoColor=black">
 
-## 🏗️ Architecture
+<img src="https://img.shields.io/badge/-TypeScript%205.7-007ACC?style=flat-square&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/-PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white"> <img src="https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/-ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white">
 
-L'API suit une architecture modulaire basée sur les principes de NestJS :
+### Status
+
+![Version](https://img.shields.io/github/package-json/v/BenB-Code/Kaamelott_Citation_API?style=flat-square&logo=github)
+![CI Status](https://img.shields.io/github/actions/workflow/status/BenB-Code/Kaamelott_Citation_API/ci.yml?style=flat-square&logo=github-actions&label=CI)
+
+</div>
+
+---
+
+## Apercu
+
+API RESTful pour gerer les citations de la serie Kaamelott d'Alexandre Astier.
+
+### Fonctionnalites
+
+- Gestion CRUD complete des citations
+- Relations complexes entre entites (personnages, acteurs, auteurs, episodes, films)
+- Recherche full-text sur 10 champs simultanement
+- Pagination securisee (limite 1-500)
+- Authentification par API Key (admin/user)
+- Rate limiting 3 niveaux (public, user, admin)
+- Associations dynamiques ManyToMany
+
+---
+
+## Architecture
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Controllers   │    │    Services     │    │  Repositories   │
-│                 │────▶│                 │────▶│                 │
-│ Gestion routes  │    │ Logique métier  │    │ Accès données   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│      DTOs       │    │    Entities     │    │    Database     │
-│                 │    │                 │    │                 │
-│ Validation      │    │ Modèles données │    │   PostgreSQL    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+Controller (HTTP) --> Service (Business Logic) --> Repository (Data Access) --> Entity (TypeORM)
 ```
 
-## 🛠️ Stack technique
+### Modele de donnees
 
-- **Framework** : NestJS 11.x
-- **Langage** : TypeScript 5.x
-- **Base de données** : PostgreSQL avec TypeORM
-- **Validation** : class-validator, class-transformer, Joi
-- **Tests** : Jest
-- **Documentation** : TypeScript JSDoc
-- **Containerisation** : Docker & Docker Compose
-- **Linting** : ESLint + Prettier
+- **Citation** : texte, relations vers character, episode/movie, actors, authors
+- **Character** : personnage avec acteurs associes
+- **Actor/Author** : personnes (prenom, nom, photo)
+- **Episode** : appartient a une saison
+- **Season** : appartient a un show
+- **Movie** : appartient a un show
+- **Show** : serie ou film (type MediaType)
 
-## 🚀 Installation
+### Relations
 
-### Prérequis
+- Citation --> Character (ManyToOne, obligatoire)
+- Citation --> Episode/Movie (ManyToOne, optionnel)
+- Citation <--> Actor/Author (ManyToMany)
+- Character <--> Actor (ManyToMany)
+- Episode --> Season --> Show (hierarchie)
 
-- Node.js ≥ 18
-- npm ou yarn
+---
+
+## Installation
+
+### Prerequis
+
+- Node.js >= 18
+- npm
 - PostgreSQL (ou Docker)
 
-### Étapes
+### Etapes
 
-1. **Cloner le repository**
+1. Cloner le repository
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:BenB-Code/Kaamelott_Citation_API.git
 cd Kaamelott_Citation_API
 ```
 
-2. **Installer les dépendances**
+2. Installer les dependances
 
 ```bash
 npm install
 ```
 
-4. **Lancer la base de données**
+3. Configurer l'environnement
 
 ```bash
-# Via Docker
-# La bdd va se populer automatiquement avec le container de l'api nestjs
-npm run docker:build:dev
-
-# Ou configurer PostgreSQL manuellement
+# Copier et adapter le fichier d'exemple
+cp .env.exemple docker/environment/.env.[local|dev|prod]
 ```
 
-5. **Exécuter les migrations** uniquement si modification manuelles
+4. Lancer avec Docker (recommande)
+
+```bash
+npm run docker:build:[dev|prod]
+```
+
+5. Ou lancer manuellement
 
 ```bash
 npm run migration:run
-```
-
-6. **Démarrer l'application**
-
-```bash
-# Port local: 3001 | Port Docker dev: 3000
 npm run start:local
 ```
 
-### Variables principales
+### Variables d'environnement
 
-```env
-# Base de données
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=password
-DB_DATABASE=kaamelott_api
+| Variable         | Description                           | Defaut    |
+| ---------------- | ------------------------------------- | --------- |
+| `DB_HOST`        | Hote PostgreSQL                       | localhost |
+| `DB_PORT`        | Port PostgreSQL                       | 5432      |
+| `DB_NAME`        | Nom de la base                        | -         |
+| `DB_USER`        | Utilisateur                           | -         |
+| `DB_PASSWORD`    | Mot de passe                          | -         |
+| `API_PORT`       | Port de l'API                         | 3000      |
+| `ENV`            | Environnement (dev, local, prod)      | dev       |
+| `ADMIN_API_KEYS` | Cles API admin (separees par virgule) | -         |
+| `USER_API_KEYS`  | Cles API user (separees par virgule)  | -         |
 
-# Application
-APP_PORT=3000
-NODE_ENV=development
-```
+---
 
-## 📡 API Endpoints
+## API Endpoints
 
-### Citations
+### Citations (ressource principale)
 
-| Méthode  | Endpoint        | Description                      | Paramètres                                                                     |
-|----------|-----------------|----------------------------------|--------------------------------------------------------------------------------|
-| `GET`    | `/citation`     | Liste toutes les citations       | `search`, `characterId`, `episodeId`, `sortBy`, `sortOrder`, `limit`, `offset` |
-| `GET`    | `/citation/:id` | Récupère une citation spécifique | `id` (number)                                                                  |
-| `POST`   | `/citation`     | Crée une nouvelle citation       | Body: `CitationDto`                                                            |
-| `PATCH`  | `/citation/:id` | Modifie une citation             | `id` (number), Body: `UpdateCitationDto`                                       |
-| `DELETE` | `/citation/:id` | Supprime une citation            | `id` (number)                                                                  |
+| Methode  | Endpoint        | Description                      | Auth  |
+| -------- | --------------- | -------------------------------- | ----- |
+| `GET`    | `/citation`     | Liste avec filtres et pagination | User  |
+| `GET`    | `/citation/:id` | Detail d'une citation            | Admin |
+| `POST`   | `/citation`     | Creer une citation               | Admin |
+| `PATCH`  | `/citation/:id` | Modifier une citation            | Admin |
+| `DELETE` | `/citation/:id` | Supprimer une citation           | Admin |
 
 ### Associations Citations
 
-| Méthode  | Endpoint                                | Description                       |
-|----------|-----------------------------------------|-----------------------------------|
-| `POST`   | `/citation/:citationId/actor/:fieldId`  | Associe un acteur à une citation  |
-| `DELETE` | `/citation/:citationId/actor/:fieldId`  | Dissocie un acteur d'une citation |
-| `POST`   | `/citation/:citationId/author/:fieldId` | Associe un auteur à une citation  |
-| `DELETE` | `/citation/:citationId/author/:fieldId` | Dissocie un auteur d'une citation |
+| Methode  | Endpoint                                | Description         |
+| -------- | --------------------------------------- | ------------------- |
+| `POST`   | `/citation/:citationId/actor/:fieldId`  | Associer un acteur  |
+| `DELETE` | `/citation/:citationId/actor/:fieldId`  | Dissocier un acteur |
+| `POST`   | `/citation/:citationId/author/:fieldId` | Associer un auteur  |
+| `DELETE` | `/citation/:citationId/author/:fieldId` | Dissocier un auteur |
 
-### Autres entités
+### Autres ressources
 
-L'API expose également des endpoints pour :
+Meme pattern CRUD pour :
 
-- **Personnages** : `/character`
-- **Acteurs** : `/actor`
-- **Auteurs** : `/author`
-- **Épisodes** : `/episode`
-- **Saisons** : `/season`
-- **Films** : `/movie`
-- **Séries** : `/show`
-- **Santé** : `/health`
+- `/actor` - Acteurs
+- `/author` - Auteurs
+- `/character` - Personnages (+ associations acteurs)
+- `/episode` - Episodes
+- `/season` - Saisons
+- `/movie` - Films
+- `/show` - Series/Films
+- `/health` - Health check (public)
 
-### Exemples de requêtes
+### Parametres de filtrage (GET /citation)
+
+| Parametre     | Type     | Description                                                                      |
+| ------------- | -------- | -------------------------------------------------------------------------------- |
+| `search`      | string   | Recherche full-text (min 3 caracteres)                                           |
+| `characterId` | number   | Filtrer par personnage                                                           |
+| `episodeId`   | number   | Filtrer par episode                                                              |
+| `movieId`     | number   | Filtrer par film                                                                 |
+| `text`        | string   | Filtrer par texte exact                                                          |
+| `sortBy`      | string   | Champ de tri (createdAt, updatedAt, characterId, episodeId, movieId, citationId) |
+| `sortOrder`   | ASC/DESC | Ordre de tri (defaut: DESC)                                                      |
+| `limit`       | number   | Nombre de resultats (1-500, defaut: 100)                                         |
+| `offset`      | number   | Decalage pour pagination                                                         |
+
+### Exemples
 
 ```bash
-# Récupérer toutes les citations avec pagination
-GET /citation?limit=10&offset=0
+# Recherche full-text
+GET /citation?search=faux&limit=10
 
-# Rechercher des citations contenant "faux"
-GET /citation?search=faux&limit=5
+# Filtrer par personnage
+GET /citation?characterId=1&sortBy=createdAt&sortOrder=DESC
 
-# Filtrer par personnage (Arthur = ID 1)
-GET /citation?characterId=1
-
-# Trier par date de création descendante
-GET /citation?sortBy=createdAt&sortOrder=DESC
-
-# Créer une nouvelle citation
+# Creer une citation
 POST /citation
 {
   "text": "C'est pas faux !",
   "characterId": 1,
   "episodeId": 1,
-  "actorsId": [1, 2],
+  "actorsId": [1],
   "authorsId": [1]
 }
 ```
 
-## 📁 Structure du projet
+---
 
-```
-src/
-├── actors/                 # Module Acteurs
-├── authors/               # Module Auteurs
-├── characters/            # Module Personnages  
-├── citations/             # Module Citations
-│   ├── controllers/      # Contrôleurs REST
-│   ├── dto/              # Data Transfer Objects
-│   ├── entities/         # Entités TypeORM
-│   ├── params/           # Paramètres de filtrage
-│   ├── repositories/     # Repositories données
-│   ├── services/         # Services métier
-│   └── types/            # Types TypeScript
-├── common/                # Modules partagés
-│   ├── constants/         # Constantes
-│   ├── exceptions/        # Gestion erreurs
-│   ├── logger/           # Service de logs
-│   ├── pagination/       # Système pagination
-│   └── params/           # Paramètres communs
-├── config/               # Configuration app
-├── episodes/             # Module Épisodes
-├── health/               # Health checks
-├── migrations/           # Migrations DB
-├── movies/               # Module Films
-├── seasons/              # Module Saisons
-├── shows/                # Module Séries
-├── app.module.ts         # Module principal
-└── main.ts              # Point d'entrée
-```
+## Scripts
 
-## 🔧 Scripts disponibles
+### Developpement
 
-### Développement
-
-```bash
-npm run start:dev          # Démarrage en mode watch
-npm run start:local        # Démarrage avec env local
-npm run start:local:debug  # Debug mode local
-```
-
-### Production
-
-```bash
-npm run build              # Build de l'application
-npm run start:prod         # Démarrage production
-```
+| Commande                    | Description                     |
+| --------------------------- | ------------------------------- |
+| `npm run start:local`       | Demarrer en local (port 3001)   |
+| `npm run start:dev`         | Demarrer avec watch (port 3000) |
+| `npm run start:local:debug` | Mode debug                      |
 
 ### Tests
 
-```bash
-npm run test               # Tests unitaires
-npm run test:watch         # Tests en mode watch
-npm run test:cov           # Couverture de tests
-npm run test:e2e           # Tests end-to-end
-```
+| Commande             | Description           |
+| -------------------- | --------------------- |
+| `npm run test`       | Tests unitaires       |
+| `npm run test:watch` | Tests en watch mode   |
+| `npm run test:cov`   | Tests avec couverture |
+| `npm run test:e2e`   | Tests end-to-end      |
 
-### Base de données
+### Base de donnees
 
-```bash
-npm run migration:generate  # Générer migration
-npm run migration:run      # Exécuter migrations
-npm run migration:revert   # Annuler dernière migration
-npm run schema:drop        # Supprimer schéma
-```
+| Commande                     | Description                   |
+| ---------------------------- | ----------------------------- |
+| `npm run migration:run`      | Executer les migrations       |
+| `npm run migration:generate` | Generer une migration         |
+| `npm run migration:revert`   | Annuler la derniere migration |
+| `npm run schema:drop`        | Supprimer le schema           |
 
 ### Docker
 
-```bash
-npm run docker:build:dev      # Build environnement dev
-npm run docker:build:staging  # Build environnement staging  
-npm run docker:build:prod     # Build environnement prod
-```
+| Commande                    | Description              |
+| --------------------------- | ------------------------ |
+| `npm run docker:build:dev`  | Build environnement dev  |
+| `npm run docker:build:prod` | Build environnement prod |
 
-### Code Quality
+### Qualite de code
 
-```bash
-npm run lint               # Linter ESLint
-npm run format             # Formatage Prettier
-```
-
-## 🧪 Tests
-
-Le projet utilise Jest avec une couverture complète :
-
-- **Tests unitaires** : Services, repositories, contrôleurs
-- **Tests d'intégration** : Modules complets
-- **Tests E2E** : Flux utilisateur complets
-- **Mocks** : Base de données, services externes
-
-```bash
-# Lancer tous les tests
-npm run test
-
-# Tests avec couverture
-npm run test:cov
-
-# Tests spécifiques
-npm run test -- citations
-```
-
-## 🐳 Docker
-
-### Environnements disponibles
-
-1. **Développement**
-
-```bash
-npm run docker:build:dev
-```
-
-2. **Staging**
-
-```bash
-npm run docker:build:staging
-```
-
-3. **Production**
-
-```bash
-npm run docker:build:prod
-```
-
-### Services Docker
-
-- **API** : Application NestJS
-- **PostgreSQL** : Base de données
-
-## 📋 TODO
-
-### 🔧 Améliorations techniques
-
-- [ ] **Tests E2E** : Ajouter des E2E pour couvrir toute les routes
-- [ ] **Swagger OpenAPI** : Ajouter la documentation interactive API
-- [ ] **Dissociation cascade** : Implémenter la suppression automatique des associations sur `DELETE` pour
-  `character_actor`, `citation_author`, `citation_actor`
-- [ ] **Authentification API Key** : Ajouter restriction par clé API sur toutes les routes (exception sur `GET`)
-- [ ] **Rate Limiting** : Implémenter un limiteur de requêtes pour prévenir le spam
-- [ ] **Refactoring & Code Quality** :
-  - [ ] Amélioration de la couverture de tests
-  - [ ] Optimisation des requêtes SQL
-  - [ ] Amélioration de la gestion d'erreurs
-  - [ ] Documentation JSDoc complète
-
-### 🚀 Fonctionnalités futures
-
-- [ ] Recherche full-text avancée
-- [ ] CI/CD Pipeline
+| Commande               | Description                 |
+| ---------------------- | --------------------------- |
+| `npm run lint`         | Lancer ESLint               |
+| `npm run lint:fix`     | Corriger les erreurs ESLint |
+| `npm run format`       | Formater avec Prettier      |
+| `npm run format:check` | Verifier le formatage       |
 
 ---
 
-## 📄 Licence
+## Tests
 
-[Ce projet est sous Custom Non-Commercial License.](LICENSE.txt)
+- Couverture minimum enforced : 80% (branches, functions, lines, statements)
+- Tests unitaires : controllers, services, repositories, params, guards
+- Tests E2E : tous les endpoints avec Supertest
+- Pre-commit hooks : lint + format automatiques
 
-## 👥 Contribution
+---
 
-Pour contribuer au projet :
+## Securite
+
+### Authentification
+
+- API Key requise sur toutes les routes (sauf `/health`)
+- Header : `x-api-key`
+- Deux niveaux : Admin (acces total) et User (acces restreint)
+- Decorateur `@Roles(USER_KEY)` pour ouvrir aux users
+
+### Rate Limiting
+
+| Niveau | Limite  | TTL |
+| ------ | ------- | --- |
+| Public | 5 req   | 60s |
+| User   | 10 req  | 60s |
+| Admin  | 100 req | 60s |
+
+---
+
+## Structure du projet
+
+```
+src/
+├── actors/              # Module Acteurs
+├── authors/             # Module Auteurs
+├── characters/          # Module Personnages
+├── citations/           # Module Citations (principal)
+│   ├── controllers/
+│   ├── services/
+│   ├── repositories/
+│   ├── entities/
+│   ├── dto/
+│   ├── params/
+│   └── types/
+├── episodes/            # Module Episodes
+├── movies/              # Module Films
+├── seasons/             # Module Saisons
+├── shows/               # Module Series
+├── health/              # Health checks
+├── migrations/          # Migrations TypeORM
+├── common/              # Code partage
+│   ├── constants/
+│   ├── decorators/
+│   ├── exceptions/
+│   ├── guards/
+│   ├── logger/
+│   ├── pagination/
+│   ├── params/
+│   └── config/
+├── config/              # Configuration
+├── app.module.ts
+└── main.ts
+```
+
+---
+
+## Documentation API
+
+La documentation OpenAPI est disponible dans le fichier `swagger.yaml` a la racine du projet.
+
+- [Document Swagger](swagger.yaml)
+
+Pour visualiser, importer le fichier dans [Swagger Editor](https://editor.swagger.io/)
+
+---
+
+## CI/CD
+
+Pipeline GitHub Actions sur push/PR :
+
+| Job       | Description                         | Branches          |
+| --------- | ----------------------------------- | ----------------- |
+| **Lint**  | ESLint + Prettier check             | develop, master   |
+| **Test**  | Tests unitaires + E2E avec coverage | develop, master   |
+| **Build** | Build + upload artifact             | master uniquement |
+
+---
+
+## Licence
+
+[Custom Non-Commercial License](LICENSE.txt)
+
+---
+
+## Contribution
+
+### Issues
+
+Utiliser les templates GitHub :
+
+- [Bug Report](.github/ISSUE_TEMPLATE/bug_report.md) - Signaler un bug
+- [Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) - Proposer une fonctionnalite
+
+### Pull Requests
 
 1. Fork le repository
-2. Créer une branche feature (`git checkout -b feature/amazing-feature`)
-3. Commit les changes (`git commit -m 'Add amazing feature'`)
-4. Push vers la branche (`git push origin feature/amazing-feature`)
-5. Ouvrir une Pull Request
+2. Creer une branche depuis `develop` (`git checkout -b feature/nouvelle-feature`)
+3. Commit (`git commit -m 'Add nouvelle feature'`)
+4. Push (`git push origin feature/nouvelle-feature`)
+5. Ouvrir une Pull Request vers `develop`
 
----
+### Workflow
 
-*Développé avec ❤️ pour les fans de Kaamelott*
+- `master` : branche de production (protegee)
+- `develop` : branche de developpement
+- Les PRs declenchent automatiquement le pipeline CI (lint, tests)
