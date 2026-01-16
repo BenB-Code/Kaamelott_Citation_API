@@ -1,14 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { CharacterDto } from '../dto/character.dto';
-import { UpdateCharacterDto } from '../dto/update-character.dto';
 import { FilterCharacterParams } from '../params/filter-character.params';
 import { CharacterRepository } from '../repositories/character.repository';
 import { CharacterActor } from '../types/character-actor.type';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { Character } from '../entities/character.entity';
+import { DatabaseExceptions, ERROR_MESSAGES } from '../../common/exceptions';
+import { CharacterDto, UpdateCharacterDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 @Injectable()
 export class CharacterService {

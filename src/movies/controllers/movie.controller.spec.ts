@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { MovieDto } from '../dto/movie.dto';
 import { FilterMovieParams } from '../params/filter-movie.params';
 import { MovieService } from '../services/movie.service';
 import { MovieController } from './movie.controller';
 import { Movie } from '../entities/movie.entity';
+import { MovieDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 describe('MovieController', () => {
   let movieService: MovieService;

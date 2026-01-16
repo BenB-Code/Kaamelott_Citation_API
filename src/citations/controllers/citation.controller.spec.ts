@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { CitationDto } from '../dto/citation.dto';
 import { FilterCitationParams } from '../params/filter-citation.params';
 import { CitationService } from '../services/citation.service';
 import { CitationController } from './citation.controller';
 import { Citation } from '../entities/citation.entity';
+import { CitationDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 describe('CitationController', () => {
   let citationService: CitationService;

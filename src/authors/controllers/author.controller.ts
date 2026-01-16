@@ -12,12 +12,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { AuthorDto } from '../dto/author.dto';
-import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { Author } from '../entities/author.entity';
 import { FilterAuthorParams } from '../params/filter-author.params';
 import { AuthorService } from '../services/author.service';
+import { PaginationResponse } from '../../common/pagination';
+import { AuthorDto, UpdateAuthorDto } from '../dto';
 
 @Controller('author')
 export class AuthorController {

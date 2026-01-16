@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CitationRepository } from '../repositories/citation.repository';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { DeleteResult } from 'typeorm';
 import { Citation } from '../entities/citation.entity';
-import { CitationDto } from '../dto/citation.dto';
 import { CitationWithField } from '../types/citation-with-field.type';
 import { FilterCitationParams } from '../params/filter-citation.params';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { UpdateCitationDto } from '../dto/update-citation.dto';
+import { DatabaseExceptions } from '../../common/exceptions';
+import { PaginationResponse } from '../../common/pagination';
+import { CitationDto, UpdateCitationDto } from '../dto';
 
 @Injectable()
 export class CitationService {

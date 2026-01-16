@@ -12,12 +12,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { SeasonDto } from '../dto/season.dto';
-import { UpdateSeasonDto } from '../dto/update-season.dto';
 import { FilterSeasonParams } from '../params/filter-season.params';
 import { SeasonService } from '../services/season.service';
 import { Season } from '../entities/season.entity';
+import { PaginationResponse } from '../../common/pagination';
+import { SeasonDto, UpdateSeasonDto } from '../dto';
 
 @Controller('season')
 export class SeasonController {

@@ -1,8 +1,8 @@
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import 'reflect-metadata';
-import { CREATED_AT } from '../../common/constants/filters.constant';
 import { FilterShowParams } from './filter-show.params';
+import { CREATED_AT } from '../../common/constants';
 
 describe('FilterShowParams', () => {
   it('should be defined', () => {

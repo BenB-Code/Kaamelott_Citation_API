@@ -11,16 +11,15 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CitationDto } from '../dto/citation.dto';
 import { CitationService } from '../services/citation.service';
 import { FilterCitationParams } from '../params/filter-citation.params';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { Citation } from '../entities/citation.entity';
-import { UpdateCitationDto } from '../dto/update-citation.dto';
 import { DeleteResult } from 'typeorm';
 import { CitationWithField } from '../types/citation-with-field.type';
 import { USER_KEY } from '../../common/constants';
 import { Roles } from '../../common/decorators';
+import { PaginationResponse } from '../../common/pagination';
+import { CitationDto, UpdateCitationDto } from '../dto';
 
 @Controller('citation')
 export class CitationController {

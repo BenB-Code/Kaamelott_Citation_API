@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { MovieDto } from '../dto/movie.dto';
-import { FindMovieDto } from '../dto/find-movie.dto';
 import { FilterMovieParams } from '../params/filter-movie.params';
 import { Movie } from '../entities/movie.entity';
+import { FindMovieDto, MovieDto } from '../dto';
 
 @Injectable()
 export class MovieRepository {

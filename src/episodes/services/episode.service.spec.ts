@@ -1,12 +1,12 @@
 import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { EpisodeDto } from '../dto/episode.dto';
 import { FilterEpisodeParams } from '../params/filter-episode.params';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { EpisodeRepository } from '../repositories/episode.repository';
 import { EpisodeService } from './episode.service';
 import { Episode } from '../entities/episode.entity';
+import { EpisodeDto } from '../dto';
+import { DatabaseExceptions } from '../../common/exceptions';
 
 describe('EpisodeService', () => {
   let episodeService: EpisodeService;
