@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ShowController } from './controller/show.controller';
+import { ShowController } from './controllers/show.controller';
 import { Show } from './entities/show.entity';
 import { ShowRepository } from './repositories/show.repository';
 import { ShowService } from './services/show.service';
