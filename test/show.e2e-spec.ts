@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
 import { App } from 'supertest/types';
-import { ShowController } from '../src/shows/controller/show.controller';
+import { ShowController } from '../src/shows/controllers/show.controller';
 import { ShowService } from '../src/shows/services/show.service';
 import { Show } from '../src/shows/entities/show.entity';
 import { MediaType } from '../src/shows/constant/media-type.enum';
