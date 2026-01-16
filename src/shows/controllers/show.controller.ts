@@ -35,9 +35,9 @@ export class ShowController {
   @Patch(':id')
   editSpecificShow(
     @Param('id', ParseIntPipe) id: number,
-    @Body() authorDto: UpdateShowDto,
+    @Body() showDto: UpdateShowDto,
   ): Promise<Show> {
-    return this.showService.editShow(id, authorDto);
+    return this.showService.editShow(id, showDto);
   }
 
   @Delete(':id')
@@ -47,7 +47,7 @@ export class ShowController {
   }
 
   @Post()
-  createShow(@Body() authorDto: ShowDto): Promise<Show> {
-    return this.showService.createShow(authorDto);
+  createShow(@Body() showDto: ShowDto): Promise<Show> {
+    return this.showService.createShow(showDto);
   }
 }
