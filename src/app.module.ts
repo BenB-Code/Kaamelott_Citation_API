@@ -27,6 +27,17 @@ import { MovieModule } from './movies/movie.module';
 import { CitationModule } from './citations/citation.module';
 import { APP_GUARD } from '@nestjs/core';
 import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
+import { ThrottlerModule } from '@nestjs/throttler';
+import {
+  RATE_LIMIT_ADMIN,
+  RATE_LIMIT_PUBLIC,
+  RATE_LIMIT_TTL,
+  RATE_LIMIT_USER,
+  THROTTLER_ADMIN,
+  THROTTLER_PUBLIC,
+  THROTTLER_USER,
+} from './common/constants';
+import { CustomThrottlerGuard } from './common/guards/custom-throttler/custom-throttler.guard';
 
 @Module({
   imports: [
@@ -52,6 +63,23 @@ import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
         entities: [Show, Season, Movie, Episode, Author, Actor, Character, Citation],
       }),
     }),
+    ThrottlerModule.forRoot([
+      {
+        name: THROTTLER_PUBLIC,
+        ttl: RATE_LIMIT_TTL,
+        limit: RATE_LIMIT_PUBLIC,
+      },
+      {
+        name: THROTTLER_USER,
+        ttl: RATE_LIMIT_TTL,
+        limit: RATE_LIMIT_USER,
+      },
+      {
+        name: THROTTLER_ADMIN,
+        ttl: RATE_LIMIT_TTL,
+        limit: RATE_LIMIT_ADMIN,
+      },
+    ]),
     HealthModule,
     AuthorModule,
     CharacterModule,
@@ -65,6 +93,10 @@ import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_GUARD,
+      useClass: CustomThrottlerGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: ApiKeyGuard,

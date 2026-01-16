@@ -27,9 +27,13 @@ tags:
   - name: Show
     description: Gestion des shows
 
+security:
+  - ApiKeyAuth: [ ]
+
 paths:
   /:
     get:
+      security: []
       summary: Message de bienvenue
       description: Retourne un message de bienvenue de l'API
       operationId: getRoot
@@ -41,9 +45,12 @@ paths:
               schema:
                 type: string
                 example: Hello from Kaamelott Citation API
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /health:
     get:
+      security: []
       tags:
         - Health
       summary: Verification de sante
@@ -56,6 +63,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
         '503':
           description: Service indisponible
 
@@ -122,6 +131,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CitationPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Citation
@@ -143,8 +158,14 @@ paths:
                 $ref: '#/components/schemas/Citation'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /citation/{id}:
     get:
@@ -162,8 +183,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Citation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Citation
@@ -187,8 +214,14 @@ paths:
                 $ref: '#/components/schemas/Citation'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Citation
@@ -200,8 +233,14 @@ paths:
       responses:
         '204':
           description: Citation supprimee
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /citation/{citationId}/actor/{fieldId}:
     post:
@@ -228,8 +267,14 @@ paths:
       responses:
         '201':
           description: Acteur associe a la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Citation
@@ -254,8 +299,14 @@ paths:
       responses:
         '204':
           description: Acteur dissocie de la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /citation/{citationId}/author/{fieldId}:
     post:
@@ -282,8 +333,14 @@ paths:
       responses:
         '201':
           description: Auteur associe a la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Citation
@@ -308,8 +365,14 @@ paths:
       responses:
         '204':
           description: Auteur dissocie de la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /character:
     get:
@@ -353,6 +416,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CharacterPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Character
@@ -374,6 +443,12 @@ paths:
                 $ref: '#/components/schemas/Character'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /character/{id}:
     get:
@@ -391,8 +466,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Character
@@ -416,8 +497,14 @@ paths:
                 $ref: '#/components/schemas/Character'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Character
@@ -429,8 +516,14 @@ paths:
       responses:
         '204':
           description: Personnage supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /character/{characterId}/actor/{actorId}:
     post:
@@ -457,8 +550,14 @@ paths:
       responses:
         '201':
           description: Acteur associe au personnage
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Character
@@ -483,8 +582,14 @@ paths:
       responses:
         '204':
           description: Acteur dissocie du personnage
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /actor:
     get:
@@ -534,6 +639,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ActorPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Actor
@@ -555,6 +666,12 @@ paths:
                 $ref: '#/components/schemas/Actor'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /actor/{id}:
     get:
@@ -572,8 +689,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Actor'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Actor
@@ -597,8 +720,14 @@ paths:
                 $ref: '#/components/schemas/Actor'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Actor
@@ -610,8 +739,14 @@ paths:
       responses:
         '204':
           description: Acteur supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /author:
     get:
@@ -661,6 +796,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthorPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Author
@@ -682,6 +823,12 @@ paths:
                 $ref: '#/components/schemas/Author'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /author/{id}:
     get:
@@ -699,8 +846,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Author'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Author
@@ -724,8 +877,14 @@ paths:
                 $ref: '#/components/schemas/Author'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Author
@@ -737,8 +896,14 @@ paths:
       responses:
         '204':
           description: Auteur supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /episode:
     get:
@@ -795,6 +960,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EpisodePaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Episode
@@ -816,8 +987,14 @@ paths:
                 $ref: '#/components/schemas/Episode'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /episode/{id}:
     get:
@@ -835,8 +1012,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Episode'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Episode
@@ -860,8 +1043,14 @@ paths:
                 $ref: '#/components/schemas/Episode'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Episode
@@ -873,8 +1062,14 @@ paths:
       responses:
         '204':
           description: Episode supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /season:
     get:
@@ -924,6 +1119,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SeasonPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Season
@@ -945,8 +1146,14 @@ paths:
                 $ref: '#/components/schemas/Season'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /season/{id}:
     get:
@@ -964,8 +1171,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Season'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Season
@@ -989,8 +1202,14 @@ paths:
                 $ref: '#/components/schemas/Season'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Season
@@ -1002,8 +1221,14 @@ paths:
       responses:
         '204':
           description: Saison supprimee
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /movie:
     get:
@@ -1060,6 +1285,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MoviePaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Movie
@@ -1081,8 +1312,14 @@ paths:
                 $ref: '#/components/schemas/Movie'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /movie/{id}:
     get:
@@ -1100,8 +1337,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Movie'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Movie
@@ -1125,8 +1368,14 @@ paths:
                 $ref: '#/components/schemas/Movie'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Movie
@@ -1138,8 +1387,14 @@ paths:
       responses:
         '204':
           description: Film supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /show:
     get:
@@ -1189,6 +1444,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShowPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     post:
       tags:
         - Show
@@ -1210,6 +1471,12 @@ paths:
                 $ref: '#/components/schemas/Show'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
   /show/{id}:
     get:
@@ -1227,8 +1494,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Show'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     patch:
       tags:
         - Show
@@ -1252,8 +1525,14 @@ paths:
                 $ref: '#/components/schemas/Show'
         '400':
           $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
     delete:
       tags:
         - Show
@@ -1265,8 +1544,14 @@ paths:
       responses:
         '204':
           description: Show supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
 
 components:
   schemas:
@@ -2024,7 +2309,7 @@ components:
             minimum: 1
           minItems: 1
           description: Liste des identifiants des acteurs
-          example: [1]
+          example: [ 1 ]
         authorsId:
           type: array
           items:
@@ -2032,7 +2317,7 @@ components:
             minimum: 1
           minItems: 1
           description: Liste des identifiants des auteurs
-          example: [1]
+          example: [ 1 ]
         characterId:
           type: integer
           minimum: 1
@@ -2153,3 +2438,47 @@ components:
             statusCode: 404
             message: Resource not found
             error: Not Found
+
+    Unauthorized:
+      description: Authentification requise
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 401
+            message: API Key required
+            error: Unauthorized
+
+    Forbidden:
+      description: Accès interdit
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 403
+            message: Invalid API Key
+            error: Forbidden
+
+    TooManyRequests:
+      description: Limite de requêtes dépassée
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 429
+            message: ThrottlerException - Too Many Requests
+            error: Too Many Requests
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: |
+        API keys  for authentification.
+        - user key: readonly for get citations (10 req/min)
+        - admin key: full access (100 req/min)
+        - no key: public routes only (5 req/min)
