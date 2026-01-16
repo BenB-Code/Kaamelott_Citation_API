@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { EpisodeDto } from '../dto/episode.dto';
-import { FindEpisodeDto } from '../dto/find-episode.dto';
 import { FilterEpisodeParams } from '../params/filter-episode.params';
 import { Episode } from '../entities/episode.entity';
+import { EpisodeDto, FindEpisodeDto } from '../dto';
 
 @Injectable()
 export class EpisodeRepository {

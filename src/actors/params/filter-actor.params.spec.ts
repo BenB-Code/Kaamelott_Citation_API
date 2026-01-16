@@ -1,8 +1,8 @@
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import 'reflect-metadata';
-import { CREATED_AT } from '../../common/constants/filters.constant';
 import { FilterActorParams } from './filter-actor.params';
+import { CREATED_AT } from '../../common/constants';
 
 describe('FilterActorParams', () => {
   it('should be defined', () => {

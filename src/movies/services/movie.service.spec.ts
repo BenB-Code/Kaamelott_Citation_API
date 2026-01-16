@@ -1,12 +1,12 @@
 import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { MovieDto } from '../dto/movie.dto';
 import { FilterMovieParams } from '../params/filter-movie.params';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { MovieRepository } from '../repositories/movie.repository';
 import { MovieService } from './movie.service';
 import { Movie } from '../entities/movie.entity';
+import { DatabaseExceptions } from '../../common/exceptions';
+import { MovieDto } from '../dto';
 
 describe('MovieService', () => {
   let movieService: MovieService;

@@ -1,12 +1,12 @@
 import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { ActorDto } from '../dto/actor.dto';
 import { Actor } from '../entities/actor.entity';
 import { FilterActorParams } from '../params/filter-actor.params';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { ActorRepository } from '../repositories/actor.repository';
 import { ActorService } from './actor.service';
+import { ActorDto } from '../dto';
+import { DatabaseExceptions } from '../../common/exceptions';
 
 describe('ActorService', () => {
   let actorService: ActorService;

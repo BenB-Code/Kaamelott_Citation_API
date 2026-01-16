@@ -12,12 +12,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { ActorDto } from '../dto/actor.dto';
-import { UpdateActorDto } from '../dto/update-actor.dto';
 import { Actor } from '../entities/actor.entity';
 import { FilterActorParams } from '../params/filter-actor.params';
 import { ActorService } from '../services/actor.service';
+import { PaginationResponse } from '../../common/pagination';
+import { ActorDto, UpdateActorDto } from '../dto';
 
 @Controller('actor')
 export class ActorController {

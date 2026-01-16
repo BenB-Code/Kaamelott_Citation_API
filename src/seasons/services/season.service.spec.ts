@@ -1,12 +1,12 @@
 import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { SeasonDto } from '../dto/season.dto';
 import { FilterSeasonParams } from '../params/filter-season.params';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { SeasonRepository } from '../repositories/season.repository';
 import { SeasonService } from './season.service';
 import { Season } from '../entities/season.entity';
+import { SeasonDto } from '../dto';
+import { DatabaseExceptions } from '../../common/exceptions';
 
 describe('SeasonService', () => {
   let seasonService: SeasonService;

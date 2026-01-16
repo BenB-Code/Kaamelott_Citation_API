@@ -1,6 +1,5 @@
 import { Logger } from './logger.service';
-import { LogLevelEnum } from '../models/log-level.enum';
-import * as chalk from 'chalk';
+import { LogLevelEnum } from '../models';
 
 describe('Logger', () => {
   let logger: Logger;

@@ -8,8 +8,8 @@ import {
   MinLength,
 } from 'class-validator';
 import { MediaType } from '../constant/media-type.enum';
-import { CREATED_AT, MEDIA_TYPE, NAME, UPDATED_AT } from '../../common/constants/filters.constant';
 import { SearchFilterParams } from '../../common/params/search-filter.params';
+import { CREATED_AT, MEDIA_TYPE, NAME, UPDATED_AT } from '../../common/constants';
 
 export class FilterShowParams extends SearchFilterParams {
   @IsOptional()

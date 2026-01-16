@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { ActorDto } from '../dto/actor.dto';
-import { FindActorDto } from '../dto/find-actor.dto';
 import { Actor } from '../entities/actor.entity';
 import { FilterActorParams } from '../params/filter-actor.params';
+import { ActorDto, FindActorDto } from '../dto';
 
 @Injectable()
 export class ActorRepository {

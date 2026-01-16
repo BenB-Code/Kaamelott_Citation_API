@@ -12,12 +12,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { MovieDto } from '../dto/movie.dto';
-import { UpdateMovieDto } from '../dto/update-movie.dto';
 import { FilterMovieParams } from '../params/filter-movie.params';
 import { MovieService } from '../services/movie.service';
 import { Movie } from '../entities/movie.entity';
+import { PaginationResponse } from '../../common/pagination';
+import { MovieDto, UpdateMovieDto } from '../dto';
 
 @Controller('movie')
 export class MovieController {

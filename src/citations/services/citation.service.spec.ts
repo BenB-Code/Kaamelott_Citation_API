@@ -1,12 +1,12 @@
 import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { CitationDto } from '../dto/citation.dto';
 import { FilterCitationParams } from '../params/filter-citation.params';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { CitationRepository } from '../repositories/citation.repository';
 import { CitationService } from './citation.service';
 import { Citation } from '../entities/citation.entity';
+import { CitationDto } from '../dto';
+import { DatabaseExceptions } from '../../common/exceptions';
 
 describe('CitationService', () => {
   let citationService: CitationService;

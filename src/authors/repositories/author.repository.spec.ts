@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { AuthorDto } from '../dto/author.dto';
 import { Author } from '../entities/author.entity';
 import { FilterAuthorParams } from '../params/filter-author.params';
 import { AuthorRepository } from './author.repository';
+import { AuthorDto } from '../dto';
 
 describe('AuthorRepository', () => {
   let authorRepository: AuthorRepository;

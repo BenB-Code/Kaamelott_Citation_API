@@ -12,7 +12,6 @@ import { ActorModule } from './actors/actor.module';
 import { CharacterModule } from './characters/character.module';
 import { Character } from './characters/entities/character.entity';
 import { Citation } from './citations/entities/citation.entity';
-import { LogLevelEnum } from './common/logger/models/log-level.enum';
 import { Logger } from './common/logger/services/logger.service';
 import { appConfigSchema, DatabaseConfig } from './config';
 import { Show } from './shows/entities/show.entity';
@@ -38,6 +37,7 @@ import {
   THROTTLER_USER,
 } from './common/constants';
 import { CustomThrottlerGuard } from './common/guards/custom-throttler/custom-throttler.guard';
+import { LogLevelEnum } from './common/logger/models';
 
 @Module({
   imports: [

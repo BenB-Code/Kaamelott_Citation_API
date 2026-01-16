@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { DESC } from '../constants/sorting.constant';
 import { SearchFilterParams } from './search-filter.params';
+import { DESC } from '../constants';
 
 describe('SearchFilterParams', () => {
   it('should be defined', () => {

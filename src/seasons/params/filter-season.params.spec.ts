@@ -1,8 +1,8 @@
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import 'reflect-metadata';
-import { CREATED_AT } from '../../common/constants/filters.constant';
 import { FilterSeasonParams } from './filter-season.params';
+import { CREATED_AT } from '../../common/constants';
 
 describe('FilterSeasonParams', () => {
   it('should be defined', () => {

@@ -1,13 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { MovieDto } from '../dto/movie.dto';
-import { UpdateMovieDto } from '../dto/update-movie.dto';
-import { FilterMovieParams } from '../params/filter-movie.params';
-import { MovieRepository } from '../repositories/movie.repository';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { Movie } from '../entities/movie.entity';
+import { MovieRepository } from '../repositories/movie.repository';
+import { DatabaseExceptions, ERROR_MESSAGES } from '../../common/exceptions';
+import { MovieDto, UpdateMovieDto } from '../dto';
+import { FilterMovieParams } from '../params/filter-movie.params';
+import { PaginationResponse } from '../../common/pagination';
 
 @Injectable()
 export class MovieService {

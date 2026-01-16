@@ -1,13 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { SeasonDto } from '../dto/season.dto';
-import { UpdateSeasonDto } from '../dto/update-season.dto';
 import { FilterSeasonParams } from '../params/filter-season.params';
 import { SeasonRepository } from '../repositories/season.repository';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { Season } from '../entities/season.entity';
+import { SeasonDto, UpdateSeasonDto } from '../dto';
+import { DatabaseExceptions, ERROR_MESSAGES } from '../../common/exceptions';
+import { PaginationResponse } from '../../common/pagination';
 
 @Injectable()
 export class SeasonService {

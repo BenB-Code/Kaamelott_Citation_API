@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { SeasonDto } from '../dto/season.dto';
 import { FilterSeasonParams } from '../params/filter-season.params';
 import { SeasonService } from '../services/season.service';
 import { SeasonController } from './season.controller';
 import { Season } from '../entities/season.entity';
+import { PaginationResponse } from '../../common/pagination';
+import { SeasonDto } from '../dto';
 
 describe('SeasonController', () => {
   let seasonService: SeasonService;

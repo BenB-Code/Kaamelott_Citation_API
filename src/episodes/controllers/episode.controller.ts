@@ -12,12 +12,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { EpisodeDto } from '../dto/episode.dto';
-import { UpdateEpisodeDto } from '../dto/update-episode.dto';
 import { FilterEpisodeParams } from '../params/filter-episode.params';
 import { EpisodeService } from '../services/episode.service';
 import { Episode } from '../entities/episode.entity';
+import { PaginationResponse } from '../../common/pagination';
+import { EpisodeDto, UpdateEpisodeDto } from '../dto';
 
 @Controller('episode')
 export class EpisodeController {

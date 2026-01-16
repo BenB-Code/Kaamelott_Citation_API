@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { EpisodeDto } from '../dto/episode.dto';
 import { FilterEpisodeParams } from '../params/filter-episode.params';
 import { EpisodeRepository } from './episode.repository';
 import { Episode } from '../entities/episode.entity';
+import { EpisodeDto } from '../dto';
 
 describe('EpisodeRepository', () => {
   let episodeRepository: EpisodeRepository;

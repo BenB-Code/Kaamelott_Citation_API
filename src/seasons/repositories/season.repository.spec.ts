@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { SeasonDto } from '../dto/season.dto';
 import { FilterSeasonParams } from '../params/filter-season.params';
 import { SeasonRepository } from './season.repository';
 import { Season } from '../entities/season.entity';
+import { SeasonDto } from '../dto';
 
 describe('SeasonRepository', () => {
   let seasonRepository: SeasonRepository;

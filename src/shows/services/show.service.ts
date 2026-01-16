@@ -1,13 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ShowDto } from '../dto/show.dto';
-import { UpdateShowDto } from '../dto/update-show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
 import { ShowRepository } from '../repositories/show.repository';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
+import { DatabaseExceptions, ERROR_MESSAGES } from '../../common/exceptions';
+import { ShowDto, UpdateShowDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 @Injectable()
 export class ShowService {

@@ -1,7 +1,7 @@
 import { Type } from 'class-transformer';
 import { IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
-import { CREATED_AT, NAME, NUMBER, UPDATED_AT } from '../../common/constants/filters.constant';
 import { SearchFilterParams } from '../../common/params/search-filter.params';
+import { CREATED_AT, NAME, NUMBER, UPDATED_AT } from '../../common/constants';
 
 export class FilterEpisodeParams extends SearchFilterParams {
   @IsOptional()
