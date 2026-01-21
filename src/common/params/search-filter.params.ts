@@ -1,6 +1,6 @@
 import { IsEnum, IsOptional, IsString, MinLength } from 'class-validator';
-import { ASC, DESC } from '../constants/sorting.constant';
-import { PaginationParams } from '../pagination/pagination.params';
+import { ASC, DESC } from '../constants';
+import { PaginationParams } from '../pagination';
 
 export class SearchFilterParams extends PaginationParams {
   @IsOptional()

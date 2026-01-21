@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { RelationQueryBuilder, Repository, SelectQueryBuilder } from 'typeorm';
-import { CharacterDto } from '../dto/character.dto';
 import { Character } from '../entities/character.entity';
 import { FilterCharacterParams } from '../params/filter-character.params';
 import { CharacterRepository } from './character.repository';
+import { CharacterDto } from '../dto';
 
 describe('CharacterRepository', () => {
   let characterRepository: CharacterRepository;

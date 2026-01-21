@@ -12,12 +12,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ShowDto } from '../dto/show.dto';
-import { UpdateShowDto } from '../dto/update-show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
 import { ShowService } from '../services/show.service';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
+import { PaginationResponse } from '../../common/pagination';
+import { ShowDto, UpdateShowDto } from '../dto';
 
 @Controller('show')
 export class ShowController {
@@ -36,9 +35,9 @@ export class ShowController {
   @Patch(':id')
   editSpecificShow(
     @Param('id', ParseIntPipe) id: number,
-    @Body() authorDto: UpdateShowDto,
+    @Body() showDto: UpdateShowDto,
   ): Promise<Show> {
-    return this.showService.editShow(id, authorDto);
+    return this.showService.editShow(id, showDto);
   }
 
   @Delete(':id')
@@ -48,7 +47,7 @@ export class ShowController {
   }
 
   @Post()
-  createShow(@Body() authorDto: ShowDto): Promise<Show> {
-    return this.showService.createShow(authorDto);
+  createShow(@Body() showDto: ShowDto): Promise<Show> {
+    return this.showService.createShow(showDto);
   }
 }

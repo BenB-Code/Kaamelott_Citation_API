@@ -1,13 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { ActorDto } from '../dto/actor.dto';
-import { UpdateActorDto } from '../dto/update-actor.dto';
 import { FilterActorParams } from '../params/filter-actor.params';
 import { ActorRepository } from '../repositories/actor.repository';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { Actor } from '../entities/actor.entity';
+import { DatabaseExceptions, ERROR_MESSAGES } from '../../common/exceptions';
+import { ActorDto, UpdateActorDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 @Injectable()
 export class ActorService {

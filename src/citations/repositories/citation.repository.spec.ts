@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { CitationDto } from '../dto/citation.dto';
 import { FilterCitationParams } from '../params/filter-citation.params';
 import { CitationRepository } from './citation.repository';
 import { Citation } from '../entities/citation.entity';
+import { CitationDto } from '../dto';
 
 describe('CitationRepository', () => {
   let citationRepository: CitationRepository;

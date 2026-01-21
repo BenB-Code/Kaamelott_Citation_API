@@ -2,10 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 import { MediaType } from '../constant/media-type.enum';
-import { ShowDto } from '../dto/show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
 import { ShowRepository } from './show.repository';
+import { ShowDto } from '../dto';
 
 describe('ShowRepository', () => {
   let showRepository: ShowRepository;

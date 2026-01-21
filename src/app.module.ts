@@ -12,20 +12,32 @@ import { ActorModule } from './actors/actor.module';
 import { CharacterModule } from './characters/character.module';
 import { Character } from './characters/entities/character.entity';
 import { Citation } from './citations/entities/citation.entity';
-import { LogLevelEnum } from './common/logger/models/log-level.enum';
 import { Logger } from './common/logger/services/logger.service';
-import { appConfigSchema } from './config/config.types';
-import { DatabaseConfig } from './config/database.config';
+import { appConfigSchema, DatabaseConfig } from './config';
+import { Show } from './shows/entities/show.entity';
+import { Season } from './seasons/entities/season.entity';
+import { Movie } from './movies/entities/movie.entity';
+import { Episode } from './episodes/entities/episode.entity';
 import { HealthModule } from './health/health.module';
+import { ShowsModule } from './shows/shows.module';
 import { SeasonModule } from './seasons/season.module';
 import { EpisodeModule } from './episodes/episode.module';
 import { MovieModule } from './movies/movie.module';
-import { Episode } from './episodes/entities/episode.entity';
-import { Movie } from './movies/entities/movie.entity';
-import { Show } from './shows/entities/show.entity';
-import { ShowsModule } from './shows/shows.module';
-import { Season } from './seasons/entities/season.entity';
 import { CitationModule } from './citations/citation.module';
+import { APP_GUARD } from '@nestjs/core';
+import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
+import { ThrottlerModule } from '@nestjs/throttler';
+import {
+  RATE_LIMIT_ADMIN,
+  RATE_LIMIT_PUBLIC,
+  RATE_LIMIT_TTL,
+  RATE_LIMIT_USER,
+  THROTTLER_ADMIN,
+  THROTTLER_PUBLIC,
+  THROTTLER_USER,
+} from './common/constants';
+import { CustomThrottlerGuard } from './common/guards/custom-throttler/custom-throttler.guard';
+import { LogLevelEnum } from './common/logger/models';
 
 @Module({
   imports: [
@@ -51,6 +63,23 @@ import { CitationModule } from './citations/citation.module';
         entities: [Show, Season, Movie, Episode, Author, Actor, Character, Citation],
       }),
     }),
+    ThrottlerModule.forRoot([
+      {
+        name: THROTTLER_PUBLIC,
+        ttl: RATE_LIMIT_TTL,
+        limit: RATE_LIMIT_PUBLIC,
+      },
+      {
+        name: THROTTLER_USER,
+        ttl: RATE_LIMIT_TTL,
+        limit: RATE_LIMIT_USER,
+      },
+      {
+        name: THROTTLER_ADMIN,
+        ttl: RATE_LIMIT_TTL,
+        limit: RATE_LIMIT_ADMIN,
+      },
+    ]),
     HealthModule,
     AuthorModule,
     CharacterModule,
@@ -64,6 +93,14 @@ import { CitationModule } from './citations/citation.module';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_GUARD,
+      useClass: CustomThrottlerGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
+    },
     {
       provide: Logger,
       useFactory: () =>

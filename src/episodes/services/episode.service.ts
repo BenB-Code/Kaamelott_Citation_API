@@ -1,13 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { EpisodeDto } from '../dto/episode.dto';
-import { UpdateEpisodeDto } from '../dto/update-episode.dto';
 import { FilterEpisodeParams } from '../params/filter-episode.params';
 import { EpisodeRepository } from '../repositories/episode.repository';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { Episode } from '../entities/episode.entity';
+import { DatabaseExceptions, ERROR_MESSAGES } from '../../common/exceptions';
+import { EpisodeDto, UpdateEpisodeDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 @Injectable()
 export class EpisodeService {

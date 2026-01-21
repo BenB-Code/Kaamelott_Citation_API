@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Citation } from '../entities/citation.entity';
-import { DeleteResult, Repository, DeepPartial } from 'typeorm';
-import { CitationDto } from '../dto/citation.dto';
-import { FindCitationDto } from '../dto/find-citation.dto';
+import { DeepPartial, DeleteResult, Repository } from 'typeorm';
 import { FilterCitationParams } from '../params/filter-citation.params';
 import { CitationWithField } from '../types/citation-with-field.type';
+import { CitationDto, FindCitationDto } from '../dto';
 
 @Injectable()
 export class CitationRepository {
@@ -107,7 +106,7 @@ export class CitationRepository {
       .getManyAndCount();
   }
 
-  async associateCitationWithField(ids: CitationWithField, tableName: string) {
+  async associateCitationWithField(ids: CitationWithField, tableName: string): Promise<void> {
     await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, tableName)
@@ -115,7 +114,7 @@ export class CitationRepository {
       .add(ids.fieldId);
   }
 
-  async dissociateCitationWithField(ids: CitationWithField, fieldName: string) {
+  async dissociateCitationWithField(ids: CitationWithField, fieldName: string): Promise<void> {
     await this.citationRepository
       .createQueryBuilder()
       .relation(Citation, fieldName)

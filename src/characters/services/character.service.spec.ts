@@ -6,12 +6,12 @@ import {
 } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { CharacterDto } from '../dto/character.dto';
 import { Character } from '../entities/character.entity';
 import { FilterCharacterParams } from '../params/filter-character.params';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { CharacterRepository } from '../repositories/character.repository';
 import { CharacterService } from './character.service';
+import { CharacterDto } from '../dto';
+import { DatabaseExceptions } from '../../common/exceptions';
 
 describe('CharacterService', () => {
   let characterService: CharacterService;

@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
-import { SeasonDto } from '../dto/season.dto';
-import { FindSeasonDto } from '../dto/find-season.dto';
 import { FilterSeasonParams } from '../params/filter-season.params';
 import { Season } from '../entities/season.entity';
+import { FindSeasonDto, SeasonDto } from '../dto';
 
 @Injectable()
 export class SeasonRepository {

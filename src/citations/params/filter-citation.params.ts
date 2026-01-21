@@ -7,7 +7,7 @@ import {
   EPISODE_ID,
   MOVIE_ID,
   UPDATED_AT,
-} from '../../common/constants/filters.constant';
+} from '../../common/constants';
 
 export class FilterCitationParams extends SearchFilterParams {
   @IsOptional()

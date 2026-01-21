@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { EpisodeDto } from '../dto/episode.dto';
 import { FilterEpisodeParams } from '../params/filter-episode.params';
 import { EpisodeService } from '../services/episode.service';
 import { EpisodeController } from './episode.controller';
 import { Episode } from '../entities/episode.entity';
+import { EpisodeDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 describe('EpisodeController', () => {
   let episodeService: EpisodeService;

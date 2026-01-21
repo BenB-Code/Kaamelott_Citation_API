@@ -1,13 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
-import { ERROR_MESSAGES } from '../../common/exceptions/errors-messages.const';
-import { AuthorDto } from '../dto/author.dto';
-import { UpdateAuthorDto } from '../dto/update-author.dto';
 import { Author } from '../entities/author.entity';
 import { FilterAuthorParams } from '../params/filter-author.params';
 import { AuthorRepository } from '../repositories/author.repository';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
+import { DatabaseExceptions, ERROR_MESSAGES } from '../../common/exceptions';
+import { AuthorDto, UpdateAuthorDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 @Injectable()
 export class AuthorService {

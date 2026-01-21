@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
 import { MediaType } from '../constant/media-type.enum';
-import { ShowDto } from '../dto/show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
 import { ShowService } from '../services/show.service';
 import { ShowController } from './show.controller';
+import { ShowDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 describe('ShowController', () => {
   let showService: ShowService;

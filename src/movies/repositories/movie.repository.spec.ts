@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { MovieDto } from '../dto/movie.dto';
 import { FilterMovieParams } from '../params/filter-movie.params';
 import { MovieRepository } from './movie.repository';
 import { Movie } from '../entities/movie.entity';
+import { MovieDto } from '../dto';
 
 describe('MovieRepository', () => {
   let movieRepository: MovieRepository;

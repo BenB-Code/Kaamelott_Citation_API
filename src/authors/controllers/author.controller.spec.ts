@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { AuthorDto } from '../dto/author.dto';
 import { Author } from '../entities/author.entity';
 import { FilterAuthorParams } from '../params/filter-author.params';
 import { AuthorService } from '../services/author.service';
 import { AuthorController } from './author.controller';
+import { AuthorDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 describe('AuthorController', () => {
   let authorService: AuthorService;

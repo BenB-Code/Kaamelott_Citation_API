@@ -1,0 +1,2484 @@
+openapi: 3.0.3
+info:
+  title: Kaamelott Citation API
+  description: API RESTful pour la gestion des citations de Kaamelott. Permet de consulter, ajouter, modifier et supprimer des citations, personnages, acteurs, auteurs, episodes, saisons, films et shows.
+  version: 1.0.0
+  contact:
+    name: BenB-Code
+    url: https://github.com/BenB-Code/Kaamelott_Citation_API
+
+tags:
+  - name: Health
+    description: Verification de santé de l'API
+  - name: Citation
+    description: Gestion des citations
+  - name: Character
+    description: Gestion des personnages
+  - name: Actor
+    description: Gestion des acteurs
+  - name: Author
+    description: Gestion des auteurs
+  - name: Episode
+    description: Gestion des episodes
+  - name: Season
+    description: Gestion des saisons
+  - name: Movie
+    description: Gestion des films
+  - name: Show
+    description: Gestion des shows
+
+security:
+  - ApiKeyAuth: [ ]
+
+paths:
+  /:
+    get:
+      security: []
+      summary: Message de bienvenue
+      description: Retourne un message de bienvenue de l'API
+      operationId: getRoot
+      responses:
+        '200':
+          description: Message de bienvenue
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hello from Kaamelott Citation API
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /health:
+    get:
+      security: []
+      tags:
+        - Health
+      summary: Verification de sante
+      description: Verifie l'etat de sante de l'API et de la connexion a la base de donnees
+      operationId: getHealth
+      responses:
+        '200':
+          description: API en bonne sante
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '503':
+          description: Service indisponible
+
+  /citation:
+    get:
+      tags:
+        - Citation
+      summary: Liste des citations
+      description: Recupere la liste des citations avec pagination et filtrage
+      operationId: getCitations
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: text
+          in: query
+          description: Recherche dans le texte de la citation
+          schema:
+            type: string
+        - name: characterId
+          in: query
+          description: Filtrer par identifiant du personnage
+          schema:
+            type: integer
+            minimum: 1
+        - name: episodeId
+          in: query
+          description: Filtrer par identifiant de l'episode
+          schema:
+            type: integer
+            minimum: 1
+        - name: movieId
+          in: query
+          description: Filtrer par identifiant du film
+          schema:
+            type: integer
+            minimum: 1
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - episodeId
+              - characterId
+              - movieId
+              - citationId
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des citations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CitationPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Citation
+      summary: Creer une citation
+      description: Cree une nouvelle citation
+      operationId: createCitation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CitationDto'
+      responses:
+        '201':
+          description: Citation creee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Citation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /citation/{id}:
+    get:
+      tags:
+        - Citation
+      summary: Recuperer une citation
+      description: Recupere une citation par son identifiant
+      operationId: getCitationById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Citation trouvee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Citation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Citation
+      summary: Modifier une citation
+      description: Modifie partiellement une citation existante
+      operationId: updateCitation
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCitationDto'
+      responses:
+        '200':
+          description: Citation modifiee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Citation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Citation
+      summary: Supprimer une citation
+      description: Supprime une citation par son identifiant
+      operationId: deleteCitation
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Citation supprimee
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /citation/{citationId}/actor/{fieldId}:
+    post:
+      tags:
+        - Citation
+      summary: Associer un acteur a une citation
+      description: Associe un acteur existant a une citation
+      operationId: addActorToCitation
+      parameters:
+        - name: citationId
+          in: path
+          required: true
+          description: Identifiant de la citation
+          schema:
+            type: integer
+            minimum: 1
+        - name: fieldId
+          in: path
+          required: true
+          description: Identifiant de l'acteur
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '201':
+          description: Acteur associe a la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Citation
+      summary: Dissocier un acteur d'une citation
+      description: Dissocie un acteur d'une citation
+      operationId: removeActorFromCitation
+      parameters:
+        - name: citationId
+          in: path
+          required: true
+          description: Identifiant de la citation
+          schema:
+            type: integer
+            minimum: 1
+        - name: fieldId
+          in: path
+          required: true
+          description: Identifiant de l'acteur
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: Acteur dissocie de la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /citation/{citationId}/author/{fieldId}:
+    post:
+      tags:
+        - Citation
+      summary: Associer un auteur a une citation
+      description: Associe un auteur existant a une citation
+      operationId: addAuthorToCitation
+      parameters:
+        - name: citationId
+          in: path
+          required: true
+          description: Identifiant de la citation
+          schema:
+            type: integer
+            minimum: 1
+        - name: fieldId
+          in: path
+          required: true
+          description: Identifiant de l'auteur
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '201':
+          description: Auteur associe a la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Citation
+      summary: Dissocier un auteur d'une citation
+      description: Dissocie un auteur d'une citation
+      operationId: removeAuthorFromCitation
+      parameters:
+        - name: citationId
+          in: path
+          required: true
+          description: Identifiant de la citation
+          schema:
+            type: integer
+            minimum: 1
+        - name: fieldId
+          in: path
+          required: true
+          description: Identifiant de l'auteur
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: Auteur dissocie de la citation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /character:
+    get:
+      tags:
+        - Character
+      summary: Liste des personnages
+      description: Recupere la liste des personnages avec pagination et filtrage
+      operationId: getCharacters
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: name
+          in: query
+          description: Filtrer par nom du personnage
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - name
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des personnages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CharacterPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Character
+      summary: Creer un personnage
+      description: Cree un nouveau personnage
+      operationId: createCharacter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CharacterDto'
+      responses:
+        '201':
+          description: Personnage cree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /character/{id}:
+    get:
+      tags:
+        - Character
+      summary: Recuperer un personnage
+      description: Recupere un personnage par son identifiant
+      operationId: getCharacterById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Personnage trouve
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Character
+      summary: Modifier un personnage
+      description: Modifie partiellement un personnage existant
+      operationId: updateCharacter
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCharacterDto'
+      responses:
+        '200':
+          description: Personnage modifie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Character
+      summary: Supprimer un personnage
+      description: Supprime un personnage par son identifiant
+      operationId: deleteCharacter
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Personnage supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /character/{characterId}/actor/{actorId}:
+    post:
+      tags:
+        - Character
+      summary: Associer un acteur a un personnage
+      description: Associe un acteur existant a un personnage
+      operationId: addActorToCharacter
+      parameters:
+        - name: characterId
+          in: path
+          required: true
+          description: Identifiant du personnage
+          schema:
+            type: integer
+            minimum: 1
+        - name: actorId
+          in: path
+          required: true
+          description: Identifiant de l'acteur
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '201':
+          description: Acteur associe au personnage
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Character
+      summary: Dissocier un acteur d'un personnage
+      description: Dissocie un acteur d'un personnage
+      operationId: removeActorFromCharacter
+      parameters:
+        - name: characterId
+          in: path
+          required: true
+          description: Identifiant du personnage
+          schema:
+            type: integer
+            minimum: 1
+        - name: actorId
+          in: path
+          required: true
+          description: Identifiant de l'acteur
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: Acteur dissocie du personnage
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /actor:
+    get:
+      tags:
+        - Actor
+      summary: Liste des acteurs
+      description: Recupere la liste des acteurs avec pagination et filtrage
+      operationId: getActors
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: firstName
+          in: query
+          description: Filtrer par prenom
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          description: Filtrer par nom de famille
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - firstName
+              - lastName
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des acteurs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActorPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Actor
+      summary: Creer un acteur
+      description: Cree un nouvel acteur
+      operationId: createActor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActorDto'
+      responses:
+        '201':
+          description: Acteur cree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Actor'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /actor/{id}:
+    get:
+      tags:
+        - Actor
+      summary: Recuperer un acteur
+      description: Recupere un acteur par son identifiant
+      operationId: getActorById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Acteur trouve
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Actor'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Actor
+      summary: Modifier un acteur
+      description: Modifie partiellement un acteur existant
+      operationId: updateActor
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateActorDto'
+      responses:
+        '200':
+          description: Acteur modifie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Actor'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Actor
+      summary: Supprimer un acteur
+      description: Supprime un acteur par son identifiant
+      operationId: deleteActor
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Acteur supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /author:
+    get:
+      tags:
+        - Author
+      summary: Liste des auteurs
+      description: Recupere la liste des auteurs avec pagination et filtrage
+      operationId: getAuthors
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: firstName
+          in: query
+          description: Filtrer par prenom
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          description: Filtrer par nom de famille
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - firstName
+              - lastName
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des auteurs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Author
+      summary: Creer un auteur
+      description: Cree un nouvel auteur
+      operationId: createAuthor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorDto'
+      responses:
+        '201':
+          description: Auteur cree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /author/{id}:
+    get:
+      tags:
+        - Author
+      summary: Recuperer un auteur
+      description: Recupere un auteur par son identifiant
+      operationId: getAuthorById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Auteur trouve
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Author
+      summary: Modifier un auteur
+      description: Modifie partiellement un auteur existant
+      operationId: updateAuthor
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAuthorDto'
+      responses:
+        '200':
+          description: Auteur modifie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Author
+      summary: Supprimer un auteur
+      description: Supprime un auteur par son identifiant
+      operationId: deleteAuthor
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Auteur supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /episode:
+    get:
+      tags:
+        - Episode
+      summary: Liste des episodes
+      description: Recupere la liste des episodes avec pagination et filtrage
+      operationId: getEpisodes
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: seasonId
+          in: query
+          description: Filtrer par identifiant de la saison
+          schema:
+            type: integer
+            minimum: 1
+        - name: name
+          in: query
+          description: Filtrer par nom de l'episode
+          schema:
+            type: string
+        - name: number
+          in: query
+          description: Filtrer par numero de l'episode
+          schema:
+            type: integer
+            minimum: 1
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - name
+              - number
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des episodes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpisodePaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Episode
+      summary: Creer un episode
+      description: Cree un nouvel episode
+      operationId: createEpisode
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EpisodeDto'
+      responses:
+        '201':
+          description: Episode cree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /episode/{id}:
+    get:
+      tags:
+        - Episode
+      summary: Recuperer un episode
+      description: Recupere un episode par son identifiant
+      operationId: getEpisodeById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Episode trouve
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Episode
+      summary: Modifier un episode
+      description: Modifie partiellement un episode existant
+      operationId: updateEpisode
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEpisodeDto'
+      responses:
+        '200':
+          description: Episode modifie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Episode'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Episode
+      summary: Supprimer un episode
+      description: Supprime un episode par son identifiant
+      operationId: deleteEpisode
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Episode supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /season:
+    get:
+      tags:
+        - Season
+      summary: Liste des saisons
+      description: Recupere la liste des saisons avec pagination et filtrage
+      operationId: getSeasons
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: showId
+          in: query
+          description: Filtrer par identifiant du show
+          schema:
+            type: integer
+            minimum: 1
+        - name: name
+          in: query
+          description: Filtrer par nom de la saison
+          schema:
+            type: string
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - name
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des saisons
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SeasonPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Season
+      summary: Creer une saison
+      description: Cree une nouvelle saison
+      operationId: createSeason
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SeasonDto'
+      responses:
+        '201':
+          description: Saison creee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Season'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /season/{id}:
+    get:
+      tags:
+        - Season
+      summary: Recuperer une saison
+      description: Recupere une saison par son identifiant
+      operationId: getSeasonById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Saison trouvee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Season'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Season
+      summary: Modifier une saison
+      description: Modifie partiellement une saison existante
+      operationId: updateSeason
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSeasonDto'
+      responses:
+        '200':
+          description: Saison modifiee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Season'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Season
+      summary: Supprimer une saison
+      description: Supprime une saison par son identifiant
+      operationId: deleteSeason
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Saison supprimee
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /movie:
+    get:
+      tags:
+        - Movie
+      summary: Liste des films
+      description: Recupere la liste des films avec pagination et filtrage
+      operationId: getMovies
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: showId
+          in: query
+          description: Filtrer par identifiant du show
+          schema:
+            type: integer
+            minimum: 1
+        - name: name
+          in: query
+          description: Filtrer par nom du film
+          schema:
+            type: string
+        - name: releaseDate
+          in: query
+          description: Filtrer par date de sortie
+          schema:
+            type: string
+            format: date
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - name
+              - releaseDate
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des films
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MoviePaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Movie
+      summary: Creer un film
+      description: Cree un nouveau film
+      operationId: createMovie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovieDto'
+      responses:
+        '201':
+          description: Film cree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /movie/{id}:
+    get:
+      tags:
+        - Movie
+      summary: Recuperer un film
+      description: Recupere un film par son identifiant
+      operationId: getMovieById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Film trouve
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Movie
+      summary: Modifier un film
+      description: Modifie partiellement un film existant
+      operationId: updateMovie
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMovieDto'
+      responses:
+        '200':
+          description: Film modifie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movie'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Movie
+      summary: Supprimer un film
+      description: Supprime un film par son identifiant
+      operationId: deleteMovie
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Film supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /show:
+    get:
+      tags:
+        - Show
+      summary: Liste des shows
+      description: Recupere la liste des shows avec pagination et filtrage
+      operationId: getShows
+      parameters:
+        - $ref: '#/components/parameters/LimitParam'
+        - $ref: '#/components/parameters/OffsetParam'
+        - $ref: '#/components/parameters/SearchParam'
+        - name: name
+          in: query
+          description: Filtrer par nom du show
+          schema:
+            type: string
+        - name: mediaType
+          in: query
+          description: Filtrer par type de media
+          schema:
+            $ref: '#/components/schemas/MediaType'
+        - name: sortBy
+          in: query
+          description: Champ de tri
+          schema:
+            type: string
+            enum:
+              - createdAt
+              - updatedAt
+              - name
+              - mediaType
+            default: createdAt
+        - name: sortOrder
+          in: query
+          description: Ordre de tri
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: DESC
+      responses:
+        '200':
+          description: Liste des shows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShowPaginatedResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    post:
+      tags:
+        - Show
+      summary: Creer un show
+      description: Cree un nouveau show
+      operationId: createShow
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShowDto'
+      responses:
+        '201':
+          description: Show cree
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+  /show/{id}:
+    get:
+      tags:
+        - Show
+      summary: Recuperer un show
+      description: Recupere un show par son identifiant
+      operationId: getShowById
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: Show trouve
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    patch:
+      tags:
+        - Show
+      summary: Modifier un show
+      description: Modifie partiellement un show existant
+      operationId: updateShow
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateShowDto'
+      responses:
+        '200':
+          description: Show modifie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Show'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+    delete:
+      tags:
+        - Show
+      summary: Supprimer un show
+      description: Supprime un show par son identifiant
+      operationId: deleteShow
+      parameters:
+        - $ref: '#/components/parameters/IdParam'
+      responses:
+        '204':
+          description: Show supprime
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+
+components:
+  schemas:
+    MediaType:
+      type: string
+      enum:
+        - serie
+        - film
+        - court metrage
+      description: Type de media
+
+    PaginationMetadata:
+      type: object
+      required:
+        - total
+        - offset
+        - limit
+      properties:
+        total:
+          type: integer
+          description: Nombre total d'elements
+          example: 150
+        offset:
+          type: integer
+          description: Decalage de la pagination
+          example: 0
+        limit:
+          type: integer
+          description: Limite d'elements par page
+          example: 100
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        info:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              status:
+                type: string
+        error:
+          type: object
+        details:
+          type: object
+
+    ErrorResponse:
+      type: object
+      required:
+        - statusCode
+        - message
+      properties:
+        statusCode:
+          type: integer
+          description: Code de statut HTTP
+        message:
+          type: string
+          description: Message d'erreur
+        error:
+          type: string
+          description: Type d'erreur
+
+    Actor:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        firstName:
+          type: string
+          description: Prenom de l'acteur
+          maxLength: 50
+          example: Alexandre
+        lastName:
+          type: string
+          description: Nom de famille de l'acteur
+          maxLength: 50
+          example: Astier
+        picture:
+          type: string
+          description: URL de l'image
+          maxLength: 250
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    ActorDto:
+      type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Prenom de l'acteur
+          example: Alexandre
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Nom de famille de l'acteur
+          example: Astier
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    UpdateActorDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Prenom de l'acteur
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Nom de famille de l'acteur
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    ActorPaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    Author:
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        firstName:
+          type: string
+          description: Prenom de l'auteur
+          maxLength: 50
+          example: Alexandre
+        lastName:
+          type: string
+          description: Nom de famille de l'auteur
+          maxLength: 50
+          example: Astier
+        picture:
+          type: string
+          description: URL de l'image
+          maxLength: 250
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    AuthorDto:
+      type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Prenom de l'auteur
+          example: Alexandre
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Nom de famille de l'auteur
+          example: Astier
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    UpdateAuthorDto:
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Prenom de l'auteur
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: Nom de famille de l'auteur
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    AuthorPaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    Character:
+      type: object
+      required:
+        - id
+        - name
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        name:
+          type: string
+          description: Nom du personnage
+          maxLength: 75
+          example: Arthur
+        picture:
+          type: string
+          description: URL de l'image
+          maxLength: 250
+          nullable: true
+        actors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    CharacterDto:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom du personnage
+          example: Arthur
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+        actorId:
+          type: integer
+          minimum: 1
+          description: Identifiant de l'acteur a associer
+
+    UpdateCharacterDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom du personnage
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+        actorId:
+          type: integer
+          minimum: 1
+          description: Identifiant de l'acteur a associer
+
+    CharacterPaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Character'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    Show:
+      type: object
+      required:
+        - id
+        - name
+        - mediaType
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        name:
+          type: string
+          description: Nom du show
+          maxLength: 75
+          example: Kaamelott
+        mediaType:
+          $ref: '#/components/schemas/MediaType'
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Season'
+        movies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    ShowDto:
+      type: object
+      required:
+        - name
+        - mediaType
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom du show
+          example: Kaamelott
+        mediaType:
+          $ref: '#/components/schemas/MediaType'
+
+    UpdateShowDto:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom du show
+        mediaType:
+          $ref: '#/components/schemas/MediaType'
+
+    ShowPaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Show'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    Season:
+      type: object
+      required:
+        - id
+        - name
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        name:
+          type: string
+          description: Nom de la saison
+          maxLength: 75
+          example: Livre I
+        picture:
+          type: string
+          description: URL de l'image
+          maxLength: 250
+          nullable: true
+        show:
+          $ref: '#/components/schemas/Show'
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode'
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    SeasonDto:
+      type: object
+      required:
+        - showId
+        - name
+      properties:
+        showId:
+          type: integer
+          minimum: 1
+          description: Identifiant du show
+          example: 1
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom de la saison
+          example: Livre I
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    UpdateSeasonDto:
+      type: object
+      properties:
+        showId:
+          type: integer
+          minimum: 1
+          description: Identifiant du show
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom de la saison
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    SeasonPaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Season'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    Episode:
+      type: object
+      required:
+        - id
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        name:
+          type: string
+          description: Nom de l'episode
+          maxLength: 150
+          nullable: true
+          example: Heat
+        number:
+          type: integer
+          description: Numero de l'episode
+          nullable: true
+          example: 1
+        picture:
+          type: string
+          description: URL de l'image
+          maxLength: 250
+          nullable: true
+        season:
+          $ref: '#/components/schemas/Season'
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    EpisodeDto:
+      type: object
+      required:
+        - seasonId
+      properties:
+        seasonId:
+          type: integer
+          minimum: 1
+          description: Identifiant de la saison
+          example: 1
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+          description: Nom de l'episode
+          example: Heat
+        number:
+          type: integer
+          minimum: 1
+          description: Numero de l'episode
+          example: 1
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    UpdateEpisodeDto:
+      type: object
+      properties:
+        seasonId:
+          type: integer
+          minimum: 1
+          description: Identifiant de la saison
+        name:
+          type: string
+          minLength: 1
+          maxLength: 150
+          description: Nom de l'episode
+        number:
+          type: integer
+          minimum: 1
+          description: Numero de l'episode
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    EpisodePaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    Movie:
+      type: object
+      required:
+        - id
+        - name
+        - releaseDate
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        name:
+          type: string
+          description: Nom du film
+          maxLength: 75
+          example: Kaamelott Premier Volet
+        releaseDate:
+          type: string
+          format: date
+          description: Date de sortie
+          example: '2021-07-21'
+        picture:
+          type: string
+          description: URL de l'image
+          maxLength: 250
+          nullable: true
+        show:
+          $ref: '#/components/schemas/Show'
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    MovieDto:
+      type: object
+      required:
+        - showId
+        - name
+        - releaseDate
+      properties:
+        showId:
+          type: integer
+          minimum: 1
+          description: Identifiant du show
+          example: 1
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom du film
+          example: Kaamelott Premier Volet
+        releaseDate:
+          type: string
+          format: date
+          description: Date de sortie
+          example: '2021-07-21'
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    UpdateMovieDto:
+      type: object
+      properties:
+        showId:
+          type: integer
+          minimum: 1
+          description: Identifiant du show
+        name:
+          type: string
+          minLength: 1
+          maxLength: 75
+          description: Nom du film
+        releaseDate:
+          type: string
+          format: date
+          description: Date de sortie
+        picture:
+          type: string
+          maxLength: 250
+          description: URL de l'image
+
+    MoviePaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+    Citation:
+      type: object
+      required:
+        - id
+        - text
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+          description: Identifiant unique
+          example: 1
+        text:
+          type: string
+          description: Texte de la citation
+          maxLength: 1000
+          example: C'est pas faux
+        character:
+          $ref: '#/components/schemas/Character'
+        episode:
+          $ref: '#/components/schemas/Episode'
+        movie:
+          $ref: '#/components/schemas/Movie'
+        actors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Actor'
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+        createdAt:
+          type: string
+          format: date-time
+          description: Date de creation
+        updatedAt:
+          type: string
+          format: date-time
+          description: Date de modification
+
+    CitationDto:
+      type: object
+      required:
+        - text
+        - actorsId
+        - authorsId
+        - characterId
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: Texte de la citation
+          example: C'est pas faux
+        actorsId:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          minItems: 1
+          description: Liste des identifiants des acteurs
+          example: [ 1 ]
+        authorsId:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          minItems: 1
+          description: Liste des identifiants des auteurs
+          example: [ 1 ]
+        characterId:
+          type: integer
+          minimum: 1
+          description: Identifiant du personnage
+          example: 1
+        episodeId:
+          type: integer
+          minimum: 1
+          description: Identifiant de l'episode
+        movieId:
+          type: integer
+          minimum: 1
+          description: Identifiant du film
+
+    UpdateCitationDto:
+      type: object
+      properties:
+        text:
+          type: string
+          minLength: 1
+          maxLength: 1000
+          description: Texte de la citation
+        actorsId:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          minItems: 1
+          description: Liste des identifiants des acteurs
+        authorsId:
+          type: array
+          items:
+            type: integer
+            minimum: 1
+          minItems: 1
+          description: Liste des identifiants des auteurs
+        characterId:
+          type: integer
+          minimum: 1
+          description: Identifiant du personnage
+        episodeId:
+          type: integer
+          minimum: 1
+          description: Identifiant de l'episode
+        movieId:
+          type: integer
+          minimum: 1
+          description: Identifiant du film
+
+    CitationPaginatedResponse:
+      type: object
+      required:
+        - data
+        - metadata
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Citation'
+        metadata:
+          $ref: '#/components/schemas/PaginationMetadata'
+
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: Identifiant unique de la ressource
+      schema:
+        type: integer
+        minimum: 1
+
+    LimitParam:
+      name: limit
+      in: query
+      description: Nombre maximum d'elements a retourner
+      schema:
+        type: integer
+        minimum: 1
+        default: 100
+
+    OffsetParam:
+      name: offset
+      in: query
+      description: Nombre d'elements a ignorer
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+
+    SearchParam:
+      name: search
+      in: query
+      description: Terme de recherche (minimum 3 caracteres)
+      schema:
+        type: string
+        minLength: 3
+
+  responses:
+    BadRequest:
+      description: Requete invalide
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 400
+            message: Validation failed
+            error: Bad Request
+
+    NotFound:
+      description: Ressource non trouvee
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 404
+            message: Resource not found
+            error: Not Found
+
+    Unauthorized:
+      description: Authentification requise
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 401
+            message: API Key required
+            error: Unauthorized
+
+    Forbidden:
+      description: Accès interdit
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 403
+            message: Invalid API Key
+            error: Forbidden
+
+    TooManyRequests:
+      description: Limite de requêtes dépassée
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            statusCode: 429
+            message: ThrottlerException - Too Many Requests
+            error: Too Many Requests
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: |
+        API keys  for authentification.
+        - user key: readonly for get citations (10 req/min)
+        - admin key: full access (100 req/min)
+        - no key: public routes only (5 req/min)

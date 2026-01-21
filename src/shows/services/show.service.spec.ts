@@ -1,13 +1,13 @@
 import { ConflictException, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { EntityNotFoundError, QueryFailedError } from 'typeorm';
-import { ShowDto } from '../dto/show.dto';
 import { Show } from '../entities/show.entity';
 import { FilterShowParams } from '../params/filter-show.params';
-import { DatabaseExceptions } from '../../common/exceptions/database-exceptions.service';
 import { ShowRepository } from '../repositories/show.repository';
 import { ShowService } from './show.service';
 import { MediaType } from '../constant/media-type.enum';
+import { ShowDto } from '../dto';
+import { DatabaseExceptions } from '../../common/exceptions';
 
 describe('ShowService', () => {
   let showService: ShowService;

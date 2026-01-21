@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PaginationResponse } from '../../common/pagination/pagination.response';
-import { CharacterDto } from '../dto/character.dto';
 import { Character } from '../entities/character.entity';
 import { FilterCharacterParams } from '../params/filter-character.params';
 import { CharacterService } from '../services/character.service';
 import { CharacterController } from './character.controller';
+import { CharacterDto } from '../dto';
+import { PaginationResponse } from '../../common/pagination';
 
 describe('CharacterController', () => {
   let characterService: CharacterService;

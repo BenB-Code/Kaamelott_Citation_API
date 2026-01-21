@@ -1,9 +1,7 @@
 import { Injectable, LoggerService } from '@nestjs/common';
 import * as chalk from 'chalk';
 import { stderr, stdout } from 'process';
-import { LevelColors } from '../models/level-colors.enum';
-import { LogLevelEnum } from '../models/log-level.enum';
-import { LoggerOptions } from '../models/logger-options.interface';
+import { LevelColors, LoggerOptions, LogLevelEnum } from '../models';
 
 @Injectable()
 export class Logger implements LoggerService {

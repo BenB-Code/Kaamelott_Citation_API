@@ -1,11 +1,12 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Min } from 'class-validator';
+import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
 export class PaginationParams {
   @IsOptional()
   @IsInt()
   @Type(() => Number)
   @Min(1)
+  @Max(500)
   limit: number = 100;
 
   @IsOptional()
